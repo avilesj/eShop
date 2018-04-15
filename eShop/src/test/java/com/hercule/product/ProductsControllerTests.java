@@ -1,6 +1,7 @@
 package com.hercule.product;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -14,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,7 +25,7 @@ import com.hercule.product.services.ProductService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
+@ActiveProfiles("dev")
 public class ProductsControllerTests {
 
 	@Autowired
@@ -64,5 +66,11 @@ public class ProductsControllerTests {
 	public void rendersNewProductForm() throws Exception
 	{
 		this.mockMvc.perform(get("/products/new")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Product Form")));
+	}
+	
+	@Test
+	public void rendersEditProductForm() throws Exception
+	{
+		this.mockMvc.perform(get("/products/edit/1")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Butter")));
 	}
 }
