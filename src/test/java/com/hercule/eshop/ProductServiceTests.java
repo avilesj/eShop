@@ -1,4 +1,4 @@
-package com.hercule.product;
+package com.hercule.eshop;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -13,8 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.hercule.product.models.Product;
-import com.hercule.product.services.ProductService;
+import com.hercule.eshop.models.Product;
+import com.hercule.eshop.services.ProductService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

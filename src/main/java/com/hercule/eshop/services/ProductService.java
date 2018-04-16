@@ -1,6 +1,6 @@
-package com.hercule.product.services;
+package com.hercule.eshop.services;
 
-import com.hercule.product.models.Product;
+import com.hercule.eshop.models.Product;
 
 public interface ProductService {
 

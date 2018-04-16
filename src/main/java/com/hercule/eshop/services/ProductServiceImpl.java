@@ -1,10 +1,10 @@
-package com.hercule.product.services;
+package com.hercule.eshop.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hercule.product.models.Product;
-import com.hercule.product.repositories.ProductRepository;
+import com.hercule.eshop.models.Product;
+import com.hercule.eshop.repositories.ProductRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {

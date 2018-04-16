@@ -1,4 +1,4 @@
-package com.hercule.product;
+package com.hercule.eshop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@EnableJpaRepositories("com.hercule.product.repositories")
+@EnableJpaRepositories("com.hercule.eshop.repositories")
 @ComponentScan("com.hercule.*")
 public class ProductDatabaseApplication {
 

@@ -1,8 +1,8 @@
-package com.hercule.product.repositories;
+package com.hercule.eshop.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.hercule.product.models.Product;
+import com.hercule.eshop.models.Product;
 
 public interface ProductRepository extends CrudRepository<Product, Long>{
 	

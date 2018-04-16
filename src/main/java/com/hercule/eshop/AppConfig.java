@@ -1,10 +1,10 @@
-package com.hercule.product;
+package com.hercule.eshop;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.hercule.product.services.ProductService;
-import com.hercule.product.services.ProductServiceImpl;
+import com.hercule.eshop.services.ProductService;
+import com.hercule.eshop.services.ProductServiceImpl;
 
 @Configuration
 public class AppConfig {

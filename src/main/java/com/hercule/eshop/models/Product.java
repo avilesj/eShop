@@ -1,4 +1,4 @@
-package com.hercule.product.models;
+package com.hercule.eshop.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

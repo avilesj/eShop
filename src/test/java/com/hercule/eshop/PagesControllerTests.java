@@ -1,4 +1,4 @@
-package com.hercule.product;
+package com.hercule.eshop;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
