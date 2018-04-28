@@ -1,5 +1,7 @@
 package com.hercule.eshop.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,11 @@ public class ProductServiceImpl implements ProductService {
 	public Product findProductById(long id) {
 	
 		return productRepository.findById(id);
+	}
+
+	@Override
+	public List<Product> showAllProducts() {
+		return productRepository.findAll();
 	}
 
 }

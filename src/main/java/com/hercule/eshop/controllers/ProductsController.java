@@ -1,5 +1,7 @@
 package com.hercule.eshop.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +20,10 @@ public class ProductsController {
 	ProductService productService;
 	
 	@RequestMapping("")
-	public String getProducts()
+	public String getProducts(Model model)
 	{
+		List<Product> allProducts = productService.showAllProducts(); 
+		model.addAttribute("allProducts", allProducts);
 		return "products/products";
 	}
 	
