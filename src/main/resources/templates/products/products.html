@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:replace="layout :: layoutHeader">
 </head>
-<body>
+<div th:replace="layout :: mainLayout"></div>
+<div th:fragment="Index">
 	<h1>Products</h1>
-</body>
-</html>
+</div>
