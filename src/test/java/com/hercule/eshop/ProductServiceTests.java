@@ -75,7 +75,7 @@ public class ProductServiceTests {
 	{
 		productService.saveProduct(product);
 		Product retrievedProduct = productService.findProductByName("Butter");
-		productService.deleteProduct(retrievedProduct);
+		productService.deleteProduct(retrievedProduct.getId());
 		retrievedProduct = productService.findProductByName("Butter");
 		assertNull(retrievedProduct);
 	}
