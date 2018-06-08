@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: layoutHeader">
+</head>
+<div th:replace="layout :: mainLayout"></div>
+<div th:fragment="Index">
+	<h1>Products</h1>
+	<div>
+		<a type="button" class="btn btn-outline-primary" th:href="@{~/products/new}">New</a>
+	</div>
+	<div th:unless="${#lists.isEmpty(allProducts)}">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Name</th>
+					<th scope="col">Description</th>
+					<th scope="col">Price</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr scope="row" th:each="product : ${allProducts}" th:href="@{~/products/edit/{id}(id=${product.id})}">
+					<td th:text="${{product.id}}">1</td>
+					<td th:text="${product.name}">yes</td>
+					<td th:text="${product.description}">Wireframe</td>
+					<td th:text="${product.price}">10.00</td>
+					<td>
+					<a type="button" class="btn btn-info" th:href="@{~/products/edit/{id}(id=${product.id})}">Edit</a>
+					<a type="button" class="btn btn-danger" th:href="@{~/products/delete/{id}(id=${product.id})}">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

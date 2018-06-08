@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: layoutHeader">
+</head>
+<div th:replace="layout :: mainLayout"></div>
+<main class="container" role="main">
+<div>
+	<h1>New Product Form</h1>
+	<form role="form" th:action="@{save}" method="POST"
+		th:object="${product}">
+		<div class="form-group">
+			<label>Name: </label> <input class="form-control" type="text" th:field="${product.name}" placeholder="Product name"/>
+			<label>Price: </label> <input class="form-control" type="text" th:field="${product.price}" placeholder="Price"/>
+			<label>Description: </label> <input type="text"
+				th:field="${product.description}" class="form-control" placeholder="Product description"/>
+			<button type="submit"  class="btn btn-success">Create Product</button>
+		</div>
+	</form>
+	<div>
+		<a type="button" class="btn btn-outline-primary" th:href="@{/products}">Cancel</a>
+	</div>
+</div>
+</main>
