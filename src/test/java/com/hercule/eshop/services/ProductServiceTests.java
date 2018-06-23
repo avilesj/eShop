@@ -1,4 +1,4 @@
-package com.hercule.eshop;
+package com.hercule.eshop.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
