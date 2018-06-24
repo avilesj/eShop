@@ -7,15 +7,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class SecurityServiceImpl implements SecurityService {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
 	private UserDetailsService userDetailsService;

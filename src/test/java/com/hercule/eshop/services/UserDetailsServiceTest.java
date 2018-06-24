@@ -1,9 +1,6 @@
 package com.hercule.eshop.services;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import java.util.List;
 
 import javax.transaction.Transactional;
 
