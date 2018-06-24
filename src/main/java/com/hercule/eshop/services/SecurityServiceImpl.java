@@ -3,9 +3,11 @@ package com.hercule.eshop.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class SecurityServiceImpl implements SecurityService {
 	
@@ -13,16 +15,16 @@ public class SecurityServiceImpl implements SecurityService {
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Override
 	public String findLoggedInUsername() {
-		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-		if(userDetails instanceof UserDetails)
-		{
-			return ((UserDetails) userDetails).getUsername();
-		}
-		return null;
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		return authentication.getName();
 	}
 
 	@Override
