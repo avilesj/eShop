@@ -39,4 +39,10 @@ public class AppConfig {
 	{
 		return new UserDetailsServiceImpl();
 	}
+	
+	@Bean
+	public UserValidator userValidator()
+	{
+		return new UserValidator();
+	}
 }

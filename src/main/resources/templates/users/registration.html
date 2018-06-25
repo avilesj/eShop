@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: layoutHeader">
+</head>
+<div th:replace="layout :: mainLayout"></div>
+<main class="container" role="main">
+<div>
+	<h1>New Product Form</h1>
+	<form role="form" th:action="@{registration}" method="POST"
+		th:object="${userForm}">
+		<div class="form-group">
+			<label>Username: </label> <input class="form-control" type="text" th:field="${userForm.username}" placeholder="Username"/>
+			<label>Password: </label> <input class="form-control" type="password" th:field="${userForm.password}" placeholder="Password"/>
+			<label>Password Confirm: </label> <input type="password"
+				th:field="${userForm.passwordConfirm}" class="form-control" placeholder="Password Confirm"/>
+			<button type="submit"  class="btn btn-success">Register</button>
+		</div>
+	</form>
+	<div>
+		<a type="button" class="btn btn-outline-primary" th:href="@{/}">Cancel</a>
+	</div>
+</div>
+</main>

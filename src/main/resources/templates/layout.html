@@ -62,21 +62,29 @@
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
 					<div class="dropdown-menu dropdown-menu-right"
 						aria-labelledby="dropdown01">
-						<form class="form" role="form">
-							<div class="form-group">
-								<label>USERNAME:</label><input placeholder="Username"
-									class="form-control form-control-sm" type="text">
+						<div sec:authorize="!isAuthenticated()">
+							<form class="form" role="form" th:action="@{/login}" method="GET">
+								<div class="form-group">
+									<label>USERNAME:</label><input placeholder="Username"
+										class="form-control form-control-sm" type="text">
+								</div>
+								<div class="form-group">
+									<label>PASSWORD:</label> <input placeholder="Password"
+										type="password" class="form-control form-control-sm">
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary btn-block">Login</button>
+								</div>
+								<div class="form-group">
+									<a th:href="@{/registration}">New user? Register here!</a>
+								</div>
+							</form>
+							<div>
+								<a>Register</a>
 							</div>
-							<div class="form-group">
-								<label>PASSWORD:</label> <input placeholder="Password"
-									type="password" class="form-control form-control-sm">
-							</div>
-							<div class="form-group">
-								<button type="submit" class="btn btn-primary btn-block">Login</button>
-							</div>
-						</form>
-						<div>
-							<a>Register</a>
+						</div>
+						<div sec:authorize="isAuthenticated()">
+							<a th:href="@{/logout}">Logout</a>
 						</div>
 					</div></li>
 			</ul>
