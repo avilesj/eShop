@@ -39,13 +39,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	protected void configure(HttpSecurity http) throws Exception
 	{
-	    http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
+	    http.authorizeRequests().anyRequest().permitAll()
 	    .and()
-	    .authorizeRequests().antMatchers("/login**").permitAll()
+	    
+	    .authorizeRequests().antMatchers("/login*").permitAll()
 	    .and()
 	    .formLogin().loginPage("/login").loginProcessingUrl("/loginAction").permitAll()
 	    .and()
-	    .logout().logoutSuccessUrl("/login").permitAll()
+	    .logout().logoutSuccessUrl("/").permitAll()
+	    .and()
+	    .authorizeRequests().antMatchers("/**").permitAll()
 	    .and()
 	    .csrf().disable();
 	}
