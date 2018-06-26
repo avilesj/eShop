@@ -1,6 +1,7 @@
 package com.hercule.eshop.controllers;
 
-import org.h2.util.New;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,20 +46,17 @@ public class UserController {
 		
 		userService.save(userForm);
 		
-		securityService.autologin(userForm.getUsername(), userForm.getPassword());
-		
 		return "redirect:/";
 	}
 	
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model, String error, String logout)
+    public String login(HttpServletRequest request)
     {
-        if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
-
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
-
-        return "index";
+    	String username = request.getParameter("username");
+    	String password = request.getParameter("password");
+    	
+    	securityService.autologin(username, password);
+    	
+        return "redirect:/";
     }
 }
