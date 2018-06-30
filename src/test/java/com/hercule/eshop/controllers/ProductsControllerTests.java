@@ -1,11 +1,7 @@
 package com.hercule.eshop.controllers;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import com.hercule.eshop.models.Product;
+import com.hercule.eshop.services.ProductService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +13,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.hercule.eshop.models.Product;
-import com.hercule.eshop.services.ProductService;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -54,10 +53,10 @@ public class ProductsControllerTests {
 	@Test
 	public void rendersProductDetailPage() throws Exception 
 	{
-		this.mockMvc.perform(get("/products/1")).andDo(print()).andExpect(status().isOk()).
-		andExpect(content().string(containsString("Butter"))).
-		andExpect(content().string(containsString("20.00"))).
-		andExpect(content().string(containsString("Just butter")));
+		this.mockMvc.perform(get("/products/" + product.getId())).andDo(print()).andExpect(status().isOk()).
+		andExpect(content().string(containsString(product.getName()))).
+		andExpect(content().string(containsString(Double.toString(product.getPrice())))).
+		andExpect(content().string(containsString(product.getDescription())));
 		
 	}
 	
@@ -70,6 +69,6 @@ public class ProductsControllerTests {
 	@Test
 	public void rendersEditProductForm() throws Exception
 	{
-		this.mockMvc.perform(get("/products/edit/1")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Butter")));
+		this.mockMvc.perform(get("/products/edit/" + product.getId())).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString(product.getName())));
 	}
 }

@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,13 +22,14 @@ import com.hercule.eshop.models.Product;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("dev")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ProductServiceTests {
 
 	@Autowired
-	ProductService productService;
+	private ProductService productService;
 	
-	Product product;
-	Product product2;
+	private Product product;
+	private Product secondProduct;
 	
 	@Before
 	public void initialize()
@@ -37,10 +39,10 @@ public class ProductServiceTests {
 		this.product.setPrice(20.00);
 		this.product.setDescription("Just butter");
 		
-		this.product2 = new Product();
-		this.product2.setName("Mayoniez");
-		this.product2.setPrice(31.99);
-		this.product2.setDescription("Slav blood");
+		this.secondProduct = new Product();
+		this.secondProduct.setName("Mayoniez");
+		this.secondProduct.setPrice(31.99);
+		this.secondProduct.setDescription("Slav blood");
 	}
 	
 	@Test
@@ -92,7 +94,7 @@ public class ProductServiceTests {
 	public void displaysAllProducts()
 	{
 		productService.saveProduct(product);
-		productService.saveProduct(product2);
+		productService.saveProduct(secondProduct);
 		
 		List<Product> productList = productService.showAllProducts();
 		assertEquals(2, productList.size());
