@@ -13,7 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.hercule.eshop.UserValidator;
+import com.hercule.eshop.spring.UserValidator;
 import com.hercule.eshop.models.User;
 import com.hercule.eshop.services.SecurityService;
 import com.hercule.eshop.services.UserService;

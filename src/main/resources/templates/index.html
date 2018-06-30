@@ -5,5 +5,8 @@
 <div th:replace="layout :: mainLayout"></div>
 <div th:fragment="Index">
 	<h1>Index</h1>
-	<h1 sec:authorize="isAuthenticated()">Welcome  [[${#httpServletRequest.remoteUser}]]!</h1>
+	<div sec:authorize="isAuthenticated()">
+	<h1>Welcome  [[${#httpServletRequest.remoteUser}]]!</h1>
+		<h2 sec:authentication = "principal.authorities"></h2>
+	</div>
 </div>
