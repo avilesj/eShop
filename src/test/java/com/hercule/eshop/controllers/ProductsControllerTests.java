@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -19,6 +18,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -77,4 +77,13 @@ public class ProductsControllerTests {
 	{
 		this.mockMvc.perform(get("/products/edit/" + product.getId())).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString(product.getName())));
 	}
+
+	@Test
+    public void requireAdminRoleToViewNewProductForm() throws Exception
+    {
+        /*
+            Localhost is hardcoded for now since the redirect made from the Spring Security config is done with full context path
+         */
+        this.mockMvc.perform(get("/products")).andExpect(redirectedUrl("http://localhost/login")).andExpect(status().is3xxRedirection());
+    }
 }
