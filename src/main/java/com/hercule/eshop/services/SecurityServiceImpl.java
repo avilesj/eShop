@@ -29,7 +29,8 @@ public class SecurityServiceImpl implements SecurityService {
 		 * Get UserDetails object using Spring's User object, converted from our own User object
 		 * using UserDetailsService. UserDetails is the User object required to get the authentication.
 		 */
-		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username.toUpperCase());
 		
 		/*
 		 * To add an authentication to the SecurityContext, in this case you need UsernamePasswordAuthenticationToken,

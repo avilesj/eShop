@@ -42,7 +42,7 @@ public class UserDetailsServiceTest {
 	public void loadsUser()
 	{
 		UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-		assertEquals(user.getUsername(), userDetails.getUsername());
+		assertEquals(user.getUsername().toUpperCase(), userDetails.getUsername());
 	}
 	
 	

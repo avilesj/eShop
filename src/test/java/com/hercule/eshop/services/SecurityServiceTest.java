@@ -43,10 +43,12 @@ public class SecurityServiceTest {
 	public void userLogsIn()
 	{
 		loginUser = new User();
-
+		loginUser.setUsername("javiles");
+		loginUser.setPassword("321321");
+        securityService.autologin(loginUser.getUsername(), loginUser.getPassword());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		assertEquals(user.getUsername(), authentication.getName());
+		assertEquals(loginUser.getUsername().toUpperCase(), authentication.getName());
 	}
 	
 	@Test
@@ -59,7 +61,7 @@ public class SecurityServiceTest {
 		
 		String loggedUsername = securityService.findLoggedInUsername();
 		
-		assertEquals(loginUser.getUsername(), loggedUsername);
+		assertEquals(loginUser.getUsername().toUpperCase(), loggedUsername);
 	}
 	
 	

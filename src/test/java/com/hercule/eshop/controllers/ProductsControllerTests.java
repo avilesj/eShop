@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -45,12 +47,14 @@ public class ProductsControllerTests {
 	}
 	
 	@Test
+	@WithMockUser(roles = {"ADMIN"})
 	public void rendersProductsPage() throws Exception
 	{
 		this.mockMvc.perform(get("/products")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Products")));
 	}
 	
 	@Test
+    @WithMockUser(roles = {"ADMIN"})
 	public void rendersProductDetailPage() throws Exception 
 	{
 		this.mockMvc.perform(get("/products/" + product.getId())).andDo(print()).andExpect(status().isOk()).
@@ -61,12 +65,14 @@ public class ProductsControllerTests {
 	}
 	
 	@Test
+    @WithMockUser(roles = {"ADMIN"})
 	public void rendersNewProductForm() throws Exception
 	{
 		this.mockMvc.perform(get("/products/new")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Product Form")));
 	}
 	
 	@Test
+    @WithMockUser(roles = {"ADMIN"})
 	public void rendersEditProductForm() throws Exception
 	{
 		this.mockMvc.perform(get("/products/edit/" + product.getId())).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString(product.getName())));
