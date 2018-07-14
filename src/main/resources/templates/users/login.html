@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: layoutHeader">
+</head>
+<div th:replace="layout :: mainLayout"></div>
+<main class="container" role="main">
+<div>
+	<h1>User login form</h1>
+	<form role="form" th:action="@{login}" method="POST">
+		<div class="form-group">
+			<label>Username: </label> <input class="form-control" type="text" placeholder="Username" name="username"/>
+			<label>Password: </label> <input class="form-control" type="password" placeholder="Password" name="password"/>
+			<button type="submit"  class="btn btn-success">Log in</button>
+		</div>
+	</form>
+	<div>
+		<a type="button" class="btn btn-outline-primary" th:href="@{/}">Cancel</a>
+	</div>
+</div>
+</main>

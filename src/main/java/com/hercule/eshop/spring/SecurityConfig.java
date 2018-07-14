@@ -39,14 +39,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	protected void configure(HttpSecurity http) throws Exception
 	{
-	    http.authorizeRequests().anyRequest().permitAll()
-	    .and()
+	    http
+		.authorizeRequests().antMatchers("/login").permitAll()
+		.and()
+		.authorizeRequests().antMatchers("/registration").permitAll()
+		.and()
 	    .formLogin().loginPage("/login").permitAll()
 	    .and()
 	    .logout().logoutSuccessUrl("/").permitAll()
 	    .and()
-	    .authorizeRequests().antMatchers("/**").permitAll()
-	    .and()
+		.authorizeRequests().antMatchers("/products/**").hasRole("ADMIN")
+		.and()
 	    .csrf().disable();
 	}
 }

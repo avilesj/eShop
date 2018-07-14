@@ -18,6 +18,8 @@ import com.hercule.eshop.models.User;
 import com.hercule.eshop.services.SecurityService;
 import com.hercule.eshop.services.UserService;
 
+import java.security.Principal;
+
 @Controller
 public class UserController {
 
@@ -53,7 +55,7 @@ public class UserController {
 		return "redirect:/";
 	}
 	
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(HttpServletRequest request)
     {
     	String username = request.getParameter("username");
@@ -63,7 +65,19 @@ public class UserController {
     	
         return "redirect:/";
     }
-    
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginForm(Principal principal)
+	{
+		if(principal == null)
+		{
+			return "users/login";
+		}
+
+		return "redirect:/";
+
+	}
+
     @RequestMapping(value = "logout")
     public String logout(HttpServletRequest request, HttpServletResponse response)
     {
