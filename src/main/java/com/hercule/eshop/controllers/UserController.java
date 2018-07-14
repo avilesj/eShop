@@ -1,8 +1,9 @@
 package com.hercule.eshop.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.hercule.eshop.models.User;
+import com.hercule.eshop.services.SecurityService;
+import com.hercule.eshop.services.UserService;
+import com.hercule.eshop.spring.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,14 +11,12 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.hercule.eshop.spring.UserValidator;
-import com.hercule.eshop.models.User;
-import com.hercule.eshop.services.SecurityService;
-import com.hercule.eshop.services.UserService;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 @Controller
@@ -36,12 +35,11 @@ public class UserController {
 	public String registration(Model model)
 	{
 		model.addAttribute("userForm", new User());
-		
 		return "users/registration";
 	}
 	
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public String registration(final User userForm, BindingResult bindingResult)
+	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult)
 	{
 		userValidator.validate(userForm, bindingResult);
 		
