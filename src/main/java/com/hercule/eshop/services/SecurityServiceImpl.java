@@ -30,7 +30,7 @@ public class SecurityServiceImpl implements SecurityService {
 		 * using UserDetailsService. UserDetails is the User object required to get the authentication.
 		 */
 
-		UserDetails userDetails = userDetailsService.loadUserByUsername(username.toUpperCase());
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username.toLowerCase());
 		
 		/*
 		 * To add an authentication to the SecurityContext, in this case you need UsernamePasswordAuthenticationToken,

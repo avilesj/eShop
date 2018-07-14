@@ -48,7 +48,7 @@ public class SecurityServiceTest {
         securityService.autologin(loginUser.getUsername(), loginUser.getPassword());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		assertEquals(loginUser.getUsername().toUpperCase(), authentication.getName());
+		assertEquals(loginUser.getUsername(), authentication.getName());
 	}
 	
 	@Test
@@ -61,7 +61,7 @@ public class SecurityServiceTest {
 		
 		String loggedUsername = securityService.findLoggedInUsername();
 		
-		assertEquals(loginUser.getUsername().toUpperCase(), loggedUsername);
+		assertEquals(loginUser.getUsername(), loggedUsername);
 	}
 	
 	

@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//Gets our User object from the database
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username.toLowerCase());
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		
 		//Iterates over our User's roles to transform them into Spring Security's granted authorities.
