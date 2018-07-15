@@ -1,12 +1,6 @@
 package com.hercule.eshop.services;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import com.hercule.eshop.models.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +10,11 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.hercule.eshop.models.Product;
+import javax.transaction.Transactional;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,12 +41,6 @@ public class ProductServiceTests {
 		this.secondProduct.setName("Mayoniez");
 		this.secondProduct.setPrice(31.99);
 		this.secondProduct.setDescription("Slav blood");
-	}
-	
-	@Test
-	public void addsProduct()
-	{
-		productService.saveProduct(this.product);	
 	}
 	
 	@Test
