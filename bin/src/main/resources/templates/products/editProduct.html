@@ -3,21 +3,21 @@
 </head>
 <div th:replace="layout :: mainLayout"></div>
 <main class="container" role="main">
-<div>
-	<h1>Edit Product Form</h1>
-	<form role= "form" th:action="@{save}" method="POST"
-		th:object="${product}">
-		<div class="form-group">
-			<label>Id: </label> <input class="form-control" type="hidden" th:field="${product.id}" />
-			<label>Name: </label> <input class="form-control" type="text" th:field="${product.name}" />
-			<label>Price: </label> <input class="form-control" type="text" th:field="${product.price}" />
-			<label>Description: </label> <input type="text"
-				th:field="${product.description}" class="form-control" />
-			<button type="submit"  class="btn btn-success">Edit Product</button>
-		</div>
-	</form>
-	<div>
-		<a type="button" class="btn btn-outline-primary" th:href="@{/products}">Cancel</a>
-	</div>
-</div>
+    <div>
+        <h1>Edit Product Form</h1>
+        <form role="form" th:action="@{save}" method="POST"
+              th:object="${product}">
+            <div class="form-group">
+                <label>Id: </label> <input class="form-control" type="hidden" th:field="${product.id}"/>
+                <label>Name: </label> <input class="form-control" type="text" th:field="${product.name}"/>
+                <label>Price: </label> <input class="form-control" type="text" th:field="${product.price}"/>
+                <label>Description: </label> <input type="text"
+                                                    th:field="${product.description}" class="form-control"/>
+                <button type="submit" class="btn btn-success">Edit Product</button>
+            </div>
+        </form>
+        <div>
+            <a type="button" class="btn btn-outline-primary" th:href="@{/products}">Cancel</a>
+        </div>
+    </div>
 </main>

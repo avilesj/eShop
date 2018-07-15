@@ -24,59 +24,60 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @ActiveProfiles("dev")
-public class ProductsControllerTests {
+public class ProductsControllerTests
+{
 
-	@Autowired
-	private MockMvc mockMvc;
-	
-	@Autowired
-	private ProductService productService;
-	
-	private Product product;
-	
-	@Before
-	public void initialize()
-	{
-		this.product = new Product();
-		this.product.setName("Butter");
-		this.product.setPrice(20.00);
-		this.product.setDescription("Just butter");
-		productService.saveProduct(this.product);
-	}
-	
-	@Test
-	@WithMockUser(roles = {"ADMIN"})
-	public void rendersProductsPage() throws Exception
-	{
-		this.mockMvc.perform(get("/products")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Products")));
-	}
-	
-	@Test
-    @WithMockUser(roles = {"ADMIN"})
-	public void rendersProductDetailPage() throws Exception 
-	{
-		this.mockMvc.perform(get("/products/" + product.getId())).andDo(print()).andExpect(status().isOk()).
-		andExpect(content().string(containsString(product.getName()))).
-		andExpect(content().string(containsString(Double.toString(product.getPrice())))).
-		andExpect(content().string(containsString(product.getDescription())));
-		
-	}
-	
-	@Test
-    @WithMockUser(roles = {"ADMIN"})
-	public void rendersNewProductForm() throws Exception
-	{
-		this.mockMvc.perform(get("/products/new")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Product Form")));
-	}
-	
-	@Test
-    @WithMockUser(roles = {"ADMIN"})
-	public void rendersEditProductForm() throws Exception
-	{
-		this.mockMvc.perform(get("/products/edit/" + product.getId())).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString(product.getName())));
-	}
+    @Autowired
+    private MockMvc mockMvc;
 
-	@Test
+    @Autowired
+    private ProductService productService;
+
+    private Product product;
+
+    @Before
+    public void initialize()
+    {
+        this.product = new Product();
+        this.product.setName("Butter");
+        this.product.setPrice(20.00);
+        this.product.setDescription("Just butter");
+        productService.saveProduct(this.product);
+    }
+
+    @Test
+    @WithMockUser(roles = {"ADMIN"})
+    public void rendersProductsPage() throws Exception
+    {
+        this.mockMvc.perform(get("/products")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Products")));
+    }
+
+    @Test
+    @WithMockUser(roles = {"ADMIN"})
+    public void rendersProductDetailPage() throws Exception
+    {
+        this.mockMvc.perform(get("/products/" + product.getId())).andDo(print()).andExpect(status().isOk()).
+                andExpect(content().string(containsString(product.getName()))).
+                andExpect(content().string(containsString(Double.toString(product.getPrice())))).
+                andExpect(content().string(containsString(product.getDescription())));
+
+    }
+
+    @Test
+    @WithMockUser(roles = {"ADMIN"})
+    public void rendersNewProductForm() throws Exception
+    {
+        this.mockMvc.perform(get("/products/new")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Product Form")));
+    }
+
+    @Test
+    @WithMockUser(roles = {"ADMIN"})
+    public void rendersEditProductForm() throws Exception
+    {
+        this.mockMvc.perform(get("/products/edit/" + product.getId())).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString(product.getName())));
+    }
+
+    @Test
     public void requireAdminRoleToViewNewProductForm() throws Exception
     {
         /*

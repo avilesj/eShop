@@ -1,12 +1,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head  th:replace="layout :: layoutHeader">
+<head th:replace="layout :: layoutHeader">
 </head>
 <div th:replace="layout :: mainLayout"></div>
 <div>
-	<div>
-		<div th:text="${product.id}"></div>
-		<div th:text="${product.name}"></div>
-		<div th:text="${#numbers.formatDecimal(product.price,0,2)}"></div>
-		<div th:text="${product.description}"></div>
-	</div>
+    <div>
+        <div th:text="${product.id}"></div>
+        <div th:text="${product.name}"></div>
+        <div th:text="${#numbers.formatDecimal(product.price,0,2)}"></div>
+        <div th:text="${product.description}"></div>
+    </div>
 </div>

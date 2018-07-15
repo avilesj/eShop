@@ -1,15 +1,21 @@
 package com.hercule.eshop.services;
 
-import java.util.List;
-
 import com.hercule.eshop.models.Product;
 
-public interface ProductService {
+import java.util.List;
 
-		public void saveProduct(Product product);
-		public Product findProductByName(String name);
-		public void updateProduct(Product product);
-		public void deleteProduct(long id);
-		public Product findProductById(long id);
-		public List<Product> showAllProducts();
+public interface ProductService
+{
+
+    void saveProduct(Product product);
+
+    Product findProductByName(String name);
+
+    void updateProduct(Product product);
+
+    void deleteProduct(long id);
+
+    Product findProductById(long id);
+
+    List<Product> showAllProducts();
 }

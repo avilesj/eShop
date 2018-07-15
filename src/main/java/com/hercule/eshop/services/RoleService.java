@@ -1,12 +1,14 @@
 package com.hercule.eshop.services;
 
-import java.util.HashSet;
-
 import com.hercule.eshop.models.Role;
 
-public interface RoleService {
+import java.util.HashSet;
 
-	public void saveRole(Role role);
-	public HashSet<Role> getAllRoles();
-	
+public interface RoleService
+{
+
+    void saveRole(Role role);
+
+    HashSet<Role> getAllRoles();
+
 }

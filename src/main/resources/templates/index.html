@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head  th:replace="layout :: layoutHeader">
+<head th:replace="layout :: layoutHeader">
 </head>
 <div th:replace="layout :: mainLayout"></div>
 <div th:fragment="Index">
-	<h1>Index</h1>
-	<div sec:authorize="isAuthenticated()">
-	<h1>Welcome  [[${#httpServletRequest.remoteUser}]]!</h1>
-		<h2 sec:authentication = "principal.authorities"></h2>
-	</div>
+    <h1>Index</h1>
+    <div sec:authorize="isAuthenticated()">
+        <h1>Welcome [[${#httpServletRequest.remoteUser}]]!</h1>
+        <h2 sec:authentication="principal.authorities"></h2>
+    </div>
 </div>

@@ -14,42 +14,44 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Autowired
-	UserDetailsService userDetailsService;
-	
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder()
-	{
-		return new BCryptPasswordEncoder();
-	}
-	
-	 @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-	   @Override
-	   public AuthenticationManager authenticationManagerBean() throws Exception {
-	       return super.authenticationManagerBean();
-	   }
+public class SecurityConfig extends WebSecurityConfigurerAdapter
+{
 
-	
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception
-	{
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
-	
-	protected void configure(HttpSecurity http) throws Exception
-	{
-	    http
-		.authorizeRequests().antMatchers("/login").permitAll()
-		.and()
-		.authorizeRequests().antMatchers("/registration").permitAll()
-		.and()
-	    .formLogin().loginPage("/login").permitAll()
-	    .and()
-	    .logout().logoutSuccessUrl("/").permitAll()
-	    .and()
-		.authorizeRequests().antMatchers("/products/**").hasRole("ADMIN")
-		.and()
-	    .csrf().disable();
-	}
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception
+    {
+        return super.authenticationManagerBean();
+    }
+
+
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception
+    {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    protected void configure(HttpSecurity http) throws Exception
+    {
+        http
+                .authorizeRequests().antMatchers("/login").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/registration").permitAll()
+                .and()
+                .formLogin().loginPage("/login").permitAll()
+                .and()
+                .logout().logoutSuccessUrl("/").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/products/**").hasRole("ADMIN")
+                .and()
+                .csrf().disable();
+    }
 }

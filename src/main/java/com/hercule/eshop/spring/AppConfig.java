@@ -8,46 +8,51 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
-public class AppConfig {
+public class AppConfig
+{
 
-	
-	@Bean
-	public ProductService productService()
-	{
-		return new ProductServiceImpl();
-	}
 
-	@Bean
-	public UserService userService()
-	{
-		return new UserServiceImpl();
-	}
+    @Bean
+    public ProductService productService()
+    {
+        return new ProductServiceImpl();
+    }
 
-	@Bean
-	public SecurityService securityService()
-	{
-		return new SecurityServiceImpl();
-	}
+    @Bean
+    public UserService userService()
+    {
+        return new UserServiceImpl();
+    }
 
-	@Bean
-	public UserDetailsService userDetailsService()
-	{
-		return new UserDetailsServiceImpl();
-	}
-	
-	@Bean
-	public UserValidator userValidator()
-	{
-		return new UserValidator();
-	}
+    @Bean
+    public SecurityService securityService()
+    {
+        return new SecurityServiceImpl();
+    }
 
-	@Bean
-	public RoleService roleService() {return new RoleServiceImpl(); }
+    @Bean
+    public UserDetailsService userDetailsService()
+    {
+        return new UserDetailsServiceImpl();
+    }
 
-	@Bean
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:messages/messages");
-		return messageSource;
-	}
+    @Bean
+    public UserValidator userValidator()
+    {
+        return new UserValidator();
+    }
+
+    @Bean
+    public RoleService roleService()
+    {
+        return new RoleServiceImpl();
+    }
+
+    @Bean
+    public MessageSource messageSource()
+    {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages/messages");
+        return messageSource;
+    }
 }

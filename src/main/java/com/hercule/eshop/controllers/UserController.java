@@ -20,71 +20,72 @@ import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 @Controller
-public class UserController {
+public class UserController
+{
 
-	@Autowired
-	UserService userService;
-	
-	@Autowired
-	SecurityService securityService;
-	
-	@Autowired
-	UserValidator userValidator;
-	
-	@RequestMapping(value = "/registration", method = RequestMethod.GET)
-	public String registration(Model model)
-	{
-		model.addAttribute("userForm", new User());
-		return "users/registration";
-	}
-	
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult)
-	{
-		userValidator.validate(userForm, bindingResult);
-		
-		if(bindingResult.hasErrors())
-		{
-			return "users/registration";
-		}
-		
-		userService.save(userForm);
-		securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
-		return "redirect:/";
-	}
-	
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    SecurityService securityService;
+
+    @Autowired
+    UserValidator userValidator;
+
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public String registration(Model model)
+    {
+        model.addAttribute("userForm", new User());
+        return "users/registration";
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult)
+    {
+        userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors())
+        {
+            return "users/registration";
+        }
+
+        userService.save(userForm);
+        securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
+        return "redirect:/";
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(HttpServletRequest request)
     {
-    	String username = request.getParameter("username");
-    	String password = request.getParameter("password");
-    	
-    	securityService.autologin(username, password);
-    	
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        securityService.autologin(username, password);
+
         return "redirect:/";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginForm(Principal principal)
-	{
-		if(principal == null)
-		{
-			return "users/login";
-		}
+    public String loginForm(Principal principal)
+    {
+        if (principal == null)
+        {
+            return "users/login";
+        }
 
-		return "redirect:/";
+        return "redirect:/";
 
-	}
+    }
 
     @RequestMapping(value = "logout")
     public String logout(HttpServletRequest request, HttpServletResponse response)
     {
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	if(authentication != null)
-    	{
-    		new SecurityContextLogoutHandler().logout(request, response, authentication);
-    	}
-    	
-    	return "redirect:/";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null)
+        {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+
+        return "redirect:/";
     }
 }

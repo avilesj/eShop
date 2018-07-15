@@ -1,54 +1,56 @@
 package com.hercule.eshop.services;
 
-import java.util.List;
-
+import com.hercule.eshop.models.Product;
+import com.hercule.eshop.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hercule.eshop.models.Product;
-import com.hercule.eshop.repositories.ProductRepository;
+import java.util.List;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService
+{
 
-	@Autowired
-	ProductRepository productRepository;
-	
-	@Override
-	public void saveProduct(Product product)
-	{
-		productRepository.save(product);
+    @Autowired
+    ProductRepository productRepository;
 
-	}
+    @Override
+    public void saveProduct(Product product)
+    {
+        productRepository.save(product);
 
-	@Override
-	public Product findProductByName(String name)
-	{
-		
-		return productRepository.findByName(name);
-	}
+    }
 
-	@Override
-	public void updateProduct(Product product)
-	{	
-		productRepository.save(product);
-	}
+    @Override
+    public Product findProductByName(String name)
+    {
 
-	@Override
-	public void deleteProduct(long id)
-	{ 
-		productRepository.deleteById(id);
-	}
+        return productRepository.findByName(name);
+    }
 
-	@Override
-	public Product findProductById(long id) {
-	
-		return productRepository.findById(id);
-	}
+    @Override
+    public void updateProduct(Product product)
+    {
+        productRepository.save(product);
+    }
 
-	@Override
-	public List<Product> showAllProducts() {
-		return productRepository.findAll();
-	}
+    @Override
+    public void deleteProduct(long id)
+    {
+        productRepository.deleteById(id);
+    }
+
+    @Override
+    public Product findProductById(long id)
+    {
+
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public List<Product> showAllProducts()
+    {
+        return productRepository.findAll();
+    }
 
 }

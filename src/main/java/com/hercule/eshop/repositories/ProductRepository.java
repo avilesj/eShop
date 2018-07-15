@@ -1,15 +1,17 @@
 package com.hercule.eshop.repositories;
 
-import java.util.List;
-
+import com.hercule.eshop.models.Product;
 import org.springframework.data.repository.CrudRepository;
 
-import com.hercule.eshop.models.Product;
+import java.util.List;
 
-public interface ProductRepository extends CrudRepository<Product, Long>{
-	
-	Product findByName(String name);
-	Product findById(long id);
-	List<Product>findAll(); 
+public interface ProductRepository extends CrudRepository<Product, Long>
+{
+
+    Product findByName(String name);
+
+    Product findById(long id);
+
+    List<Product> findAll();
 
 }

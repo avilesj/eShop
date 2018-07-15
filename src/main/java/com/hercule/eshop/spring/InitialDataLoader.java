@@ -5,7 +5,6 @@ import com.hercule.eshop.models.User;
 import com.hercule.eshop.services.RoleService;
 import com.hercule.eshop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 
 @Component
-public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
+public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent>
+{
 
     boolean alreadySetup = false;
 
@@ -30,9 +30,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     @Override
     @Transactional
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void onApplicationEvent(ContextRefreshedEvent event)
+    {
 
-        if(alreadySetup)
+        if (alreadySetup)
         {
             return;
         }
@@ -40,7 +41,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         createRoleIfNotFound("ROLE_ADMIN");
 
         User user = userService.findByUsername(ADMIN_USERNAME);
-        if(user == null)
+        if (user == null)
         {
             user = new User();
             user.setUsername(ADMIN_USERNAME);
@@ -62,7 +63,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Role role;
 
         HashSet<Role> roles = roleService.getAllRoles();
-        if(!roles.contains(name))
+        if (!roles.contains(name))
         {
             role = new Role();
             role.setName(name);

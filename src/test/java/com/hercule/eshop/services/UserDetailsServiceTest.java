@@ -19,31 +19,31 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("dev")
-public class UserDetailsServiceTest {
+public class UserDetailsServiceTest
+{
 
-	@Autowired
+    @Autowired
     private UserService userService;
-	@Autowired
+    @Autowired
     private UserDetailsService userDetailsService;
 
     private User user;
-	
-	@Before
-	public void initialize()
-	{
-		user = new User();
-		user.setUsername("javiles");
-		user.setPassword("321321");
-		userService.save(user);
-	}
-	
-	@Test
-	public void loadsUser()
-	{
-		UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-		assertEquals(user.getUsername(), userDetails.getUsername());
-	}
-	
-	
+
+    @Before
+    public void initialize()
+    {
+        user = new User();
+        user.setUsername("javiles");
+        user.setPassword("321321");
+        userService.save(user);
+    }
+
+    @Test
+    public void loadsUser()
+    {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        assertEquals(user.getUsername(), userDetails.getUsername());
+    }
+
 
 }

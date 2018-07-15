@@ -1,9 +1,9 @@
 package com.hercule.eshop.repositories;
 
+import com.hercule.eshop.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.hercule.eshop.models.Role;
-
-public interface RoleRepository extends JpaRepository<Role, Long>{
+public interface RoleRepository extends JpaRepository<Role, Long>
+{
 
 }
