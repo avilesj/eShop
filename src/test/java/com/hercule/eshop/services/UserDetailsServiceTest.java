@@ -1,9 +1,6 @@
 package com.hercule.eshop.services;
 
-import static org.junit.Assert.assertEquals;
-
-import javax.transaction.Transactional;
-
+import com.hercule.eshop.models.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.hercule.eshop.models.User;
+import javax.transaction.Transactional;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,11 +22,11 @@ import com.hercule.eshop.models.User;
 public class UserDetailsServiceTest {
 
 	@Autowired
-	UserService userService;
+    private UserService userService;
 	@Autowired
-	UserDetailsService userDetailsService;
-	
-	User user;
+    private UserDetailsService userDetailsService;
+
+    private User user;
 	
 	@Before
 	public void initialize()
