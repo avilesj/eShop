@@ -17,6 +17,7 @@ public class ProductServiceImpl implements ProductService
     @Override
     public void saveProduct(Product product)
     {
+        product.setName(product.getName().toLowerCase());
         productRepository.save(product);
 
     }
@@ -24,13 +25,13 @@ public class ProductServiceImpl implements ProductService
     @Override
     public Product findProductByName(String name)
     {
-
-        return productRepository.findByName(name);
+        return productRepository.findByName(name.toLowerCase());
     }
 
     @Override
     public void updateProduct(Product product)
     {
+        product.setName(product.getName().toLowerCase());
         productRepository.save(product);
     }
 
@@ -56,7 +57,7 @@ public class ProductServiceImpl implements ProductService
     @Override
     public List<Product> findProductsBySearchTerms(String searchQuery)
     {
-        return productRepository.findByNameContaining(searchQuery);
+        return productRepository.findByNameContaining(searchQuery.toLowerCase());
     }
 
 }
