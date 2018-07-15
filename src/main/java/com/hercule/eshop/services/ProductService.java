@@ -18,4 +18,6 @@ public interface ProductService
     Product findProductById(long id);
 
     List<Product> showAllProducts();
+
+    List<Product> findProductsBySearchTerms(String searchQuery);
 }

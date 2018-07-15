@@ -32,12 +32,7 @@ public class ProductsController
     {
         Product product = productService.findProductById(id);
         model.addAttribute("product", product);
-        System.out.println("USING ID: " + id);
-        System.out.println("====PRODUCT FOUND====");
-        System.out.println("ID: " + product.getId());
-        System.out.println("NAME: " + product.getName());
-        System.out.println("DESCRIPTION: " + product.getDescription());
-        System.out.println("PRICE: " + product.getPrice());
+
         return "products/productDetail";
     }
 

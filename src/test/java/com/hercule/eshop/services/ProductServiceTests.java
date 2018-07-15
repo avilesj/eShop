@@ -103,4 +103,40 @@ public class ProductServiceTests
         assertEquals(storedProducts.size(), productList.size());
     }
 
+    @Test
+    @Transactional
+    public void displaySearchedProducts()
+    {
+        Product redShirt = new Product();
+        Product blueShirt = new Product();
+        Product greenShirt = new Product();
+        double shirtPrice = 0.00;
+        String shirtDescription = "Generic shirt";
+
+        redShirt.setName("Red Shirt");
+        redShirt.setPrice(shirtPrice);
+        redShirt.setDescription(shirtDescription);
+
+        blueShirt.setName("Blue Shirt");
+        blueShirt.setPrice(shirtPrice);
+        blueShirt.setDescription(shirtDescription);
+
+        greenShirt.setName("Green Shirt");
+        greenShirt.setPrice(shirtPrice);
+        greenShirt.setDescription(shirtDescription);
+
+        List<Product> storedProducts = new ArrayList<>();
+        storedProducts.add(redShirt);
+        storedProducts.add(blueShirt);
+        storedProducts.add(greenShirt);
+
+        productService.saveProduct(redShirt);
+        productService.saveProduct(blueShirt);
+        productService.saveProduct(greenShirt);
+
+        List<Product> searchResult = productService.findProductsBySearchTerms("Shirt");
+
+        assertEquals(storedProducts.size(), searchResult.size());
+    }
+
 }

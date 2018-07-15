@@ -53,4 +53,10 @@ public class ProductServiceImpl implements ProductService
         return productRepository.findAll();
     }
 
+    @Override
+    public List<Product> findProductsBySearchTerms(String searchQuery)
+    {
+        return productRepository.findByNameContaining(searchQuery);
+    }
+
 }
