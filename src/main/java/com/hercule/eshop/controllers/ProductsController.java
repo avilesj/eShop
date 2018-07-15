@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -64,6 +65,14 @@ public class ProductsController
         productService.saveProduct(product);
         model.addAttribute("product", product);
         return "redirect:/products/" + product.getId();
+    }
+
+    @RequestMapping(value = "/search")
+    public String searchProducts(@RequestParam("name") String searchQuery, Model model)
+    {
+        List<Product> foundProducts = productService.findProductsBySearchTerms(searchQuery);
+        model.addAttribute("foundProducts", foundProducts);
+        return "products/productSearch";
     }
 
 }

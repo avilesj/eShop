@@ -42,9 +42,9 @@
          th:fragment="navbar">
         <a class="navbar-brand mx-auto" href="#" th:href="@{~/}">eShop</a>
         <!-- Start of search form -->
-        <form id="searchForm" class="form-inline my-2 my-lg-0 w-50 mx-auto">
+        <form id="searchForm" class="form-inline my-2 my-lg-0 w-50 mx-auto" th:action="@{/products/search}">
             <input id="searchBar" class="form-control mr-sm-2 col-lg-10"
-                   placeholder="Search" aria-label="Search" type="text">
+                   placeholder="Search" aria-label="Search" type="text" th:name="name">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <!-- End of search form -->

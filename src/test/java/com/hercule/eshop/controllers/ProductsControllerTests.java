@@ -85,4 +85,13 @@ public class ProductsControllerTests
          */
         this.mockMvc.perform(get("/products")).andExpect(redirectedUrl("http://localhost/login")).andExpect(status().is3xxRedirection());
     }
+
+    @Test
+    public void displaySearchedProducts() throws Exception
+    {
+        String searchString = this.product.getName();
+        this.mockMvc.perform(get("/products/search?name=" + searchString))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(searchString)));
+    }
 }
