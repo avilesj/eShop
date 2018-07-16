@@ -49,6 +49,12 @@ public class AppConfig
     }
 
     @Bean
+    CartService cartService()
+    {
+        return new CartServiceImpl();
+    }
+
+    @Bean
     public MessageSource messageSource()
     {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();

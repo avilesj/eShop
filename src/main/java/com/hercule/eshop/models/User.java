@@ -13,6 +13,7 @@ public class User
     private String password;
     private String passwordConfirm;
     private Set<Role> roles;
+    private Cart cart;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -67,5 +68,16 @@ public class User
     public void setRoles(Set<Role> roles)
     {
         this.roles = roles;
+    }
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
+    public Cart getCart()
+    {
+        return cart;
+    }
+
+    public void setCart(Cart cart)
+    {
+        this.cart = cart;
     }
 }

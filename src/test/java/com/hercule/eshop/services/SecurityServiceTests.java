@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("dev")
-public class SecurityServiceTest
+public class SecurityServiceTests
 {
 
     @Autowired
