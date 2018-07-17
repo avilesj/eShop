@@ -1,18 +1,21 @@
 package com.hercule.eshop.services;
 
+import com.hercule.eshop.models.Cart;
+import com.hercule.eshop.models.CartItem;
+import com.hercule.eshop.models.Product;
 import com.hercule.eshop.models.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,8 +29,11 @@ public class CartServiceTests
     @Autowired
     private UserService userService;
 
-    private User user;
+    @Autowired
+    private ProductService productService;
 
+    private User user;
+    private Product product;
 
     @Before
     public void initialize()
@@ -35,16 +41,50 @@ public class CartServiceTests
         this.user = new User();
         this.user.setUsername("javiles");
         this.user.setPassword("321321");
+        userService.save(this.user);
+
+        this.product = new Product();
+        this.product.setName("Pizza");
+        this.product.setDescription("True Napolitan Pizza");
+        this.product.setPrice(8.00);
+        productService.saveProduct(this.product);
+    }
+
+    @Test
+    public void validateCartCreationOnUserCreation()
+    {
+        User dbUser = userService.findByUsername(this.user.getUsername());
+        assertNotNull(cartService.findCartByUserId(user));
+    }
+
+    @Test
+    @Transactional
+    public void addsItemToCart()
+    {
+        int AMOUNT = 2;
+        Cart cart = cartService.findCartByUserId(this.user);
+
+        cartService.addItemToCart(cart, this.product, AMOUNT);
+
+        assertEquals(cart.getCartItem().size(), AMOUNT);
+
 
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void validateCartCreationOnUserCreation()
+    public void validatesRemovalOfCartItem()
     {
-        userService.save(this.user);
-        User dbUser = userService.findByUsername(this.user.getUsername());
+        Cart cart = cartService.findCartByUserId(this.user);
 
-        assertNotNull(dbUser.getCart());
+        cartService.addItemToCart(cart, this.product, 5);
+        List<CartItem> cartItem = cart.getCartItem();
+
+        cartService.removeItemFromCart(cart, cartItem.get(0));
+
+        assertNull(cart.getCartItem());
+
+
     }
+
+
 }

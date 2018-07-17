@@ -28,15 +28,16 @@ public class UserServiceImpl implements UserService
     @Override
     public void save(User user)
     {
-        Cart userCart = new Cart();
-        userCart.setUser(user);
-        cartService.saveCart(userCart);
 
         user.setUsername(user.getUsername().toLowerCase());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(new HashSet<>(roleRepository.findAll()));
-        user.setCart(userCart);
         userRepository.save(user);
+
+        Cart userCart = new Cart();
+        userCart.setUser(user);
+        cartService.saveCart(userCart);
+
 
 
     }
