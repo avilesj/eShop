@@ -11,7 +11,7 @@ public class CartItem
     @GeneratedValue
     private long id;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 

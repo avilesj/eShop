@@ -2,6 +2,7 @@ package com.hercule.eshop.models;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,8 +17,8 @@ public class Cart
     private User user;
     private LocalDateTime createdOn;
 
-    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<CartItem> cartItem;
+    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItem = new ArrayList<>();
 
     @PrePersist
     public void setDateTimeOnCreate()

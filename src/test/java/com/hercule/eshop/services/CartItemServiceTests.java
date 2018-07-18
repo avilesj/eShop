@@ -14,22 +14,26 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("dev")
-public class CartServiceTests
+public class CartItemServiceTests
 {
-    @Autowired
-    private CartService cartService;
-
     @Autowired
     private UserService userService;
 
     @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private CartItemService cartItemService;
+
+    @Autowired
     private ProductService productService;
 
+    private Cart cart;
     private User user;
     private Product product;
 
@@ -42,47 +46,25 @@ public class CartServiceTests
         userService.save(this.user);
 
         this.product = new Product();
-        this.product.setName("Pizza");
-        this.product.setDescription("True Napolitan Pizza");
-        this.product.setPrice(8.00);
+        this.product.setName("Shirt");
+        this.product.setPrice(25.00);
+        this.product.setDescription("Description");
         productService.saveProduct(this.product);
+
     }
 
     @Test
-    public void validateCartCreationOnUserCreation()
+    public void validatesCartItemInsertion()
     {
-        User dbUser = userService.findByUsername(this.user.getUsername());
-        assertNotNull(cartService.findCartByUserId(user));
-    }
-
-    @Test
-    public void addsItemToCart()
-    {
-        int AMOUNT = 2;
+        CartItem cartItem = new CartItem();
         Cart cart = cartService.findCartByUserId(this.user);
+        cartItem.setCart(cart);
+        cartItem.setQuantity(2);
+        cartItem.setProduct(this.product);
+        cartItemService.saveCartItem(cartItem);
 
-        cartService.addItemToCart(cart, this.product, AMOUNT);
+        List<CartItem> cartItems = cartItemService.getAllItemsFromCart(cart);
 
-        cart = cartService.findCartByUserId(this.user);
-        assertEquals(cart.getCartItem().size(), AMOUNT);
-
-
+        assertNotNull(cartItems);
     }
-
-    @Test
-    public void validatesRemovalOfCartItem()
-    {
-        Cart cart = cartService.findCartByUserId(this.user);
-
-        cartService.addItemToCart(cart, this.product, 5);
-        List<CartItem> cartItem = cart.getCartItem();
-
-        cartService.removeItemFromCart(cart, cartItem.get(0));
-
-        assertNull(cart.getCartItem());
-
-
-    }
-
-
 }
