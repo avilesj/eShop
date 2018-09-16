@@ -64,7 +64,8 @@ public class CartServiceTests
         cartService.addItemToCart(cart, this.product, AMOUNT);
 
         cart = cartService.findCartByUserId(this.user);
-        assertEquals(cart.getCartItem().size(), AMOUNT);
+        assertEquals(AMOUNT, cart.getSize());
+
 
 
     }

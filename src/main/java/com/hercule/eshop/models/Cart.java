@@ -19,11 +19,17 @@ public class Cart
 
     @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItem = new ArrayList<>();
+    private int size;
 
     @PrePersist
     public void setDateTimeOnCreate()
     {
         createdOn = LocalDateTime.now();
+    }
+
+    @PostLoad
+    public void calculateSize() {
+        this.size = cartItem.stream().mapToInt(CartItem::getQuantity).sum();
     }
 
     public long getId()
@@ -55,5 +61,13 @@ public class Cart
     public void setCartItem(List<CartItem> cartItem)
     {
         this.cartItem = cartItem;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }
