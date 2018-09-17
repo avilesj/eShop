@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CartServiceImpl implements CartService
 {
     @Autowired
-    CartRepository cartRepository;
+    private CartRepository cartRepository;
 
     @Autowired
-    CartItemService cartItemService;
+    private CartItemService cartItemService;
 
     @Override
     public void saveCart(Cart cart)
@@ -33,9 +33,9 @@ public class CartServiceImpl implements CartService
     }
 
     @Override
-    public void removeItemFromCart(Cart cart, CartItem cartItem)
+    public void removeItemFromCart(CartItem cartItem)
     {
-
+        cartItemService.deleteCartItem(cartItem);
     }
 
     @Override

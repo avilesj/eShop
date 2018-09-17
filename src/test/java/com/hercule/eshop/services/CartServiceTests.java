@@ -14,7 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,7 +40,6 @@ public class CartServiceTests
         this.user = new User();
         this.user.setUsername("javiles");
         this.user.setPassword("321321");
-        userService.save(this.user);
 
         this.product = new Product();
         this.product.setName("Pizza");
@@ -51,14 +51,16 @@ public class CartServiceTests
     @Test
     public void validateCartCreationOnUserCreation()
     {
+        userService.save(this.user);
         User dbUser = userService.findByUsername(this.user.getUsername());
-        assertNotNull(cartService.findCartByUserId(user));
+        assertNotNull(cartService.findCartByUserId(this.user));
     }
 
     @Test
     public void addsItemToCart()
     {
         int AMOUNT = 2;
+        userService.save(this.user);
         Cart cart = cartService.findCartByUserId(this.user);
 
         cartService.addItemToCart(cart, this.product, AMOUNT);
@@ -66,24 +68,22 @@ public class CartServiceTests
         cart = cartService.findCartByUserId(this.user);
         assertEquals(AMOUNT, cart.getSize());
 
-
-
     }
 
     @Test
     public void validatesRemovalOfCartItem()
     {
+        userService.save(this.user);
         Cart cart = cartService.findCartByUserId(this.user);
-
         cartService.addItemToCart(cart, this.product, 5);
+
+        cart = cartService.findCartByUserId(this.user);
+
         List<CartItem> cartItem = cart.getCartItem();
+        cartService.removeItemFromCart(cart.getCartItem().get(0));
 
-        cartService.removeItemFromCart(cart, cartItem.get(0));
-
-        assertNull(cart.getCartItem());
-
-
+        cart = cartService.findCartByUserId(this.user);
+        assertEquals(0, cart.getCartItem().size());
     }
-
 
 }
