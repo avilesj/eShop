@@ -17,7 +17,7 @@ public class Cart
     private User user;
     private LocalDateTime createdOn;
 
-    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.DETACH, orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.DETACH, orphanRemoval = true)
     private List<CartItem> cartItem = new ArrayList<>();
     private int size;
 

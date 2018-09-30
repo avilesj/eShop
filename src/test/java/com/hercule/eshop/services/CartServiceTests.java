@@ -4,6 +4,7 @@ import com.hercule.eshop.models.Cart;
 import com.hercule.eshop.models.CartItem;
 import com.hercule.eshop.models.Product;
 import com.hercule.eshop.models.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -19,6 +23,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 @ActiveProfiles("dev")
 public class CartServiceTests
 {
@@ -31,8 +36,12 @@ public class CartServiceTests
     @Autowired
     private ProductService productService;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private User user;
     private Product product;
+
 
     @Before
     public void initialize()
@@ -45,45 +54,71 @@ public class CartServiceTests
         this.product.setName("Pizza");
         this.product.setDescription("True Napolitan Pizza");
         this.product.setPrice(8.00);
-        productService.saveProduct(this.product);
+    }
+
+    @After
+    public void terminate()
+    {
+
     }
 
     @Test
     public void validateCartCreationOnUserCreation()
     {
-        userService.save(this.user);
-        User dbUser = userService.findByUsername(this.user.getUsername());
-        assertNotNull(cartService.findCartByUserId(this.user));
+        User user = new User();
+        user.setUsername("javiles");
+        user.setPassword("321321");
+        userService.save(user);
+        entityManager.flush();
+        User dbUser = userService.findByUsername(user.getUsername());
+        Cart cart = cartService.findCartByUserId(user);
+        assertNotNull(cart);
     }
 
     @Test
     public void addsItemToCart()
     {
+        userService.save(user);
+        productService.saveProduct(product);
+        entityManager.flush();
+        entityManager.clear();
+
         int AMOUNT = 2;
-        userService.save(this.user);
-        Cart cart = cartService.findCartByUserId(this.user);
 
-        cartService.addItemToCart(cart, this.product, AMOUNT);
+        Cart cart = cartService.findCartByUserId(userService.findByUsername("javiles"));
 
-        cart = cartService.findCartByUserId(this.user);
-        assertEquals(AMOUNT, cart.getSize());
-
+        cartService.addItemToCart(cart, productService.findProductByName("Pizza"), AMOUNT);
+        entityManager.flush();
+        entityManager.clear();
+        Cart cart2 = cartService.findCartByUserId(userService.findByUsername("javiles"));
+        assertEquals(AMOUNT, cart2.getSize());
     }
 
     @Test
     public void validatesRemovalOfCartItem()
     {
-        userService.save(this.user);
-        Cart cart = cartService.findCartByUserId(this.user);
-        cartService.addItemToCart(cart, this.product, 5);
+        userService.save(user);
+        entityManager.flush();
+        entityManager.clear();
+        productService.saveProduct(product);
+        entityManager.flush();
+        entityManager.clear();
 
-        cart = cartService.findCartByUserId(this.user);
+        Cart cart = cartService.findCartByUserId(userService.findByUsername("javiles"));
 
-        List<CartItem> cartItem = cart.getCartItem();
-        cartService.removeItemFromCart(cart.getCartItem().get(0));
+        cartService.addItemToCart(cart, productService.findProductByName("Pizza"), 5);
+        entityManager.flush();
+        entityManager.clear();
 
-        cart = cartService.findCartByUserId(this.user);
-        assertEquals(0, cart.getCartItem().size());
+        Cart fetchedcart = cartService.findCartByUserId(userService.findByUsername("javiles"));
+
+        List<CartItem> cartItem = fetchedcart.getCartItem();
+        cartService.removeItemFromCart(cartItem.get(0));
+        entityManager.flush();
+        entityManager.clear();
+
+        Cart cart2 = cartService.findCartByUserId(user);
+        assertEquals(0, cart2.getCartItem().size());
     }
 
 }
