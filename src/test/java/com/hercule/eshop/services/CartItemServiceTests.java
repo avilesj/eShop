@@ -65,7 +65,8 @@ public class CartItemServiceTests
         cartItem.setProduct(this.product);
         cartItemService.saveCartItem(cartItem);
 
-        List<CartItem> cartItems = cartItemService.getAllItemsFromCart(cart);
+        Cart dbCart = cartService.findCartByUserId(this.user);
+        List<CartItem> cartItems = cartItemService.getAllItemsFromCart(dbCart);
 
         assertNotNull(cartItems);
     }

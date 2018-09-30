@@ -4,7 +4,6 @@ import com.hercule.eshop.models.Cart;
 import com.hercule.eshop.models.CartItem;
 import com.hercule.eshop.models.Product;
 import com.hercule.eshop.models.User;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,12 +53,6 @@ public class CartServiceTests
         this.product.setName("Pizza");
         this.product.setDescription("True Napolitan Pizza");
         this.product.setPrice(8.00);
-    }
-
-    @After
-    public void terminate()
-    {
-
     }
 
     @Test
