@@ -22,7 +22,7 @@ public class CartServiceImpl implements CartService
     }
 
     @Override
-    public void addItemToCart(Cart cart, Product product, int amount)
+    public void addItemToCart(Cart cart, Product product, long amount)
     {
         CartItem cartItem = new CartItem();
         cartItem.setCart(cart);

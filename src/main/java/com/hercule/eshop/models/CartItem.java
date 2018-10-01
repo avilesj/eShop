@@ -21,7 +21,7 @@ public class CartItem
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private int quantity;
+    private long quantity;
 
     public long getId()
     {
@@ -64,12 +64,12 @@ public class CartItem
         this.product = product;
     }
 
-    public int getQuantity()
+    public long getQuantity()
     {
-        return quantity;
+        return this.quantity;
     }
 
-    public void setQuantity(int quantity)
+    public void setQuantity(long quantity)
     {
         this.quantity = quantity;
     }

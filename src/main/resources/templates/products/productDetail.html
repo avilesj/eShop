@@ -4,9 +4,18 @@
 <div th:replace="layout :: mainLayout"></div>
 <div>
     <div>
-        <div th:text="${product.id}"></div>
-        <div th:text="${product.name}"></div>
-        <div th:text="${#numbers.formatDecimal(product.price,0,2)}"></div>
-        <div th:text="${product.description}"></div>
+        <form role="form" th:action="@{/Cart/add/{id}?amt={amount}(id = ${product.id}, amount = ${amount})}"
+              method="POST"
+              th:object="${product}">
+            <div class="form-group">
+                <div th:text="${product.id}" th:field="${product.id}"></div>
+                <div th:text="${product.name}"></div>
+                <div th:text="${#numbers.formatDecimal(product.price,0,2)}"></div>
+                <div th:text="${product.description}"></div>
+                <label>Amount</label><input type="text" class="form-control" th:id="${amount}"
+                                            placeholder="Amount"/>
+                <button type="submit" class="btn btn-success">Add to Cart</button>
+            </div>
+        </form>
     </div>
 </div>

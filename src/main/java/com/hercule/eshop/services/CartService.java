@@ -9,7 +9,7 @@ public interface CartService
 {
     void saveCart(Cart cart);
 
-    void addItemToCart(Cart cart, Product product, int amount);
+    void addItemToCart(Cart cart, Product product, long amount);
 
     void removeItemFromCart(CartItem cartItem);
 
