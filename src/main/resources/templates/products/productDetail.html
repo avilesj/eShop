@@ -4,7 +4,7 @@
 <div th:replace="layout :: mainLayout"></div>
 <div>
     <div>
-        <form role="form" th:action="@{/Cart/add/{id}(id = ${product.id})}"
+        <form role="form" th:action="@{/cart/add/{id}(id = ${product.id})}"
               method="POST"
               th:object="${cartItem}">
             <div class="form-group">

@@ -18,7 +18,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/Cart")
+@RequestMapping("/cart")
 public class CartController
 {
     @Autowired
@@ -56,6 +56,6 @@ public class CartController
         cartItem.setCart(cartService.findCartByUserId(user));
         cartItem.setProduct(product);
         cartService.addItemToCart(cartItem);
-        return "redirect:/Cart";
+        return "redirect:/cart/";
     }
 }
