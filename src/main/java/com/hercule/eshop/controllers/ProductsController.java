@@ -1,5 +1,6 @@
 package com.hercule.eshop.controllers;
 
+import com.hercule.eshop.models.CartItem;
 import com.hercule.eshop.models.Product;
 import com.hercule.eshop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class ProductsController
     {
         Product product = productService.findProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("cartItem", new CartItem());
 
         return "products/productDetail";
     }

@@ -40,6 +40,7 @@ public class CartServiceTests
 
     private User user;
     private Product product;
+    private CartItem cartItem;
 
 
     @Before
@@ -53,6 +54,8 @@ public class CartServiceTests
         this.product.setName("Pizza");
         this.product.setDescription("True Napolitan Pizza");
         this.product.setPrice(8.00);
+
+        this.cartItem = new CartItem();
     }
 
     @Test
@@ -78,9 +81,11 @@ public class CartServiceTests
 
         int AMOUNT = 2;
 
-        Cart cart = cartService.findCartByUserId(userService.findByUsername("javiles"));
 
-        cartService.addItemToCart(cart, productService.findProductByName("Pizza"), AMOUNT);
+        this.cartItem.setCart(cartService.findCartByUserId(userService.findByUsername("javiles")));
+        this.cartItem.setQuantity(AMOUNT);
+        this.cartItem.setProduct(this.product);
+        cartService.addItemToCart(this.cartItem);
         entityManager.flush();
         entityManager.clear();
         Cart cart2 = cartService.findCartByUserId(userService.findByUsername("javiles"));
@@ -97,9 +102,10 @@ public class CartServiceTests
         entityManager.flush();
         entityManager.clear();
 
-        Cart cart = cartService.findCartByUserId(userService.findByUsername("javiles"));
-
-        cartService.addItemToCart(cart, productService.findProductByName("Pizza"), 5);
+        this.cartItem.setCart(cartService.findCartByUserId(userService.findByUsername("javiles")));
+        this.cartItem.setQuantity(5);
+        this.cartItem.setProduct(this.product);
+        cartService.addItemToCart(this.cartItem);
         entityManager.flush();
         entityManager.clear();
 
