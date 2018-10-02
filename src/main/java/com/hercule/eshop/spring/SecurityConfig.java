@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
 
     @Autowired
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder()
@@ -53,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .authorizeRequests().antMatchers("/products/(edit|new|delete)").hasRole("ADMIN")
                 .and()
                 .authorizeRequests().antMatchers("/products*").hasRole("ADMIN")
+                .and()
+                .authorizeRequests().antMatchers("/Cart*").hasAnyRole()
                 .and()
                 .authorizeRequests().antMatchers("/products/search/*").permitAll()
                 .and()
