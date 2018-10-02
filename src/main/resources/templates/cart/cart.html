@@ -10,7 +10,6 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
@@ -18,7 +17,6 @@
             </thead>
             <tbody>
             <tr scope="row" th:each="cartItem : ${allCartItems}">
-                <td th:text="${cartItem.product.id}"></td>
                 <td><a th:href="@{~/products/{id}(id=${cartItem.product.id})}"
                        th:text="${cartItem.product.name}">yes</a></td>
 
