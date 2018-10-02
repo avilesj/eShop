@@ -20,9 +20,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr scope="row" th:each="product : ${allProducts}" th:href="@{~/products/edit/{id}(id=${product.id})}">
-                <td th:text="${{product.id}}">1</td>
-                <td th:text="${product.name}">yes</td>
+            <tr scope="row" th:each="product : ${allProducts}">
+                <td th:text="${{product.id}}"></td>
+                <td><a th:href="@{~/products/{id}(id=${product.id})}" th:text="${product.name}">yes</a></td>
                 <td th:text="${product.description}">Wireframe</td>
                 <td th:text="${product.price}">10.00</td>
                 <td>
