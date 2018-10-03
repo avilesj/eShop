@@ -22,6 +22,10 @@
 
                 <td th:text="${cartItem.product.price}">10.00</td>
                 <td th:text="${cartItem.quantity}"></td>
+                <td>
+                    <a type="button" class="btn btn-danger"
+                       th:href="@{/cart/delete/{id}(id=${cartItem.id})}">Delete</a>
+                </td>
             </tr>
             </tbody>
         </table>

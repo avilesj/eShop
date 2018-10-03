@@ -112,7 +112,7 @@ public class CartServiceTests
         Cart fetchedcart = cartService.findCartByUserId(userService.findByUsername("javiles"));
 
         List<CartItem> cartItem = fetchedcart.getCartItem();
-        cartService.removeItemFromCart(cartItem.get(0));
+        cartService.removeItemFromCart(fetchedcart, cartItem.get(0));
         entityManager.flush();
         entityManager.clear();
 

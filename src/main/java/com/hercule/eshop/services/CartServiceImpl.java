@@ -6,6 +6,8 @@ import com.hercule.eshop.models.User;
 import com.hercule.eshop.repositories.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class CartServiceImpl implements CartService
 {
     @Autowired
@@ -27,9 +29,17 @@ public class CartServiceImpl implements CartService
     }
 
     @Override
-    public void removeItemFromCart(CartItem cartItem)
+    public void removeItemFromCart(Cart cart, CartItem cartItem)
     {
-        cartItemService.deleteCartItem(cartItem);
+        boolean cartItemBelongsToCart;
+
+        List<CartItem> items = cart.getCartItem();
+        cartItemBelongsToCart = items.stream().filter(i -> i.getId() == cartItem.getId()).findFirst().isPresent();
+
+        if (cartItemBelongsToCart)
+        {
+            cartItemService.deleteCartItem(cartItem);
+        }
     }
 
     @Override

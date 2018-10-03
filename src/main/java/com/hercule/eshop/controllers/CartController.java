@@ -48,7 +48,7 @@ public class CartController
     {
         if (principal == null)
         {
-            return "/";
+            return "redirect:/";
         }
 
         User user = userService.findByUsername(principal.getName());
@@ -56,6 +56,21 @@ public class CartController
         cartItem.setCart(cartService.findCartByUserId(user));
         cartItem.setProduct(product);
         cartService.addItemToCart(cartItem);
+        return "redirect:/cart/";
+    }
+
+    @RequestMapping(value = "/delete/{id}")
+    public String removeProductFromCart(@PathVariable("id") long id, Principal principal, @ModelAttribute("cartItem") CartItem cartItem)
+    {
+        if (principal == null)
+        {
+            return "redirect:/";
+        }
+
+
+        User user = userService.findByUsername(principal.getName());
+        Cart cart = cartService.findCartByUserId(user);
+        cartService.removeItemFromCart(cart, cartItem);
         return "redirect:/cart/";
     }
 }

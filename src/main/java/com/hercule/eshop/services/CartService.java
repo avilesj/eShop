@@ -10,7 +10,7 @@ public interface CartService
 
     void addItemToCart(CartItem cartItem);
 
-    void removeItemFromCart(CartItem cartItem);
+    void removeItemFromCart(Cart cart, CartItem cartItem);
 
     Cart findCartByUserId(User user);
 
