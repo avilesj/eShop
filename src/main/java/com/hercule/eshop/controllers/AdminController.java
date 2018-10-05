@@ -13,4 +13,10 @@ public class AdminController
     {
         return "admin/adminIndex";
     }
+
+    @RequestMapping("/users")
+    public String getUserDashboard()
+    {
+        return "admin/adminUserDashboard";
+    }
 }
