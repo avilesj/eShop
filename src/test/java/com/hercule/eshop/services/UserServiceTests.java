@@ -10,8 +10,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,6 +41,22 @@ public class UserServiceTests
         userService.save(user);
         User dbUser = userService.findByUsername(this.user.getUsername());
         assertEquals(this.user.getUsername(), dbUser.getUsername());
+    }
+
+    @Test
+    public void findsForUsersByUsername()
+    {
+        User dbUser = new User();
+        dbUser.setUsername("j_aviles");
+        dbUser.setPassword("321321");
+
+        userService.save(user);
+        userService.save(dbUser);
+
+        List<User> userSearchResult = userService.searchUserByUsername("aviles");
+
+        assertNotNull(userSearchResult);
+        assertEquals(2, userSearchResult.size());
     }
 
 

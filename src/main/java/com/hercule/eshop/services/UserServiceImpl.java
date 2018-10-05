@@ -7,6 +7,8 @@ import com.hercule.eshop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
+
 
 public class UserServiceImpl implements UserService
 {
@@ -45,4 +47,9 @@ public class UserServiceImpl implements UserService
         return userRepository.findByUsername(username);
     }
 
+    @Override
+    public List<User> searchUserByUsername(String name)
+    {
+        return userRepository.findByUsernameContaining(name);
+    }
 }
