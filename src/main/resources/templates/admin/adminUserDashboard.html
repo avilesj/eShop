@@ -14,14 +14,31 @@
             Users Dashboard
         </h1>
 
-        <form class="form-inline my-2 my-lg-0 w-50 mx-auto" th:action="@{/admin/user}">
+        <form class="form-inline my-2 my-lg-0 w-50 mx-auto" th:action="@{/admin/user/search}">
             <div class="form-group">
                 <label for="userSearch" class="col-sm-2 col-form-label">Search by Username</label>
-                <input id="searchBar" class="form-control"
+                <input id="userSearch" class="form-control" th:name="userSearch"
                        placeholder="Search" aria-label="Search" type="text">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="userSearch">Search</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </div>
         </form>
+
+        <div th:unless="${#lists.isEmpty(foundUsers)}">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Username</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr scope="row" th:each="user : ${foundUsers}" th:href="@{~/}">
+                    <td th:text="${user.id}">1</td>
+                    <td th:text="${user.username}">yes</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
 
     </div>
