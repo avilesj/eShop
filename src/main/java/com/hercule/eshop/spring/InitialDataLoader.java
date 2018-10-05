@@ -48,6 +48,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         }
 
         createRoleIfNotFound("ROLE_ADMIN");
+        createRoleIfNotFound("ROLE_USER");
 
         User user = userService.findByUsername(ADMIN_USERNAME);
         if (user == null)

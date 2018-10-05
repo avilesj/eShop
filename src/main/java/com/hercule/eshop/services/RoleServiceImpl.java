@@ -26,4 +26,16 @@ public class RoleServiceImpl implements RoleService
         return new HashSet<Role>(roleRepository.findAll());
     }
 
+    @Override
+    public Role findRoleByName(String name)
+    {
+        return roleRepository.findByName(name);
+    }
+
+    @Override
+    public void deleteRole(Role role)
+    {
+        roleRepository.delete(role);
+    }
+
 }

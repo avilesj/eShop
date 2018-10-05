@@ -6,8 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -19,15 +17,11 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("dev")
-public class UserDetailsServiceTests
+public class UserServiceTests
 {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private RoleService roleService;
 
     private User user;
 
@@ -37,15 +31,14 @@ public class UserDetailsServiceTests
         user = new User();
         user.setUsername("javiles");
         user.setPassword("321321");
-        user.setRoles(roleService.getAllRoles());
-        userService.save(user);
     }
 
     @Test
-    public void loadsUser()
+    public void createsUserAndFindsItByUsername()
     {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-        assertEquals(user.getUsername(), userDetails.getUsername());
+        userService.save(user);
+        User dbUser = userService.findByUsername(this.user.getUsername());
+        assertEquals(this.user.getUsername(), dbUser.getUsername());
     }
 
 

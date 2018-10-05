@@ -7,8 +7,6 @@ import com.hercule.eshop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.HashSet;
-
 
 public class UserServiceImpl implements UserService
 {
@@ -31,7 +29,7 @@ public class UserServiceImpl implements UserService
 
         user.setUsername(user.getUsername().toLowerCase());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roleRepository.findAll()));
+        //user.setRoles(new HashSet<>(roleRepository.findAll()));
         userRepository.save(user);
 
         Cart userCart = new Cart();

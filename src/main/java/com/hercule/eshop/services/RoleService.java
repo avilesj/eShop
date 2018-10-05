@@ -11,4 +11,8 @@ public interface RoleService
 
     HashSet<Role> getAllRoles();
 
+    Role findRoleByName(String name);
+
+    void deleteRole(Role role);
+
 }

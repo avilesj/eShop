@@ -1,6 +1,8 @@
 package com.hercule.eshop.controllers;
 
+import com.hercule.eshop.models.Role;
 import com.hercule.eshop.models.User;
+import com.hercule.eshop.services.RoleService;
 import com.hercule.eshop.services.SecurityService;
 import com.hercule.eshop.services.UserService;
 import com.hercule.eshop.spring.UserValidator;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.HashSet;
 
 @Controller
 public class UserController
@@ -31,6 +34,9 @@ public class UserController
 
     @Autowired
     UserValidator userValidator;
+
+    @Autowired
+    RoleService roleService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model)
@@ -48,7 +54,10 @@ public class UserController
         {
             return "users/registration";
         }
-
+        Role role = roleService.findRoleByName("ROLE_USER");
+        HashSet<Role> roles = new HashSet<>();
+        roles.add(role);
+        userForm.setRoles(roles);
         userService.save(userForm);
         securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
         return "redirect:/";

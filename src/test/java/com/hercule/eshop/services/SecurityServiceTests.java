@@ -27,8 +27,12 @@ public class SecurityServiceTests
     @Autowired
     SecurityService securityService;
 
+    @Autowired
+    RoleService roleService;
+
     User user;
     User loginUser;
+
 
     @Before
     public void initialize()
@@ -36,6 +40,7 @@ public class SecurityServiceTests
         user = new User();
         user.setUsername("javiles");
         user.setPassword("321321");
+        user.setRoles(roleService.getAllRoles());
         userService.save(user);
     }
 
