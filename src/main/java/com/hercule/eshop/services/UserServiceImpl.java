@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService
 
         user.setUsername(user.getUsername().toLowerCase());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        //user.setRoles(new HashSet<>(roleRepository.findAll()));
         userRepository.save(user);
 
         Cart userCart = new Cart();
