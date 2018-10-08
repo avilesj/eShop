@@ -49,7 +49,7 @@ public class ProductsControllerTests
     @WithMockUser(roles = {"ADMIN"})
     public void rendersProductsPage() throws Exception
     {
-        this.mockMvc.perform(get("/products")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Products")));
+        this.mockMvc.perform(get("/products/")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("Products")));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class ProductsControllerTests
         /*
             Localhost is hardcoded for now since the redirect made from the Spring Security config is done with full context path
          */
-        this.mockMvc.perform(get("/products")).andExpect(redirectedUrl("http://localhost/login")).andExpect(status().is3xxRedirection());
+        this.mockMvc.perform(get("/products/")).andExpect(redirectedUrl("http://localhost/login")).andExpect(status().is3xxRedirection());
     }
 
     @Test

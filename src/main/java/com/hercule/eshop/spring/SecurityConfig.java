@@ -50,15 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/products/(edit|new|delete)").hasRole("ADMIN")
+                .authorizeRequests().antMatchers("/products/{(edit|new|delete)}/**").hasRole("ADMIN")
                 .and()
-                .authorizeRequests().antMatchers("/products*").hasRole("ADMIN")
+                .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
-                .authorizeRequests().antMatchers("/admin*").hasRole("ADMIN")
-                .and()
-                .authorizeRequests().antMatchers("/cart*").hasAnyRole()
-                .and()
-                .authorizeRequests().antMatchers("/products/search/*").permitAll()
+                .authorizeRequests().antMatchers("/cart/**").authenticated()
                 .and()
                 .csrf().disable();
     }
