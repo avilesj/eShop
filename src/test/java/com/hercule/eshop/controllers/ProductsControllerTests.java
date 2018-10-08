@@ -83,7 +83,7 @@ public class ProductsControllerTests
         /*
             Localhost is hardcoded for now since the redirect made from the Spring Security config is done with full context path
          */
-        this.mockMvc.perform(get("/products/")).andExpect(redirectedUrl("http://localhost/login")).andExpect(status().is3xxRedirection());
+        this.mockMvc.perform(get("/products/new")).andExpect(redirectedUrl("http://localhost/login")).andExpect(status().is3xxRedirection());
     }
 
     @Test
