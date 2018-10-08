@@ -25,6 +25,12 @@ public class CartItemServiceImpl implements CartItemService
     }
 
     @Override
+    public void purgeCartItems(Cart cart)
+    {
+        cartItemRepository.deleteByCart(cart);
+    }
+
+    @Override
     public List<CartItem> getAllItemsFromCart(Cart cart)
     {
         return cartItemRepository.findByCart(cart);

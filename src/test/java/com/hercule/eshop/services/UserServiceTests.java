@@ -12,8 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -57,6 +56,30 @@ public class UserServiceTests
 
         assertNotNull(userSearchResult);
         assertEquals(2, userSearchResult.size());
+    }
+
+    @Test
+    public void findsOneById()
+    {
+        userService.save(user);
+
+        User dbUser = userService.findByUserId(user.getId());
+
+        assertNotNull(dbUser);
+        assertEquals(user.getUsername(), dbUser.getUsername());
+        assertEquals(user.getId(), dbUser.getId());
+    }
+
+    @Test
+    public void deletesUser()
+    {
+        userService.save(user);
+        User dbUser = userService.findByUsername(user.getUsername());
+        userService.deleteUser(dbUser);
+
+        dbUser = userService.findByUsername(user.getUsername());
+
+        assertNull(dbUser);
     }
 
 

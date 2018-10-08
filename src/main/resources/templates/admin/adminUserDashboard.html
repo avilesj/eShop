@@ -29,12 +29,19 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Username</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr scope="row" th:each="user : ${foundUsers}" th:href="@{~/}">
                     <td th:text="${user.id}">1</td>
                     <td th:text="${user.username}">yes</td>
+                    <td>
+                        <a type="button" class="btn btn-info"
+                           th:href="@{~/admin/user/edit/{id}(id=${user.id})}">Edit</a>
+                        <a type="button" class="btn btn-danger"
+                           th:href="@{~/admin/user/delete/{id}(id=${user.id})}">Delete</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

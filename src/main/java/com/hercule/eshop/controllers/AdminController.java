@@ -6,6 +6,7 @@ import com.hercule.eshop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,6 +36,22 @@ public class AdminController
     {
         List<User> foundUsers = userService.searchUserByUsername(username);
         model.addAttribute("foundUsers", foundUsers);
+        return "admin/adminUserDashboard";
+    }
+
+    @RequestMapping("/user/edit/{id}")
+    public String editUser(Model model, @PathVariable("id") long id)
+    {
+        User user = userService.findByUserId(id);
+        model.addAttribute("user", user);
+        return "admin/adminUserDetail";
+    }
+
+    @RequestMapping("/user/delete/{id}")
+    public String deleteUser(Model model, @PathVariable("id") long id)
+    {
+        User user = userService.findByUserId(id);
+        userService.deleteUser(user);
         return "admin/adminUserDashboard";
     }
 

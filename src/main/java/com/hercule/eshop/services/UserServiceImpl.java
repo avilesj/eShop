@@ -48,8 +48,24 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
+    public User findByUserId(long id)
+    {
+        return userRepository.findOneById(id);
+    }
+
+    @Override
+    public void deleteUser(User user)
+    {
+        Cart cart = cartService.findCartByUserId(user);
+        cartService.deleteCart(cart);
+        userRepository.delete(user);
+    }
+
+    @Override
     public List<User> searchUserByUsername(String name)
     {
         return userRepository.findByUsernameContaining(name);
     }
+
+
 }

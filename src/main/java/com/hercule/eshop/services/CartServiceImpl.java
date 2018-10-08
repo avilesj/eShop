@@ -43,6 +43,13 @@ public class CartServiceImpl implements CartService
     }
 
     @Override
+    public void deleteCart(Cart cart)
+    {
+        cartItemService.purgeCartItems(cart);
+        cartRepository.delete(cart);
+    }
+
+    @Override
     public Cart findCartByUserId(User user)
     {
         return cartRepository.findByUserId(user.getId());

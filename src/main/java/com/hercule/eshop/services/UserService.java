@@ -10,5 +10,9 @@ public interface UserService
 
     User findByUsername(String username);
 
+    User findByUserId(long id);
+
+    void deleteUser(User user);
+
     List<User> searchUserByUsername(String name);
 }
