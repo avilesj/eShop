@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,7 +47,7 @@ public class UserController
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult)
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, SecurityContextHolderAwareRequestWrapper request)
     {
         userValidator.validate(userForm, bindingResult);
 
@@ -54,6 +55,13 @@ public class UserController
         {
             return "users/registration";
         }
+
+        if (request.isUserInRole("ADMIN"))
+        {
+            userService.save(userForm);
+            return "redirect:/admin/user";
+        }
+
         Role role = roleService.findRoleByName("ROLE_USER");
         HashSet<Role> roles = new HashSet<>();
         roles.add(role);
