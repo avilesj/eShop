@@ -57,7 +57,7 @@ public class User
         this.passwordConfirm = passwordConfirm;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public Set<Role> getRoles()
     {

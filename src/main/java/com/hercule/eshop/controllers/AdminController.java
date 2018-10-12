@@ -58,7 +58,9 @@ public class AdminController
     public String editUser(Model model, @PathVariable("id") long id)
     {
         User user = userService.findByUserId(id);
+        HashSet<Role> foundRoles = roleService.getAllRoles();
         model.addAttribute("user", user);
+        model.addAttribute("userRoles", foundRoles);
         return "admin/adminUserDetail";
     }
 
