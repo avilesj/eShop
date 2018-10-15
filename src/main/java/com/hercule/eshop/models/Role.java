@@ -1,6 +1,7 @@
 package com.hercule.eshop.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -42,5 +43,25 @@ public class Role
     public void setUsers(Set<User> users)
     {
         this.users = users;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.name);
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o == this) return true;
+        if (!(o instanceof Role))
+        {
+            return false;
+        }
+
+        Role role = (Role) o;
+
+        return role.getName().equals(this.name);
     }
 }

@@ -33,9 +33,10 @@
                                                          th:field="${user.passwordConfirm}" class="form-control"
                                                          placeholder="Password Confirm"/>
 
-                <select class="form-control" th:field="*{roles}" multiple="multiple">
+                <select class="form-control" multiple="multiple">
                     <option th:each="role : ${userRoles}"
-                            th:value="*{{roles}}"
+                            th:value="${role.id}"
+                            th:selected="${#sets.contains(user.roles, role)}"
                             th:text="${role.name}">Role name
                     </option>
                 </select>
