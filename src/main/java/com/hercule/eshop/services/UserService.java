@@ -15,4 +15,6 @@ public interface UserService
     void deleteUser(User user);
 
     List<User> searchUserByUsername(String name);
+
+    void updateUser(User user);
 }

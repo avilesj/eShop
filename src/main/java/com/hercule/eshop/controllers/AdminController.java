@@ -59,7 +59,7 @@ public class AdminController
     {
         User user = userService.findByUserId(id);
         HashSet<Role> foundRoles = roleService.getAllRoles();
-        model.addAttribute("user", user);
+        model.addAttribute("userForm", user);
         model.addAttribute("userRoles", foundRoles);
         return "admin/adminUserEdit";
     }

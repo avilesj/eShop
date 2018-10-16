@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService
     @Override
     public void save(User user)
     {
-
         user.setUsername(user.getUsername().toLowerCase());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -36,9 +35,6 @@ public class UserServiceImpl implements UserService
         Cart userCart = new Cart();
         userCart.setUser(user);
         cartService.saveCart(userCart);
-
-
-
     }
 
     @Override
@@ -65,6 +61,21 @@ public class UserServiceImpl implements UserService
     public List<User> searchUserByUsername(String name)
     {
         return userRepository.findByUsernameContaining(name.toLowerCase());
+    }
+
+    @Override
+    public void updateUser(User user)
+    {
+        user.setUsername(user.getUsername().toLowerCase());
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+        User dbUser = findByUserId(user.getId());
+        dbUser.setUsername(user.getUsername());
+        dbUser.setPassword(user.getPassword());
+        dbUser.setRoles(user.getRoles());
+
+        userRepository.save(dbUser);
+
     }
 
 

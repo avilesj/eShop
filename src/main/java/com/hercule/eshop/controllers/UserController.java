@@ -71,6 +71,30 @@ public class UserController
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String updateUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, SecurityContextHolderAwareRequestWrapper request)
+    {
+        userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors())
+        {
+            return "users/registration";
+        }
+
+        if (request.isUserInRole("ADMIN"))
+        {
+            userService.updateUser(userForm);
+            return "redirect:/admin/user";
+        }
+
+        Role role = roleService.findRoleByName("ROLE_USER");
+        HashSet<Role> roles = new HashSet<>();
+        roles.add(role);
+        userForm.setRoles(roles);
+        userService.updateUser(userForm);
+        return "redirect:/";
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(HttpServletRequest request)
     {
