@@ -61,7 +61,7 @@ public class AdminController
         HashSet<Role> foundRoles = roleService.getAllRoles();
         model.addAttribute("user", user);
         model.addAttribute("userRoles", foundRoles);
-        return "admin/adminUserDetail";
+        return "admin/adminUserEdit";
     }
 
     @RequestMapping("/user/delete/{id}")
