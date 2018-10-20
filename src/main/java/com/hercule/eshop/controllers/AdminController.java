@@ -1,8 +1,10 @@
 package com.hercule.eshop.controllers;
 
 
+import com.hercule.eshop.models.Product;
 import com.hercule.eshop.models.Role;
 import com.hercule.eshop.models.User;
+import com.hercule.eshop.services.ProductService;
 import com.hercule.eshop.services.RoleService;
 import com.hercule.eshop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +27,20 @@ public class AdminController
     @Autowired
     RoleService roleService;
 
+    @Autowired
+    ProductService productService;
+
     @RequestMapping("")
     public String getAdminIndex()
     {
         return "admin/adminIndex";
     }
 
+    //User section methods
     @RequestMapping("/user")
     public String getUserDashboard()
     {
-        return "admin/adminUserDashboard";
+        return "admin/user/adminUserDashboard";
     }
 
     @RequestMapping("/user/search")
@@ -42,7 +48,7 @@ public class AdminController
     {
         List<User> foundUsers = userService.searchUserByUsername(username);
         model.addAttribute("foundUsers", foundUsers);
-        return "admin/adminUserDashboard";
+        return "admin/user/adminUserDashboard";
     }
 
     @RequestMapping("/user/new")
@@ -51,7 +57,7 @@ public class AdminController
         HashSet<Role> foundRoles = roleService.getAllRoles();
         model.addAttribute("userForm", new User());
         model.addAttribute("userRoles", foundRoles);
-        return "admin/adminUserNew.html";
+        return "admin/user/adminUserNew";
     }
 
     @RequestMapping("/user/edit/{id}")
@@ -61,7 +67,38 @@ public class AdminController
         HashSet<Role> foundRoles = roleService.getAllRoles();
         model.addAttribute("userForm", user);
         model.addAttribute("userRoles", foundRoles);
-        return "admin/adminUserEdit";
+        return "admin/user/adminUserEdit";
     }
+
+    //Product section methods
+    @RequestMapping("/product")
+    public String getProductDashboard()
+    {
+        return "admin/product/adminProductDashboard";
+    }
+
+    @RequestMapping("/product/search")
+    public String searchProduct(@RequestParam("productSearch") String productName, Model model)
+    {
+        List<Product> foundProducts = productService.findProductsBySearchTerms(productName);
+        model.addAttribute("foundProducts", foundProducts);
+        return "admin/product/adminProductDashboard";
+    }
+
+    @RequestMapping("/product/new")
+    public String newProductForm(Model model)
+    {
+        model.addAttribute("productForm", new Product());
+        return "admin/product/adminProductNew";
+    }
+
+    @RequestMapping("/product/edit/{id}")
+    public String editProduct(Model model, @PathVariable("id") long id)
+    {
+        Product product = productService.findProductById(id);
+        model.addAttribute("productForm", product);
+        return "admin/product/adminProductEdit";
+    }
+
 
 }

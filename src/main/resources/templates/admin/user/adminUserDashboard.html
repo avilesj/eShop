@@ -43,9 +43,6 @@
                         <button form="deleteUserForm" class="btn btn-danger" type="submit">Delete</button>
                         <form id="deleteUserForm" th:action="@{~/delete/{id}(id=${user.id})}" method="POST">
                         </form>
-
-                        <!--<button type="button" class="btn btn-danger"-->
-                        <!--th:href="@{~/delete/{id}(id=${user.id})}" onClick="deleteUser(this.getAttribute('href'))">Delete</button>-->
                     </td>
                 </tr>
                 </tbody>
