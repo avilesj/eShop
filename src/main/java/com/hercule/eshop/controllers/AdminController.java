@@ -64,11 +64,4 @@ public class AdminController
         return "admin/adminUserEdit";
     }
 
-    @RequestMapping("/user/delete/{id}")
-    public String deleteUser(Model model, @PathVariable("id") long id)
-    {
-        User user = userService.findByUserId(id);
-        return "admin/adminUserDashboard";
-    }
-
 }
