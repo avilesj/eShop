@@ -68,7 +68,6 @@ public class AdminController
     public String deleteUser(Model model, @PathVariable("id") long id)
     {
         User user = userService.findByUserId(id);
-        userService.deleteUser(user);
         return "admin/adminUserDashboard";
     }
 

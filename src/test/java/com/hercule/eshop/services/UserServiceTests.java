@@ -75,7 +75,7 @@ public class UserServiceTests
     {
         userService.save(user);
         User dbUser = userService.findByUsername(user.getUsername());
-        userService.deleteUser(dbUser);
+        userService.deleteUserById(dbUser.getId());
 
         dbUser = userService.findByUsername(user.getUsername());
 

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -128,5 +129,27 @@ public class UserController
         }
 
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String deleteUser(@PathVariable("id") long id, SecurityContextHolderAwareRequestWrapper request)
+    {
+        if (request.isUserInRole("ADMIN"))
+        {
+            userService.deleteUserById(id);
+            return "redirect:/admin/user";
+        }
+
+        User user = userService.findByUserId(id);
+        String username = request.getUserPrincipal().getName();
+        if (user.getUsername().equals(username))
+        {
+            userService.deleteUserById(id);
+        } else
+        {
+            return "redirect:/";
+        }
+
+        return "redirect:/logout";
     }
 }

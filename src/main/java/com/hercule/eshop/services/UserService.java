@@ -12,7 +12,7 @@ public interface UserService
 
     User findByUserId(long id);
 
-    void deleteUser(User user);
+    void deleteUserById(long id);
 
     List<User> searchUserByUsername(String name);
 

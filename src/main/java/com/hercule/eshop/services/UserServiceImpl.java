@@ -50,8 +50,9 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void deleteUser(User user)
+    public void deleteUserById(long id)
     {
+        User user = findByUserId(id);
         Cart cart = cartService.findCartByUserId(user);
         cartService.deleteCart(cart);
         userRepository.delete(user);
