@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/adminLayoutHeader :: adminLayoutHeader">
 </head>
 <body>
+<div class="row" id="body-row">
+    <div th:replace="admin/adminLayoutBody :: adminLayoutBody">
+
+    </div>
+    <!-- MAIN -->
+    <div class="col py-3">
+        <h1>
+            Edit Product
+        </h1>
+
+        <form role="form" th:action="@{/admin/product/edit/{id}(id=productForm.id)}" method="POST"
+              th:object="${productForm}">
+            <div class="form-group">
+                <label>Id: </label> <input class="form-control" type="hidden" th:field="${productForm.id}"/>
+                <label>Name: </label> <input class="form-control" type="text" th:field="${productForm.name}"/>
+                <label>Price: </label> <input class="form-control" type="text" th:field="${productForm.price}"/>
+                <label>Description: </label> <input type="text"
+                                                    th:field="${productForm.description}" class="form-control"/>
+                <button type="submit" class="btn btn-success">Edit Product</button>
+            </div>
+        </form>
+        <div>
+            <a type="button" class="btn btn-outline-primary" th:href="@{/admin/product/}">Cancel</a>
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>

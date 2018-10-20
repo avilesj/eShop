@@ -32,6 +32,12 @@ public class ProductServiceImpl implements ProductService
     public void updateProduct(Product product)
     {
         product.setName(product.getName().toLowerCase());
+
+        Product dbProduct = productRepository.findById(product.getId());
+        dbProduct.setName(product.getName());
+        dbProduct.setPrice(product.getPrice());
+        dbProduct.setDescription(product.getDescription());
+
         productRepository.save(product);
     }
 

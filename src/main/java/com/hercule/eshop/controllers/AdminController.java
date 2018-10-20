@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashSet;
@@ -99,6 +100,30 @@ public class AdminController
         model.addAttribute("productForm", product);
         return "admin/product/adminProductEdit";
     }
+
+
+    @RequestMapping(value = {"/product/save"}, method = RequestMethod.POST)
+    public String saveProduct(final Product product, Model model)
+    {
+        productService.saveProduct(product);
+        model.addAttribute("productForm", product);
+        return "redirect:/admin/product/edit/" + product.getId();
+    }
+
+    @RequestMapping(value = {"/product/edit/{id}"}, method = RequestMethod.POST)
+    public String saveEditedProduct(final Product product, Model model)
+    {
+        productService.updateProduct(product);
+        return "redirect:/admin/product/";
+    }
+
+    @RequestMapping(value = "/product/delete/{id}", method = RequestMethod.POST)
+    public String deleteProduct(Model model, @PathVariable("id") long id)
+    {
+        productService.deleteProduct(id);
+        return "admin/product/adminProductDashboard";
+    }
+
 
 
 }
