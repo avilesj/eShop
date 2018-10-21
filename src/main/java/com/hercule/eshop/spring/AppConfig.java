@@ -49,13 +49,13 @@ public class AppConfig
     }
 
     @Bean
-    CartService cartService()
+    public CartService cartService()
     {
         return new CartServiceImpl();
     }
 
     @Bean
-    CartItemService cartItemService()
+    public CartItemService cartItemService()
     {
         return new CartItemServiceImpl();
     }

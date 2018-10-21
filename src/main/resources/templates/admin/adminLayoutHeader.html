@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:fragment="adminLayoutHeader">
+    <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
           th:ref="@{/css/bootstrap.css}"/>
     <link href="/css/admin.css" rel="stylesheet" type="text/css"
           th:ref="@{/css/admin.css}"/>
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <link href="/css/payment.css" rel="stylesheet" type="text/css"
+          th:ref="@{/css/payment.css}"/>
     <meta charset="UTF-8">
     <title>Admin Panel</title>
 </head>
@@ -14,3 +18,4 @@
 
 </body>
 </html>
+
