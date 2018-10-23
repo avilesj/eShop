@@ -4,6 +4,7 @@ import com.hercule.eshop.models.Cart;
 import com.hercule.eshop.models.User;
 import com.hercule.eshop.repositories.RoleRepository;
 import com.hercule.eshop.repositories.UserRepository;
+import com.hercule.eshop.stripe.services.StripeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private StripeService stripeService;
 
     @Override
     public void save(User user)
@@ -55,6 +59,8 @@ public class UserServiceImpl implements UserService
         User user = findByUserId(id);
         Cart cart = cartService.findCartByUserId(user);
         cartService.deleteCart(cart);
+
+        stripeService.deleteCustomer(user);
         userRepository.delete(user);
     }
 

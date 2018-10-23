@@ -18,6 +18,7 @@ public class StripeCustomer
     private User user;
     private LocalDateTime createdOn;
     private String customerId;
+    @OneToMany(mappedBy = "stripeCustomer", fetch = FetchType.EAGER, cascade = CascadeType.DETACH, orphanRemoval = true)
     private Set<StripeCustomerCard> stripeCustomerCards;
 
     @PrePersist
@@ -56,7 +57,6 @@ public class StripeCustomer
         this.createdOn = createdOn;
     }
 
-    @OneToMany(fetch = FetchType.EAGER)
     public Set<StripeCustomerCard> getStripeCustomerCards()
     {
         return stripeCustomerCards;

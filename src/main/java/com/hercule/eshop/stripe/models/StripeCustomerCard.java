@@ -11,7 +11,7 @@ public class StripeCustomerCard
     @Id
     @GeneratedValue
     private long id;
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "stripe_customer_id")
     private StripeCustomer stripeCustomer;
     private LocalDateTime createdOn;

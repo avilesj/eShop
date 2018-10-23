@@ -8,4 +8,6 @@ public interface StripeService
     public void makePayment(String token) throws StripeException;
 
     public void addNewCustomer(String token, User user) throws StripeException;
+
+    void deleteCustomer(User user);
 }

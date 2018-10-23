@@ -12,4 +12,8 @@ public interface StripeCustomerService
     public StripeCustomer getStripeCustomerByUserId(long id);
 
     public StripeCustomer getStripeCustomerByToken(String token);
+
+    void addCardToCustomer(StripeCustomer stripeCustomer, String token, String lastFour);
+
+    void deleteStripeCustomer(StripeCustomer stripeCustomer);
 }
