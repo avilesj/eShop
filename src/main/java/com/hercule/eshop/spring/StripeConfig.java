@@ -2,10 +2,7 @@ package com.hercule.eshop.spring;
 
 import com.hercule.eshop.stripe.StripeProperties;
 import com.hercule.eshop.stripe.repositories.StripeRepository;
-import com.hercule.eshop.stripe.services.StripeCustomerService;
-import com.hercule.eshop.stripe.services.StripeCustomerServiceImpl;
-import com.hercule.eshop.stripe.services.StripeService;
-import com.hercule.eshop.stripe.services.StripeServiceImpl;
+import com.hercule.eshop.stripe.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +40,12 @@ public class StripeConfig
     public StripeService stripeService()
     {
         return new StripeServiceImpl();
+    }
+
+    @Bean
+    public StripeCustomerCardService stripeCustomerCardService()
+    {
+        return new StripeCustomerCardServiceImpl();
     }
 
 

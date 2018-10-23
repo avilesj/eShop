@@ -4,6 +4,7 @@ import com.hercule.eshop.models.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "StripeCustomer")
@@ -17,7 +18,7 @@ public class StripeCustomer
     private User user;
     private LocalDateTime createdOn;
     private String customerId;
-
+    private Set<StripeCustomerCard> stripeCustomerCards;
 
     @PrePersist
     public void setDateTimeOnCreate()
@@ -53,6 +54,17 @@ public class StripeCustomer
     public void setCreatedOn(LocalDateTime createdOn)
     {
         this.createdOn = createdOn;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER)
+    public Set<StripeCustomerCard> getStripeCustomerCards()
+    {
+        return stripeCustomerCards;
+    }
+
+    public void setStripeCustomerCards(Set<StripeCustomerCard> stripeCustomerCards)
+    {
+        this.stripeCustomerCards = stripeCustomerCards;
     }
 
     public String getCustomerId()
