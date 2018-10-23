@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@EnableJpaRepositories("com.hercule.eshop.repositories")
+@EnableJpaRepositories(value = {"com.hercule.eshop.repositories", "com.hercule.eshop.stripe.repositories"})
 public class ProductDatabaseApplication
 {
 

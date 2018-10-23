@@ -1,6 +1,6 @@
 package com.hercule.eshop.controllers;
 
-import com.hercule.eshop.stripe.StripeService;
+import com.hercule.eshop.stripe.services.StripeService;
 import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

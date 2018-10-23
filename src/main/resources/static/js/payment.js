@@ -60,7 +60,7 @@ form.addEventListener('submit', function(event) {
 function stripeTokenHandler(tokenString)
 {
     const Http = new XMLHttpRequest();
-    const url='http://localhost:8080/payment?token=' + tokenString.id;
+    const url=window.location.protocol+"//"+window.location.host+'/payment?token=' + tokenString.id;
     Http.open("POST", url);
     Http.send();
     Http.onreadystatechange=(e)=>{
