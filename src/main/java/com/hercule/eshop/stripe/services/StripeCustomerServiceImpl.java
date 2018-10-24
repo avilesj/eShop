@@ -10,9 +10,6 @@ public class StripeCustomerServiceImpl implements StripeCustomerService
     @Autowired
     StripeCustomerRepository stripeCustomerRepository;
 
-    @Autowired
-    StripeCustomerCardService stripeCustomerCardService;
-
     @Override
     public void saveStripeCustomer(User user, String key)
     {
@@ -42,15 +39,8 @@ public class StripeCustomerServiceImpl implements StripeCustomerService
     }
 
     @Override
-    public void addCardToCustomer(StripeCustomer stripeCustomer, String token, String lastFour)
-    {
-        stripeCustomerCardService.saveCustomerCard(stripeCustomer, token, lastFour);
-    }
-
-    @Override
     public void deleteStripeCustomer(StripeCustomer stripeCustomer)
     {
-        stripeCustomerCardService.deleteAllCustomerCards(stripeCustomer);
         stripeCustomerRepository.delete(stripeCustomer);
     }
 }

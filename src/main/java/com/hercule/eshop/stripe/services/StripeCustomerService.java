@@ -5,15 +5,13 @@ import com.hercule.eshop.stripe.models.StripeCustomer;
 
 public interface StripeCustomerService
 {
-    public void saveStripeCustomer(User user, String key);
+    void saveStripeCustomer(User user, String key);
 
-    public StripeCustomer getStripeCustomerById(long id);
+    StripeCustomer getStripeCustomerById(long id);
 
-    public StripeCustomer getStripeCustomerByUserId(long id);
+    StripeCustomer getStripeCustomerByUserId(long id);
 
-    public StripeCustomer getStripeCustomerByToken(String token);
-
-    void addCardToCustomer(StripeCustomer stripeCustomer, String token, String lastFour);
+    StripeCustomer getStripeCustomerByToken(String token);
 
     void deleteStripeCustomer(StripeCustomer stripeCustomer);
 }
