@@ -49,6 +49,6 @@ public class StripeCustomerCardServiceImpl implements StripeCustomerCardService
     @Override
     public void deleteAllCustomerCards(StripeCustomer stripeCustomer)
     {
-//        stripeCustomerCardRepository.deleteByStripeCustomerId(stripeCustomer.getId());
+        stripeCustomerCardRepository.deleteByStripeCustomerId(stripeCustomer.getId());
     }
 }

@@ -15,5 +15,5 @@ public interface StripeCustomerCardRepository extends JpaRepository<StripeCustom
 
     void deleteByToken(String token);
 
-    void deleteByStripeCustomerId(long id);
+    void deleteByStripeCustomerId(long StripeCustomerId);
 }

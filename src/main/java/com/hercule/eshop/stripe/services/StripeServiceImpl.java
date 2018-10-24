@@ -39,4 +39,10 @@ public class StripeServiceImpl implements StripeService
         stripeCustomerService.deleteStripeCustomer(stripeCustomer);
     }
 
+    @Override
+    public StripeCustomer getCustomerByUserId(long UserId)
+    {
+        return stripeCustomerService.getStripeCustomerByUserId(UserId);
+    }
+
 }
