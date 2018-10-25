@@ -3,9 +3,13 @@ package com.hercule.eshop.stripe.services;
 import com.hercule.eshop.models.User;
 import com.hercule.eshop.services.UserService;
 import com.hercule.eshop.stripe.models.StripeCustomer;
+import com.hercule.eshop.stripe.models.StripeCustomerPayment;
 import com.hercule.eshop.stripe.repositories.StripeRepository;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class StripeServiceImpl implements StripeService
 {
@@ -17,6 +21,9 @@ public class StripeServiceImpl implements StripeService
     StripeCustomerService stripeCustomerService;
 
     @Autowired
+    StripeCustomerPaymentService stripeCustomerPaymentService;
+
+    @Autowired
     UserService userService;
 
     @Override
@@ -26,7 +33,9 @@ public class StripeServiceImpl implements StripeService
 
         int cents = (int) Math.round((amount) * 100);
         String customerId = stripeCustomer.getCustomerId();
-        stripeRepository.makePayment(customerId, cents);
+        Charge charge = stripeRepository.makePayment(customerId, cents);
+
+        stripeCustomerPaymentService.saveCustomerPayment(stripeCustomer, charge);
     }
 
     @Override
@@ -47,6 +56,13 @@ public class StripeServiceImpl implements StripeService
     public StripeCustomer getCustomerByUserId(long UserId)
     {
         return stripeCustomerService.getStripeCustomerByUserId(UserId);
+    }
+
+    @Override
+    public List<StripeCustomerPayment> getCustomerPaymentsByUserId(long userId)
+    {
+        StripeCustomer stripeCustomer = stripeCustomerService.getStripeCustomerByUserId(userId);
+        return stripeCustomerPaymentService.getCustomerPaymentByCustomerId(stripeCustomer.getId());
     }
 
 }

@@ -1,0 +1,14 @@
+package com.hercule.eshop.stripe.services;
+
+import com.hercule.eshop.stripe.models.StripeCustomer;
+import com.hercule.eshop.stripe.models.StripeCustomerPayment;
+import com.stripe.model.Charge;
+
+import java.util.List;
+
+public interface StripeCustomerPaymentService
+{
+    void saveCustomerPayment(StripeCustomer stripeCustomer, Charge charge);
+
+    List<StripeCustomerPayment> getCustomerPaymentByCustomerId(long customerId);
+}

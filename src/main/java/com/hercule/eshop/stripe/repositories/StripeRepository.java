@@ -15,23 +15,27 @@ public class StripeRepository
     @Autowired
     StripeProperties stripeProperties;
 
-    public void makePayment(String customerId, int amount)
+    public Charge makePayment(String customerId, int amount)
     {
+        Charge charge = null;
         Stripe.apiKey = stripeProperties.getSecretKey();
 
-        Map<String, Object> chargeMap = new HashMap<String, Object>();
+        Map<String, Object> chargeMap = new HashMap<>();
         chargeMap.put("amount", amount);
         chargeMap.put("currency", "usd");
         chargeMap.put("customer", customerId);
 
         try
         {
-            Charge charge = Charge.create(chargeMap);
+            charge = Charge.create(chargeMap);
             System.out.println(charge);
+            return charge;
         } catch (StripeException e)
         {
             e.printStackTrace();
         }
+
+        return charge;
 
     }
 

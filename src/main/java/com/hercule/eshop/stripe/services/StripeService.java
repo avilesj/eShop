@@ -2,7 +2,10 @@ package com.hercule.eshop.stripe.services;
 
 import com.hercule.eshop.models.User;
 import com.hercule.eshop.stripe.models.StripeCustomer;
+import com.hercule.eshop.stripe.models.StripeCustomerPayment;
 import com.stripe.exception.StripeException;
+
+import java.util.List;
 
 public interface StripeService
 {
@@ -12,5 +15,7 @@ public interface StripeService
 
     void deleteCustomer(User user);
 
-    StripeCustomer getCustomerByUserId(long UserId);
+    StripeCustomer getCustomerByUserId(long userId);
+
+    List<StripeCustomerPayment> getCustomerPaymentsByUserId(long userId);
 }

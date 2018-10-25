@@ -1,12 +1,9 @@
 package com.hercule.eshop.stripe;
 
-import com.hercule.eshop.models.User;
-import com.hercule.eshop.services.UserService;
-import com.hercule.eshop.stripe.models.StripeCustomer;
-import com.hercule.eshop.stripe.services.StripeCustomerService;
-import com.hercule.eshop.stripe.services.StripeService;
+import com.hercule.eshop.stripe.repositories.StripeRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 import com.stripe.model.Token;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,31 +25,20 @@ import static junit.framework.TestCase.assertNotNull;
 public class StripeRepositoryTests
 {
     @Autowired
-    private StripeService stripeService;
+    StripeRepository stripeRepository;
 
     @Autowired
-    private StripeProperties stripeProperties;
-
-    @Autowired
-    private StripeCustomerService stripeCustomerService;
-
-    @Autowired
-    private UserService userService;
-
+    StripeProperties stripeProperties;
 
     @Before
     public void init()
     {
-        Stripe.apiKey = stripeProperties.getSecretKey();
+        Stripe.apiKey = this.stripeProperties.getSecretKey();
     }
 
     @Test
-    public void shouldMakePaymentToStripe() throws StripeException
+    public void shouldCreateNewStripeCustomer() throws StripeException
     {
-        User user = new User();
-        user.setUsername("bobvance");
-        user.setPassword("password");
-
         Map<String, Object> cardParam = new HashMap<>();
         cardParam.put("number", "4242424242424242");
         cardParam.put("exp_month", "11");
@@ -62,19 +49,14 @@ public class StripeRepositoryTests
         tokenParam.put("card", cardParam);
         Token token = Token.create(tokenParam);
 
-        userService.save(user);
-        stripeService.addNewCustomer(token.getId(), user);
+        String customerToken = stripeRepository.createNewCustomer(token.getId());
 
-        stripeService.makePayment(user, 1.50);
+        assertNotNull(customerToken);
     }
 
     @Test
-    public void shouldAddNewCustomerAndSaveToDatabase() throws StripeException
+    public void shouldMakePaymentToStripeCustomer() throws StripeException
     {
-        User user = new User();
-        user.setUsername("bobvance");
-        user.setPassword("password");
-
         Map<String, Object> cardParam = new HashMap<>();
         cardParam.put("number", "4242424242424242");
         cardParam.put("exp_month", "11");
@@ -85,10 +67,10 @@ public class StripeRepositoryTests
         tokenParam.put("card", cardParam);
         Token token = Token.create(tokenParam);
 
-        userService.save(user);
-        stripeService.addNewCustomer(token.getId(), user);
+        String customerToken = stripeRepository.createNewCustomer(token.getId());
+        Charge charge = stripeRepository.makePayment(customerToken, 100);
 
-        StripeCustomer stripeCustomer = stripeCustomerService.getStripeCustomerByUserId(user.getId());
-        assertNotNull(stripeCustomer);
+        assertNotNull(charge);
+        assertEquals(100, charge.getAmount().longValue());
     }
 }
