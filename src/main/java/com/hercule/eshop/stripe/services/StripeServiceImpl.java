@@ -20,9 +20,13 @@ public class StripeServiceImpl implements StripeService
     UserService userService;
 
     @Override
-    public void makePayment(String token) throws StripeException
+    public void makePayment(User user, double amount)
     {
-        stripeRepository.makePayment(token);
+        StripeCustomer stripeCustomer = stripeCustomerService.getStripeCustomerByUserId(user.getId());
+
+        int cents = (int) Math.round((amount) * 100);
+        String customerId = stripeCustomer.getCustomerId();
+        stripeRepository.makePayment(customerId, cents);
     }
 
     @Override

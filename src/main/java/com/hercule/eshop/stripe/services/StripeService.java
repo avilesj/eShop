@@ -6,7 +6,7 @@ import com.stripe.exception.StripeException;
 
 public interface StripeService
 {
-    void makePayment(String token) throws StripeException;
+    void makePayment(User user, double amount) throws StripeException;
 
     void addNewCustomer(String token, User user) throws StripeException;
 

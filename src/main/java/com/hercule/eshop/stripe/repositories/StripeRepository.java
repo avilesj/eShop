@@ -12,20 +12,17 @@ import java.util.Map;
 
 public class StripeRepository
 {
-
     @Autowired
     StripeProperties stripeProperties;
 
-    private String keyFromPropertiesFile = "sk_test_14yHBwRtc3vSrMbiUgXhzfTK";
-
-    public void makePayment(String token) throws StripeException
+    public void makePayment(String customerId, int amount)
     {
         Stripe.apiKey = stripeProperties.getSecretKey();
 
         Map<String, Object> chargeMap = new HashMap<String, Object>();
-        chargeMap.put("amount", 100);
+        chargeMap.put("amount", amount);
         chargeMap.put("currency", "usd");
-        chargeMap.put("source", token); // obtained via Stripe.js
+        chargeMap.put("customer", customerId);
 
         try
         {

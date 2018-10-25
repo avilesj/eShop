@@ -48,19 +48,24 @@ public class StripeRepositoryTests
     @Test
     public void shouldMakePaymentToStripe() throws StripeException
     {
+        User user = new User();
+        user.setUsername("bobvance");
+        user.setPassword("password");
 
-        Map<String, Object> cardParam = new HashMap<String, Object>();
+        Map<String, Object> cardParam = new HashMap<>();
         cardParam.put("number", "4242424242424242");
         cardParam.put("exp_month", "11");
         cardParam.put("exp_year", "2022");
         cardParam.put("cvc", "123");
 
-        Map<String, Object> tokenParam = new HashMap<String, Object>();
+        Map<String, Object> tokenParam = new HashMap<>();
         tokenParam.put("card", cardParam);
-
         Token token = Token.create(tokenParam);
 
-        stripeService.makePayment(token.getId());
+        userService.save(user);
+        stripeService.addNewCustomer(token.getId(), user);
+
+        stripeService.makePayment(user, 1.50);
     }
 
     @Test
@@ -70,23 +75,20 @@ public class StripeRepositoryTests
         user.setUsername("bobvance");
         user.setPassword("password");
 
-        Map<String, Object> cardParam = new HashMap<String, Object>();
+        Map<String, Object> cardParam = new HashMap<>();
         cardParam.put("number", "4242424242424242");
         cardParam.put("exp_month", "11");
         cardParam.put("exp_year", "2022");
         cardParam.put("cvc", "123");
 
-        Map<String, Object> tokenParam = new HashMap<String, Object>();
+        Map<String, Object> tokenParam = new HashMap<>();
         tokenParam.put("card", cardParam);
-
         Token token = Token.create(tokenParam);
 
         userService.save(user);
+        stripeService.addNewCustomer(token.getId(), user);
 
-        User dbUser = userService.findByUsername(user.getUsername());
-        stripeService.addNewCustomer(token.getId(), dbUser);
-        StripeCustomer stripeCustomer = stripeCustomerService.getStripeCustomerByUserId(dbUser.getId());
+        StripeCustomer stripeCustomer = stripeCustomerService.getStripeCustomerByUserId(user.getId());
         assertNotNull(stripeCustomer);
-
     }
 }
