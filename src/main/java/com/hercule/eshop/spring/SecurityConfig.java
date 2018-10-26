@@ -58,6 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .and()
                 .authorizeRequests().antMatchers("/cart/**").authenticated()
                 .and()
+                .authorizeRequests().antMatchers("/settings/**").authenticated()
+                .and()
                 .csrf().disable();
     }
 }

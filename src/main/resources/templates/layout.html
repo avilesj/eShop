@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="layoutHeader">
+    <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"
           th:ref="@{/css/bootstrap.css}"/>
     <link href="/css/eshop.css" rel="stylesheet" type="text/css"
           th:ref="@{/css/eShop.css}"/>
+    <link href="/css/payment.css" rel="stylesheet" type="text/css"
+          th:ref="@{/css/payment.css}"/>
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
 </head>
@@ -91,7 +94,10 @@
                         </div>
                     </div>
                     <div sec:authorize="isAuthenticated()">
-                        <a th:href="@{/logout}">Logout</a>
+                        <ul>
+                            <li><a th:href="@{/settings}">User settings</a></li>
+                            <li><a th:href="@{/logout}">Logout</a></li>
+                        </ul>
                     </div>
                 </div>
             </li>

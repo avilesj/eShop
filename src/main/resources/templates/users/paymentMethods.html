@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: layoutHeader">
+</head>
+<div th:replace="layout :: mainLayout"></div>
+<h1>Add new payment method</h1>
+<div th:if="${stripeCustomer}">
+    <p th:text="${stripeCustomer.customerId}"></p>
+</div>
+<div th:unless="${stripeCustomer}">
+    <a th:href="@{/settings/stripe}">Pay with stripe</a>
+</div>
+
+<a th:href="@{/settings/}">Back to Settings</a>
+
+</html>
