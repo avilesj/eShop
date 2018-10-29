@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Order")
+@Table(name = "CustomerOrder")
 public class Order
 {
     @Id
@@ -17,7 +17,7 @@ public class Order
     private User user;
     private LocalDateTime createdOn;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.DETACH, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
     private long size;
     private String status;
@@ -30,8 +30,9 @@ public class Order
     }
 
     @PostLoad
-    public void calculateTotal()
+    public void calculateTotalandSize()
     {
+        this.size = orderItems.size();
         this.total = orderItems.stream().mapToDouble(OrderItem::getTotal).sum();
     }
 

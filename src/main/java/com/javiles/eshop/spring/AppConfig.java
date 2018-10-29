@@ -61,6 +61,12 @@ public class AppConfig
     }
 
     @Bean
+    public OrderService orderService()
+    {
+        return new OrderServiceImpl();
+    }
+
+    @Bean
     public MessageSource messageSource()
     {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
