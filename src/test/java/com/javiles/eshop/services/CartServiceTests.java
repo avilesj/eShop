@@ -109,10 +109,43 @@ public class CartServiceTests
         entityManager.flush();
         entityManager.clear();
 
-        Cart fetchedcart = cartService.findCartByUserId(userService.findByUsername("javiles"));
+        Cart dbCart = cartService.findCartByUserId(userService.findByUsername("javiles"));
 
-        List<CartItem> cartItem = fetchedcart.getCartItem();
-        cartService.removeItemFromCart(fetchedcart, cartItem.get(0));
+        List<CartItem> cartItem = dbCart.getCartItem();
+        cartService.removeItemFromCart(dbCart, cartItem.get(0));
+        entityManager.flush();
+        entityManager.clear();
+
+        Cart cart2 = cartService.findCartByUserId(user);
+        assertEquals(0, cart2.getCartItem().size());
+    }
+
+    @Test
+    public void shouldEmptyCart()
+    {
+        userService.save(user);
+        entityManager.flush();
+        entityManager.clear();
+        productService.saveProduct(product);
+        entityManager.flush();
+        entityManager.clear();
+
+        this.cartItem.setCart(cartService.findCartByUserId(userService.findByUsername("javiles")));
+        this.cartItem.setQuantity(5);
+        this.cartItem.setProduct(this.product);
+        cartService.addItemToCart(this.cartItem);
+
+        CartItem cartItem1 = new CartItem();
+        cartItem1.setCart(cartService.findCartByUserId(userService.findByUsername("javiles")));
+        cartItem1.setQuantity(5);
+        cartItem1.setProduct(this.product);
+        cartService.addItemToCart(this.cartItem);
+        entityManager.flush();
+        entityManager.clear();
+
+        Cart dbCart = cartService.findCartByUserId(userService.findByUsername("javiles"));
+
+        cartService.emptyCart(dbCart);
         entityManager.flush();
         entityManager.clear();
 

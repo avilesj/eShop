@@ -16,4 +16,6 @@ public interface CartService
 
     Cart findCartByUserId(User user);
 
+    void emptyCart(Cart cart);
+
 }

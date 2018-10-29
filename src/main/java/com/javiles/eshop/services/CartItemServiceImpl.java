@@ -25,7 +25,7 @@ public class CartItemServiceImpl implements CartItemService
     }
 
     @Override
-    public void purgeCartItems(Cart cart)
+    public void deleteAllCartItemsByCart(Cart cart)
     {
         cartItemRepository.deleteByCart(cart);
     }
@@ -35,6 +35,5 @@ public class CartItemServiceImpl implements CartItemService
     {
         return cartItemRepository.findByCart(cart);
     }
-
 
 }

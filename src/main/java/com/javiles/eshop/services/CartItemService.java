@@ -11,7 +11,7 @@ public interface CartItemService
 
     void deleteCartItem(CartItem cartItem);
 
-    void purgeCartItems(Cart cart);
+    void deleteAllCartItemsByCart(Cart cart);
 
     List<CartItem> getAllItemsFromCart(Cart cart);
 
