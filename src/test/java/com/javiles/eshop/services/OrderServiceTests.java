@@ -64,12 +64,12 @@ public class OrderServiceTests
         productService.saveProduct(this.product2);
 
         CartItem cartItem1 = new CartItem();
-        cartItem1.setCart(cartService.findCartByUserId(this.user));
+        cartItem1.setCart(cartService.findCartByUserId(this.user.getId()));
         cartItem1.setProduct(this.product1);
         cartItem1.setQuantity(2);
 
         CartItem cartItem2 = new CartItem();
-        cartItem2.setCart(cartService.findCartByUserId(this.user));
+        cartItem2.setCart(cartService.findCartByUserId(this.user.getId()));
         cartItem2.setProduct(this.product2);
         cartItem2.setQuantity(5);
 
@@ -90,8 +90,8 @@ public class OrderServiceTests
     @Test
     public void shouldMakeOrderWithCartItemsAndEmptyCart()
     {
-        orderService.createOrder(cartService.findCartByUserId(this.user));
-        Cart cart = cartService.findCartByUserId(this.user);
+        orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
+        Cart cart = cartService.findCartByUserId(this.user.getId());
         Order order = orderService.getOrderByUserId(user.getId());
 
         assertEquals(0, cart.getCartItem().size());
@@ -103,7 +103,7 @@ public class OrderServiceTests
     @Test
     public void shouldChangeOrderStatusToComplete()
     {
-        orderService.createOrder(cartService.findCartByUserId(this.user));
+        orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
         Order order = orderService.getOrderByUserId(user.getId());
 
         assertEquals("PENDING", order.getStatus());
@@ -118,7 +118,7 @@ public class OrderServiceTests
     @Test
     public void shouldChangeOrderStatusToCancelled()
     {
-        orderService.createOrder(cartService.findCartByUserId(this.user));
+        orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
         Order order = orderService.getOrderByUserId(user.getId());
 
         assertEquals("PENDING", order.getStatus());
@@ -133,7 +133,7 @@ public class OrderServiceTests
     @Test
     public void shouldNotCancelCompletedOrder()
     {
-        orderService.createOrder(cartService.findCartByUserId(this.user));
+        orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
         orderService.completeOrderByUserId(this.user.getId());
 
         Order order = orderService.getOrderByUserId(user.getId());
@@ -150,7 +150,7 @@ public class OrderServiceTests
     @Test
     public void shouldNotCompleteCancelledOrder()
     {
-        orderService.createOrder(cartService.findCartByUserId(this.user));
+        orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
         orderService.cancelOrderByUserId(this.user.getId());
 
         Order order = orderService.getOrderByUserId(user.getId());

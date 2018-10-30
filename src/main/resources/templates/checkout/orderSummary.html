@@ -4,9 +4,9 @@
 </head>
 <div th:replace="layout :: mainLayout"></div>
 <div th:fragment="Index">
-    <h1>Items in your cart</h1>
+    <h1>Order Summary</h1>
 
-    <div th:unless="${#lists.isEmpty(allCartItems)}">
+    <div th:unless="${#lists.isEmpty(cart.cartItem)}">
         <table class="table table-hover">
             <thead>
             <tr>
@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr scope="row" th:each="cartItem : ${allCartItems}">
+            <tr scope="row" th:each="cartItem : ${cart.cartItem}">
                 <td><a th:href="@{~/products/{id}(id=${cartItem.product.id})}"
                        th:text="${cartItem.product.name}">yes</a></td>
 
@@ -30,6 +30,6 @@
             </tbody>
         </table>
 
-        <a type="button" class="btn btn-primary" th:href="@{/checkout}">Proceed to checkout</a>
+        <h1 th:text="'Order total: ' + ${#aggregates.sum(cart.cartItem.![quantity * product.price])}"></h1>
     </div>
 </div>

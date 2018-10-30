@@ -59,13 +59,13 @@ public class CartItemServiceTests
     public void validatesCartItemInsertion()
     {
         CartItem cartItem = new CartItem();
-        Cart cart = cartService.findCartByUserId(this.user);
+        Cart cart = cartService.findCartByUserId(this.user.getId());
         cartItem.setCart(cart);
         cartItem.setQuantity(2);
         cartItem.setProduct(this.product);
         cartItemService.saveCartItem(cartItem);
 
-        Cart dbCart = cartService.findCartByUserId(this.user);
+        Cart dbCart = cartService.findCartByUserId(this.user.getId());
         List<CartItem> cartItems = cartItemService.getAllItemsFromCart(dbCart);
 
         assertNotNull(cartItems);

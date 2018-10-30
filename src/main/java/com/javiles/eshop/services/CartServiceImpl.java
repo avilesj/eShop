@@ -2,7 +2,6 @@ package com.javiles.eshop.services;
 
 import com.javiles.eshop.models.Cart;
 import com.javiles.eshop.models.CartItem;
-import com.javiles.eshop.models.User;
 import com.javiles.eshop.repositories.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -50,9 +49,9 @@ public class CartServiceImpl implements CartService
     }
 
     @Override
-    public Cart findCartByUserId(User user)
+    public Cart findCartByUserId(long userId)
     {
-        return cartRepository.findByUserId(user.getId());
+        return cartRepository.findByUserId(userId);
     }
 
     @Override

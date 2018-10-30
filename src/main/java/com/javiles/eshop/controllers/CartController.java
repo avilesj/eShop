@@ -37,7 +37,7 @@ public class CartController
         }
 
         User user = userService.findByUsername(principal.getName());
-        Cart cart = cartService.findCartByUserId(user);
+        Cart cart = cartService.findCartByUserId(user.getId());
         List<CartItem> allCartItems = cart.getCartItem();
         model.addAttribute("allCartItems", allCartItems);
         return "cart/cart";
@@ -53,7 +53,7 @@ public class CartController
 
         User user = userService.findByUsername(principal.getName());
         Product product = productService.findProductById(id);
-        cartItem.setCart(cartService.findCartByUserId(user));
+        cartItem.setCart(cartService.findCartByUserId(user.getId()));
         cartItem.setProduct(product);
         cartService.addItemToCart(cartItem);
         return "redirect:/cart/";
@@ -69,7 +69,7 @@ public class CartController
 
 
         User user = userService.findByUsername(principal.getName());
-        Cart cart = cartService.findCartByUserId(user);
+        Cart cart = cartService.findCartByUserId(user.getId());
         cartService.removeItemFromCart(cart, cartItem);
         return "redirect:/cart/";
     }

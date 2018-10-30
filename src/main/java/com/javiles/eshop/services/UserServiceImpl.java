@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService
     public void deleteUserById(long id)
     {
         User user = findByUserId(id);
-        Cart cart = cartService.findCartByUserId(user);
+        Cart cart = cartService.findCartByUserId(user.getId());
         cartService.deleteCart(cart);
 
         StripeCustomer stripeCustomer = stripeService.getCustomerByUserId(user.getId());

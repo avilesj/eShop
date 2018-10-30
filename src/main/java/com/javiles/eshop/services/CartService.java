@@ -2,7 +2,6 @@ package com.javiles.eshop.services;
 
 import com.javiles.eshop.models.Cart;
 import com.javiles.eshop.models.CartItem;
-import com.javiles.eshop.models.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,7 @@ public interface CartService
 
     void deleteCart(Cart cart);
 
-    Cart findCartByUserId(User user);
+    Cart findCartByUserId(long userId);
 
     void emptyCart(Cart cart);
 
