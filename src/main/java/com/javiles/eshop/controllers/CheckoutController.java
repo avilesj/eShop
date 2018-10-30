@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 
 @Controller
-public class CheckOutController
+public class CheckoutController
 {
     @Autowired
     private UserService userService;
