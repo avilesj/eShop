@@ -1,9 +1,13 @@
 package com.javiles.eshop.services;
 
 import com.javiles.eshop.models.Product;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
+@Service
 public interface ProductService
 {
 

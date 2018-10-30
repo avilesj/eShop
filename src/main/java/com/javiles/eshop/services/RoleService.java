@@ -1,9 +1,13 @@
 package com.javiles.eshop.services;
 
 import com.javiles.eshop.models.Role;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 
+@Transactional
+@Service
 public interface RoleService
 {
 

@@ -1,9 +1,6 @@
 package com.javiles.eshop.services;
 
-import com.javiles.eshop.models.Cart;
-import com.javiles.eshop.models.CartItem;
-import com.javiles.eshop.models.Product;
-import com.javiles.eshop.models.User;
+import com.javiles.eshop.models.*;
 import com.javiles.eshop.repositories.OrderItemRepository;
 import com.javiles.eshop.repositories.OrderRepository;
 import org.junit.After;
@@ -16,10 +13,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("testing")
+@ActiveProfiles("dev")
 public class OrderServiceTests
 {
     @Autowired
@@ -51,7 +49,7 @@ public class OrderServiceTests
         this.user = new User();
         this.user.setUsername("michaelscott");
         this.user.setPassword("321321");
-        userService.save(user);
+        userService.save(this.user);
 
         this.product1 = new Product();
         this.product1.setName("Dunder Miffling Paper 8 by 11");
@@ -65,6 +63,19 @@ public class OrderServiceTests
 
         productService.saveProduct(this.product1);
         productService.saveProduct(this.product2);
+
+        CartItem cartItem1 = new CartItem();
+        cartItem1.setCart(cartService.findCartByUserId(this.user));
+        cartItem1.setProduct(this.product1);
+        cartItem1.setQuantity(2);
+
+        CartItem cartItem2 = new CartItem();
+        cartItem2.setCart(cartService.findCartByUserId(this.user));
+        cartItem2.setProduct(this.product2);
+        cartItem2.setQuantity(5);
+
+        cartService.addItemToCart(cartItem1);
+        cartService.addItemToCart(cartItem2);
     }
 
     @After
@@ -80,25 +91,13 @@ public class OrderServiceTests
     @Test
     public void shouldMakeOrderWithCartItemsAndEmptyCart()
     {
-        User dbUser = userService.findByUsername("michaelscott");
+        orderService.createOrder(cartService.findCartByUserId(this.user));
+        Cart cart = cartService.findCartByUserId(this.user);
+        Order order = orderService.getOrderByUserId(user.getId());
 
-        CartItem cartItem1 = new CartItem();
-        cartItem1.setCart(cartService.findCartByUserId(dbUser));
-        cartItem1.setProduct(this.product1);
-        cartItem1.setQuantity(2);
-
-        CartItem cartItem2 = new CartItem();
-        cartItem2.setCart(cartService.findCartByUserId(dbUser));
-        cartItem2.setProduct(this.product2);
-        cartItem2.setQuantity(5);
-
-        cartService.addItemToCart(cartItem1);
-        cartService.addItemToCart(cartItem2);
-
-        orderService.createOrder(cartService.findCartByUserId(dbUser));
-
-        Cart cart = cartService.findCartByUserId(dbUser);
         assertEquals(0, cart.getCartItem().size());
+        assertNotNull(order);
+        assertEquals(2, order.getSize());
     }
 
     @Test

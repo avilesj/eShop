@@ -48,4 +48,26 @@ public class OrderServiceImpl implements OrderService
 
         cartService.emptyCart(cart);
     }
+
+    @Override
+    public Order getOrderByUserId(long userId)
+    {
+        return orderRepository.findByUserId(userId);
+    }
+
+    @Override
+    public void completeOrderByUserId(long userId)
+    {
+        Order order = orderRepository.findByUserId(userId);
+        order.setStatus("COMPLETE");
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void cancelOrderByUserId(long userId)
+    {
+        Order order = orderRepository.findByUserId(userId);
+        order.setStatus("CANCELLED");
+        orderRepository.save(order);
+    }
 }
