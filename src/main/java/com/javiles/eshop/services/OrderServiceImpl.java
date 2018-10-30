@@ -12,6 +12,10 @@ import java.util.List;
 
 public class OrderServiceImpl implements OrderService
 {
+    private final String COMPLETE = "COMPLETED";
+    private final String PENDING = "PENDING";
+    private final String CANCELLED = "CANCELLED";
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -25,7 +29,7 @@ public class OrderServiceImpl implements OrderService
         List<OrderItem> orderItemList = new ArrayList<>();
 
         Order order = new Order();
-        order.setStatus("PENDING");
+        order.setStatus(PENDING);
         order.setUser(cart.getUser());
 
         for (CartItem cartItem : cart.getCartItem())
@@ -59,15 +63,22 @@ public class OrderServiceImpl implements OrderService
     public void completeOrderByUserId(long userId)
     {
         Order order = orderRepository.findByUserId(userId);
-        order.setStatus("COMPLETE");
-        orderRepository.save(order);
+        if (order.getStatus().equals(PENDING))
+        {
+            order.setStatus(COMPLETE);
+            orderRepository.save(order);
+        }
+
     }
 
     @Override
     public void cancelOrderByUserId(long userId)
     {
         Order order = orderRepository.findByUserId(userId);
-        order.setStatus("CANCELLED");
-        orderRepository.save(order);
+        if (order.getStatus().equals(PENDING))
+        {
+            order.setStatus(CANCELLED);
+            orderRepository.save(order);
+        }
     }
 }

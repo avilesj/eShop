@@ -12,8 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -98,24 +97,71 @@ public class OrderServiceTests
         assertEquals(0, cart.getCartItem().size());
         assertNotNull(order);
         assertEquals(2, order.getSize());
-    }
-
-    @Test
-    public void shouldGetOrderDetails()
-    {
-
+        assertEquals("PENDING", order.getStatus());
     }
 
     @Test
     public void shouldChangeOrderStatusToComplete()
     {
+        orderService.createOrder(cartService.findCartByUserId(this.user));
+        Order order = orderService.getOrderByUserId(user.getId());
 
+        assertEquals("PENDING", order.getStatus());
+
+        orderService.completeOrderByUserId(this.user.getId());
+
+        order = orderService.getOrderByUserId(user.getId());
+
+        assertEquals("COMPLETED", order.getStatus());
     }
 
     @Test
     public void shouldChangeOrderStatusToCancelled()
     {
+        orderService.createOrder(cartService.findCartByUserId(this.user));
+        Order order = orderService.getOrderByUserId(user.getId());
 
+        assertEquals("PENDING", order.getStatus());
+
+        orderService.cancelOrderByUserId(this.user.getId());
+
+        order = orderService.getOrderByUserId(user.getId());
+
+        assertEquals("CANCELLED", order.getStatus());
+    }
+
+    @Test
+    public void shouldNotCancelCompletedOrder()
+    {
+        orderService.createOrder(cartService.findCartByUserId(this.user));
+        orderService.completeOrderByUserId(this.user.getId());
+
+        Order order = orderService.getOrderByUserId(user.getId());
+
+        assertEquals("COMPLETED", order.getStatus());
+
+        orderService.cancelOrderByUserId(this.user.getId());
+
+        order = orderService.getOrderByUserId(user.getId());
+
+        assertNotEquals("CANCELLED", order.getStatus());
+    }
+
+    @Test
+    public void shouldNotCompleteCancelledOrder()
+    {
+        orderService.createOrder(cartService.findCartByUserId(this.user));
+        orderService.cancelOrderByUserId(this.user.getId());
+
+        Order order = orderService.getOrderByUserId(user.getId());
+
+        assertEquals("CANCELLED", order.getStatus());
+
+        orderService.completeOrderByUserId(this.user.getId());
+
+        order = orderService.getOrderByUserId(user.getId());
+
+        assertNotEquals("COMPLETED", order.getStatus());
     }
 
 }
