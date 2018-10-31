@@ -37,6 +37,12 @@
             </tbody>
         </table>
 
-        <h1 th:text="'Order total: ' + ${#aggregates.sum(cart.cartItem.![quantity * product.price])}"></h1>
+        <h1 th:text="'Order total: ' + ${#aggregates.sum(cart.cartItem.![total])}"></h1>
+
+        <div th:if="${stripeCustomer}">
+            <form method="POST" th:action="@{/checkout}">
+                <button type="submit" class="btn btn-primary">Complete order</button>
+            </form>
+        </div>
     </div>
 </div>

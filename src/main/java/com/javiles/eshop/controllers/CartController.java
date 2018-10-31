@@ -55,6 +55,7 @@ public class CartController
         Product product = productService.findProductById(id);
         cartItem.setCart(cartService.findCartByUserId(user.getId()));
         cartItem.setProduct(product);
+        cartItem.setPrice(product.getPrice());
         cartService.addItemToCart(cartItem);
         return "redirect:/cart/";
     }
