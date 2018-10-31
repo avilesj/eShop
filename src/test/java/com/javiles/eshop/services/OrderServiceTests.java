@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -162,6 +164,17 @@ public class OrderServiceTests
         order = orderService.getOrderByUserId(user.getId());
 
         assertNotEquals("COMPLETED", order.getStatus());
+    }
+
+    @Test
+    public void shouldRetrieveAllPendingOrders()
+    {
+        orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
+        orderService.cancelOrderByUserId(this.user.getId());
+        orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
+        List<Order> orderList = orderService.getAllPendingOrders();
+        assertEquals(1, orderList.size());
+
     }
 
 }

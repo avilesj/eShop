@@ -5,6 +5,8 @@ import com.javiles.eshop.models.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @Service
 public interface OrderService
@@ -16,4 +18,6 @@ public interface OrderService
     void completeOrderByUserId(long userId);
 
     void cancelOrderByUserId(long userId);
+
+    List<Order> getAllPendingOrders();
 }
