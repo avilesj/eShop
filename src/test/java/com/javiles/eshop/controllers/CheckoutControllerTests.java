@@ -7,6 +7,7 @@ import com.javiles.eshop.models.User;
 import com.javiles.eshop.services.CartService;
 import com.javiles.eshop.services.ProductService;
 import com.javiles.eshop.services.UserService;
+import com.javiles.eshop.stripe.services.StripeCustomerService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +43,9 @@ public class CheckoutControllerTests
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private StripeCustomerService stripeCustomerService;
+
     private Product product;
     private User user;
 
@@ -69,7 +73,7 @@ public class CheckoutControllerTests
 
     @Test
     @WithMockUser(username = "michaelscott", roles = {"ADMIN"})
-    public void shouldAddItemToCartAndProceedToCheckout() throws Exception
+    public void shouldAddItemToCartAndProceedToCheckoutWithoutPaymentMethod() throws Exception
     {
         CartItem cartItem = new CartItem();
         cartItem.setQuantity(1);
@@ -92,7 +96,44 @@ public class CheckoutControllerTests
 
         this.mockMvc.perform(get("/checkout"))
                 .andDo(print())
+                .andExpect(content().string(containsString(this.product.getName())))
+                .andExpect(content().string(containsString("No payment method found.")))
+                .andExpect(content().string(containsString("Pay with stripe")));
+
+    }
+
+    @Test
+    @WithMockUser(username = "michaelscott", roles = {"ADMIN"})
+    public void shouldAddItemToCartAndProceedToCheckoutWithPaymentMethod() throws Exception
+    {
+        //Create cart item for test
+        CartItem cartItem = new CartItem();
+        cartItem.setQuantity(1);
+        cartItem.setProduct(this.product);
+        cartItem.setCart(cartService.findCartByUserId(this.user.getId()));
+
+        //Create Stripe Customer for test
+        stripeCustomerService.saveStripeCustomer(this.user, "key");
+
+        //Begin test
+        this.mockMvc.perform(get("/products/search?name=" + this.product.getName())).andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().string(containsString(this.product.getName())));
+
+        this.mockMvc.perform(get("/products/" + this.product.getId())).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(this.product.getName())));
+
+        this.mockMvc.perform(get("/cart/add/" + this.product.getId()).flashAttr("cartItem", cartItem))
+                .andDo(print())
+                .andExpect(redirectedUrl("/cart/"))
+                .andExpect(status().is3xxRedirection());
+
+
+        this.mockMvc.perform(get("/checkout"))
+                .andDo(print())
+                .andExpect(content().string(containsString(this.product.getName())))
+                .andExpect(content().string(containsString("Your stripe credentials will be used for this transaction.")));
 
     }
 }

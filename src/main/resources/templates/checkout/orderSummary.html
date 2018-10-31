@@ -6,6 +6,13 @@
 <div th:fragment="Index">
     <h1>Order Summary</h1>
 
+    <div th:if="${stripeCustomer}">
+        <p>Your stripe credentials will be used for this transaction.</p>
+    </div>
+    <div th:unless="${stripeCustomer}">
+        <span>No payment method found.</span>
+        <a th:href="@{/settings/stripe}">Pay with stripe</a>
+    </div>
     <div th:unless="${#lists.isEmpty(cart.cartItem)}">
         <table class="table table-hover">
             <thead>

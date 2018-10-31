@@ -5,6 +5,7 @@ import com.javiles.eshop.models.User;
 import com.javiles.eshop.services.CartService;
 import com.javiles.eshop.services.OrderService;
 import com.javiles.eshop.services.UserService;
+import com.javiles.eshop.stripe.models.StripeCustomer;
 import com.javiles.eshop.stripe.services.StripeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,8 +40,10 @@ public class CheckoutController
             return "redirect:/cart";
         }
 
+        StripeCustomer stripeCustomer = stripeService.getCustomerByUserId(user.getId());
+
         model.addAttribute("cart", cart);
-        //model.addAttribute("cartItems", cart.getCartItem());
+        model.addAttribute("stripeCustomer", stripeCustomer);
 
         return "checkout/orderSummary";
     }
