@@ -13,11 +13,19 @@ public interface OrderService
 {
     void createOrder(Cart cart);
 
-    Order getOrderByUserId(long userId);
+    Order getOrderByUserIdAndOrderId(long userId, long orderId);
 
-    void completeOrderByUserId(long userId);
+    void completeOrderByUserIdAndOrderId(long userId, long orderId);
 
-    void cancelOrderByUserId(long userId);
+    void cancelOrderByUserIdAndOrderId(long userId, long orderId);
 
     List<Order> getAllPendingOrders();
+
+    List<Order> getPendingOrdersByUserId(long userId);
+
+    List<Order> getCancelledOrdersByUserId(long userId);
+
+    List<Order> getCompletedOrdersByUserId(long userId);
+
+    List<Order> getAllOrdersByUserId(long userId);
 }

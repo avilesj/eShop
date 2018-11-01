@@ -54,15 +54,15 @@ public class OrderServiceImpl implements OrderService
     }
 
     @Override
-    public Order getOrderByUserId(long userId)
+    public Order getOrderByUserIdAndOrderId(long userId, long orderId)
     {
-        return orderRepository.findByUserId(userId);
+        return orderRepository.findOneByUserIdAndId(userId, orderId);
     }
 
     @Override
-    public void completeOrderByUserId(long userId)
+    public void completeOrderByUserIdAndOrderId(long userId, long orderId)
     {
-        Order order = orderRepository.findByUserId(userId);
+        Order order = orderRepository.findOneByUserIdAndId(userId, orderId);
         if (order.getStatus().equals(PENDING))
         {
             order.setStatus(COMPLETE);
@@ -72,9 +72,9 @@ public class OrderServiceImpl implements OrderService
     }
 
     @Override
-    public void cancelOrderByUserId(long userId)
+    public void cancelOrderByUserIdAndOrderId(long userId, long orderId)
     {
-        Order order = orderRepository.findByUserId(userId);
+        Order order = orderRepository.findOneByUserIdAndId(userId, orderId);
         if (order.getStatus().equals(PENDING))
         {
             order.setStatus(CANCELLED);
@@ -86,5 +86,29 @@ public class OrderServiceImpl implements OrderService
     public List<Order> getAllPendingOrders()
     {
         return orderRepository.findByStatus(PENDING);
+    }
+
+    @Override
+    public List<Order> getPendingOrdersByUserId(long userId)
+    {
+        return orderRepository.findByUserIdAndStatus(userId, PENDING);
+    }
+
+    @Override
+    public List<Order> getCancelledOrdersByUserId(long userId)
+    {
+        return orderRepository.findByUserIdAndStatus(userId, CANCELLED);
+    }
+
+    @Override
+    public List<Order> getCompletedOrdersByUserId(long userId)
+    {
+        return orderRepository.findByUserIdAndStatus(userId, COMPLETE);
+    }
+
+    @Override
+    public List<Order> getAllOrdersByUserId(long userId)
+    {
+        return orderRepository.findByUserId(userId);
     }
 }

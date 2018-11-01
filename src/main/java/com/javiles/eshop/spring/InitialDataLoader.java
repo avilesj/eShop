@@ -1,11 +1,10 @@
 package com.javiles.eshop.spring;
 
+import com.javiles.eshop.models.CartItem;
 import com.javiles.eshop.models.Product;
 import com.javiles.eshop.models.Role;
 import com.javiles.eshop.models.User;
-import com.javiles.eshop.services.ProductService;
-import com.javiles.eshop.services.RoleService;
-import com.javiles.eshop.services.UserService;
+import com.javiles.eshop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -31,6 +30,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private Environment environment;
@@ -65,6 +70,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
             if (env.equals("testing"))
             {
                 createTestProducts();
+                createTestOrders();
             }
         }
 
@@ -112,5 +118,21 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         productService.saveProduct(redShirt);
         productService.saveProduct(blueShirt);
         productService.saveProduct(greenShirt);
+    }
+
+    @Transactional
+    private void createTestOrders()
+    {
+        User user = userService.findByUsername(ADMIN_USERNAME);
+
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(productService.findProductByName("Green Shirt"));
+        cartItem.setPrice(cartItem.getProduct().getPrice());
+        cartItem.setTotal(cartItem.getProduct().getPrice());
+        cartItem.setCart(cartService.findCartByUserId(user.getId()));
+
+        cartService.addItemToCart(cartItem);
+
+        orderService.createOrder(cartService.findCartByUserId(user.getId()));
     }
 }

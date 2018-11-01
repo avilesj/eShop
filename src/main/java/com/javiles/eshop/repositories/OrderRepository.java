@@ -7,7 +7,11 @@ import java.util.List;
 
 public interface OrderRepository extends CrudRepository<Order, Long>
 {
-    Order findByUserId(long userId);
+    Order findOneByUserIdAndId(long userId, long orderId);
+
+    List<Order> findByUserId(long userId);
 
     List<Order> findByStatus(String status);
+
+    List<Order> findByUserIdAndStatus(long userId, String status);
 }

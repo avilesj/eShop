@@ -94,7 +94,10 @@ public class OrderServiceTests
     {
         orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
         Cart cart = cartService.findCartByUserId(this.user.getId());
-        Order order = orderService.getOrderByUserId(user.getId());
+
+        List<Order> orders = orderService.getAllOrdersByUserId(this.user.getId());
+        assertEquals(1, orders.size());
+        Order order = orders.get(0);
 
         assertEquals(0, cart.getCartItem().size());
         assertNotNull(order);
@@ -106,13 +109,17 @@ public class OrderServiceTests
     public void shouldChangeOrderStatusToComplete()
     {
         orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
-        Order order = orderService.getOrderByUserId(user.getId());
+
+        List<Order> orders = orderService.getAllOrdersByUserId(this.user.getId());
+        assertEquals(1, orders.size());
+
+        Order order = orders.get(0);
 
         assertEquals("PENDING", order.getStatus());
 
-        orderService.completeOrderByUserId(this.user.getId());
+        orderService.completeOrderByUserIdAndOrderId(this.user.getId(), order.getId());
 
-        order = orderService.getOrderByUserId(user.getId());
+        order = orderService.getOrderByUserIdAndOrderId(user.getId(), order.getId());
 
         assertEquals("COMPLETED", order.getStatus());
     }
@@ -121,13 +128,17 @@ public class OrderServiceTests
     public void shouldChangeOrderStatusToCancelled()
     {
         orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
-        Order order = orderService.getOrderByUserId(user.getId());
+
+        List<Order> orders = orderService.getAllOrdersByUserId(this.user.getId());
+        assertEquals(1, orders.size());
+
+        Order order = orders.get(0);
 
         assertEquals("PENDING", order.getStatus());
 
-        orderService.cancelOrderByUserId(this.user.getId());
+        orderService.cancelOrderByUserIdAndOrderId(this.user.getId(), order.getId());
 
-        order = orderService.getOrderByUserId(user.getId());
+        order = orderService.getOrderByUserIdAndOrderId(user.getId(), order.getId());
 
         assertEquals("CANCELLED", order.getStatus());
     }
@@ -136,15 +147,19 @@ public class OrderServiceTests
     public void shouldNotCancelCompletedOrder()
     {
         orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
-        orderService.completeOrderByUserId(this.user.getId());
+        List<Order> orders = orderService.getAllOrdersByUserId(this.user.getId());
+        assertEquals(1, orders.size());
 
-        Order order = orderService.getOrderByUserId(user.getId());
+        Order order = orders.get(0);
 
+        orderService.completeOrderByUserIdAndOrderId(this.user.getId(), order.getId());
+
+        order = orderService.getOrderByUserIdAndOrderId(this.user.getId(), order.getId());
         assertEquals("COMPLETED", order.getStatus());
 
-        orderService.cancelOrderByUserId(this.user.getId());
+        orderService.cancelOrderByUserIdAndOrderId(this.user.getId(), order.getId());
 
-        order = orderService.getOrderByUserId(user.getId());
+        order = orderService.getOrderByUserIdAndOrderId(user.getId(), order.getId());
 
         assertNotEquals("CANCELLED", order.getStatus());
     }
@@ -153,15 +168,19 @@ public class OrderServiceTests
     public void shouldNotCompleteCancelledOrder()
     {
         orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
-        orderService.cancelOrderByUserId(this.user.getId());
+        List<Order> orders = orderService.getAllOrdersByUserId(this.user.getId());
+        assertEquals(1, orders.size());
 
-        Order order = orderService.getOrderByUserId(user.getId());
+        Order order = orders.get(0);
 
+        orderService.cancelOrderByUserIdAndOrderId(this.user.getId(), order.getId());
+
+        order = orderService.getOrderByUserIdAndOrderId(this.user.getId(), order.getId());
         assertEquals("CANCELLED", order.getStatus());
 
-        orderService.completeOrderByUserId(this.user.getId());
+        orderService.completeOrderByUserIdAndOrderId(this.user.getId(), order.getId());
 
-        order = orderService.getOrderByUserId(user.getId());
+        order = orderService.getOrderByUserIdAndOrderId(user.getId(), order.getId());
 
         assertNotEquals("COMPLETED", order.getStatus());
     }
@@ -170,7 +189,11 @@ public class OrderServiceTests
     public void shouldRetrieveAllPendingOrders()
     {
         orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
-        orderService.cancelOrderByUserId(this.user.getId());
+        List<Order> orders = orderService.getAllOrdersByUserId(this.user.getId());
+        assertEquals(1, orders.size());
+
+        Order order = orders.get(0);
+        orderService.cancelOrderByUserIdAndOrderId(this.user.getId(), order.getId());
         orderService.createOrder(cartService.findCartByUserId(this.user.getId()));
         List<Order> orderList = orderService.getAllPendingOrders();
         assertEquals(1, orderList.size());

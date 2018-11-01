@@ -13,10 +13,10 @@
             Orders Dashboard
         </h1>
 
-        <form class="form-inline my-2 my-lg-0 w-50 mx-auto" th:action="@{/admin/product/search}">
+        <form class="form-inline my-2 my-lg-0 w-50 mx-auto" th:action="@{/admin/order/search}">
             <div class="form-group">
-                <label for="productSearch" class="col-sm-2 col-form-label">Search by username</label>
-                <input id="productSearch" class="form-control" th:name="productSearch"
+                <label for="userSearch" class="col-sm-2 col-form-label">Search by username</label>
+                <input id="userSearch" class="form-control" th:name="userSearch"
                        placeholder="Search" aria-label="Search" type="text">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </div>
@@ -36,8 +36,14 @@
                     <td th:text="${order.user.username}">yes</td>
                     <td th:text="${order.total}">yes</td>
                     <td>
-                        <button form="completeOrderForm" class="btn btn-danger" type="submit">Complete order</button>
+                        <button form="cancelOrderForm" class="btn btn-danger" type="submit">Cancel order</button>
+                        <form id="cancelOrderForm"
+                              th:action="@{/admin/order/cancel/{username}/{id}(username=${order.user.username}, id=${order.id})}"
+                              method="POST">
+                        </form>
+                        <button form="completeOrderForm" class="btn btn-success" type="submit">Complete order</button>
                         <form id="completeOrderForm"
+                              th:action="@{/admin/order/complete/{username}/{id}(username=${order.user.username}, id=${order.id})}"
                               method="POST">
                         </form>
                     </td>
