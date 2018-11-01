@@ -1,4 +1,4 @@
-package com.javiles.eshop.controllers;
+package com.javiles.eshop.controllers.user;
 
 import com.javiles.eshop.models.Cart;
 import com.javiles.eshop.models.CartItem;

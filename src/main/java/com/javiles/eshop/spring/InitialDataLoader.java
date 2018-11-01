@@ -1,9 +1,6 @@
 package com.javiles.eshop.spring;
 
-import com.javiles.eshop.models.CartItem;
-import com.javiles.eshop.models.Product;
-import com.javiles.eshop.models.Role;
-import com.javiles.eshop.models.User;
+import com.javiles.eshop.models.*;
 import com.javiles.eshop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -42,7 +39,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
 
     @Override
-    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
 
@@ -120,16 +116,17 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         productService.saveProduct(greenShirt);
     }
 
-    @Transactional
     private void createTestOrders()
     {
         User user = userService.findByUsername(ADMIN_USERNAME);
+        Cart cart = cartService.findCartByUserId(user.getId());
 
         CartItem cartItem = new CartItem();
         cartItem.setProduct(productService.findProductByName("Green Shirt"));
+        cartItem.setQuantity(1);
         cartItem.setPrice(cartItem.getProduct().getPrice());
-        cartItem.setTotal(cartItem.getProduct().getPrice());
-        cartItem.setCart(cartService.findCartByUserId(user.getId()));
+        cartItem.setTotal(cartItem.getProduct().getPrice() * 3);
+        cartItem.setCart(cart);
 
         cartService.addItemToCart(cartItem);
 

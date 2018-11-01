@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .and()
                 .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
-                .authorizeRequests().antMatchers("/cart/**").authenticated()
+                .authorizeRequests().antMatchers("/cart/**", "/order/**").authenticated()
                 .and()
                 .authorizeRequests().antMatchers("/settings/**", "/checkout").authenticated()
                 .and()

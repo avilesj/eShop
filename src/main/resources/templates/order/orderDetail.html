@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: layoutHeader">
+</head>
+<div th:replace="layout :: mainLayout"></div>
+<div th:fragment="Index">
+    <h1 th:text="'Order #' + ${order.id}">Your orders</h1>
+
+    <div th:unless="${#lists.isEmpty(order.orderItems)}">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr scope="row" th:each="orderItem : ${order.orderItems}">
+                <td><a th:href="@{~/products/{id}(id=${orderItem.product.id})}"
+                       th:text="${orderItem.product.name}">yes</a></td>
+
+                <td th:text="${orderItem.product.price}">10.00</td>
+                <td th:text="${orderItem.quantity}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h1 th:text="'Order total: ' + ${order.total}"></h1>
+
+        <div th:if="${#strings.equals(order.status, 'PENDING')}">
+            <button form="cancelOrderForm" class="btn btn-danger" type="submit">Cancel order</button>
+            <form id="cancelOrderForm"
+                  th:action="@{/order/cancel/{id}(id=${order.id})}"
+                  method="POST">
+            </form>
+        </div>
+        <div>
+            <a th:href="@{/order}" class="btn btn-primary">Back to Orders</a>
+        </div>
+
+    </div>
+</div>

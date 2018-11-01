@@ -95,6 +95,7 @@
                     </div>
                     <div sec:authorize="isAuthenticated()">
                         <ul>
+                            <li><a th:href="@{/order}">Orders</a></li>
                             <li><a th:href="@{/settings}">User settings</a></li>
                             <li><a th:href="@{/logout}">Logout</a></li>
                         </ul>
