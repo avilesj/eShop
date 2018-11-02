@@ -21,7 +21,7 @@ public class StripeController
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/payment", method = RequestMethod.POST)
+    @RequestMapping(value = "/addStripe", method = RequestMethod.POST)
     public String makePayment(@RequestParam("token") String token, Principal principal) throws StripeException
     {
         User user = userService.findByUsername(principal.getName());
