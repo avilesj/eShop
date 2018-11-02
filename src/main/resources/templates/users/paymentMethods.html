@@ -6,6 +6,10 @@
 <h1>Payment methods</h1>
 <div th:if="${stripeCustomer}">
     <p>You are using stripe as a payment method.</p>
+    <button form="deleteStripe" class="btn btn-danger" type="submit">Delete payment method</button>
+    <form id="deleteStripe" th:action="@{~/stripe/delete}"
+          method="POST">
+    </form>
 </div>
 <div th:unless="${stripeCustomer}">
     <a th:href="@{/settings/stripe}">Pay with stripe</a>

@@ -21,11 +21,20 @@ public class StripeController
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/addStripe", method = RequestMethod.POST)
-    public String makePayment(@RequestParam("token") String token, Principal principal) throws StripeException
+    @RequestMapping(value = "/stripe/add", method = RequestMethod.POST)
+    public String addNewStripeCustomer(@RequestParam("token") String token, Principal principal) throws StripeException
     {
         User user = userService.findByUsername(principal.getName());
         stripeService.addNewCustomer(token, user);
-        return "redirect:/admin/";
+        return "redirect:/settings";
     }
+
+    @RequestMapping(value = "/stripe/delete", method = RequestMethod.POST)
+    public String deleteStripeCustomer(Principal principal)
+    {
+        User user = userService.findByUsername(principal.getName());
+        stripeService.deleteCustomer(user);
+        return "redirect:/settings";
+    }
+
 }
