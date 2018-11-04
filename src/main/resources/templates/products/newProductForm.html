@@ -6,7 +6,7 @@
     <div>
         <h1>New Product Form</h1>
         <form role="form" th:action="@{save}" method="POST"
-              th:object="${product}">
+              th:object="${product}" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Name: </label> <input class="form-control" type="text" th:field="${product.name}"
                                              placeholder="Product name"/>
@@ -15,21 +15,9 @@
                 <label>Description: </label> <input type="text"
                                                     th:field="${product.description}" class="form-control"
                                                     placeholder="Product description"/>
+                <input type="file" name="file" accept="image/*"/>
                 <button type="submit" class="btn btn-success">Create Product</button>
             </div>
-        </form>
-
-        <form method="POST" enctype="multipart/form-data" action="/">
-            <table>
-                <tr>
-                    <td>File to upload:</td>
-                    <td><input type="file" name="file" accept="image/*"/></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Upload"/></td>
-                </tr>
-            </table>
         </form>
 
         <div>

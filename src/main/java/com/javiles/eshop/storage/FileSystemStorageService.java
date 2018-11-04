@@ -14,12 +14,14 @@ public class FileSystemStorageService implements ProductImageStorageService
     private final Path rootPath = Paths.get("C:\\eShop\\files\\products\\");
 
     @Override
-    public void storeFile(MultipartFile file, String filename) throws IOException
+    public String storeFile(MultipartFile file, String filename) throws IOException
     {
         try (InputStream inputStream = file.getInputStream())
         {
             Files.copy(inputStream, this.rootPath.resolve(filename),
                     StandardCopyOption.REPLACE_EXISTING);
         }
+
+        return rootPath + filename;
     }
 }
