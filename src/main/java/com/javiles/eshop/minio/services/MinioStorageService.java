@@ -17,7 +17,7 @@ public class MinioStorageService implements ProductImageStorageService
 
         try
         {
-            minioRepository.storeFileInBucket(file.getInputStream(), file.getSize(), this.generateFileName(file), file.getContentType());
+            fileUrl = minioRepository.storeFileInBucket(file.getInputStream(), file.getSize(), this.generateFileName(file), file.getContentType());
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -25,6 +25,12 @@ public class MinioStorageService implements ProductImageStorageService
 
         return fileUrl;
 
+    }
+
+    @Override
+    public void deleteFile(String filename)
+    {
+        minioRepository.deleteFileFromBucket(filename);
     }
 
     private String generateFileName(MultipartFile file)

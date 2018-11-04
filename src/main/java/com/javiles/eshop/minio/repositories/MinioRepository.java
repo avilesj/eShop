@@ -44,4 +44,18 @@ public class MinioRepository
         return productImageUrl;
     }
 
+    public void deleteFileFromBucket(String filename)
+    {
+        try
+        {
+            // Create a minioClient with the Minio Server name, Port, Access key and Secret key.
+            MinioClient minioClient = new MinioClient(minioProperties.getUrl(), minioProperties.getAccessKey(), minioProperties.getSecretKey());
+            minioClient.removeObject(minioProperties.getBucket(), filename);
+            System.out.println("Successfully removed from Minio");
+        } catch (Exception e)
+        {
+            System.out.println("Error occurred: " + e);
+        }
+    }
+
 }

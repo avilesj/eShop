@@ -1,13 +1,14 @@
 package com.javiles.eshop.minio;
 
-
 import com.javiles.eshop.minio.repositories.MinioRepository;
+import com.javiles.eshop.minio.services.MinioStorageService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,17 +23,21 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("dev")
-public class MinioRepositoryTests
+public class MinioStorageServiceTests
 {
     @Autowired
+    private MinioStorageService minioStorageService;
+    @Autowired
     private MinioRepository minioRepository;
+    @Autowired
+    private MinioProperties minioProperties;
 
-    private ByteArrayInputStream object;
+    private MockMultipartFile mockMultipartFile;
 
-    private final String FILENAME = "testfile.txt";
+    private String fileUrl;
 
     @Before
-    public void init()
+    public void init() throws Exception
     {
         StringBuilder builder = new StringBuilder();
 
@@ -54,19 +59,24 @@ public class MinioRepositoryTests
 
 
         // Create a InputStream for object upload.
-        this.object = new ByteArrayInputStream(builder.toString().getBytes(StandardCharsets.UTF_8));
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(builder.toString().getBytes(StandardCharsets.UTF_8));
+        this.mockMultipartFile = new MockMultipartFile("filename.png", "originalfile.png", "image/png", inputStream);
+
     }
 
     @After
     public void terminate()
     {
-        minioRepository.deleteFileFromBucket(FILENAME);
+        String fileToDelete = this.fileUrl.replace(minioProperties.getUrl(), "");
+        fileToDelete = fileToDelete.replace(minioProperties.getBucket(), "");
+        fileToDelete = fileToDelete.replace("/", "");
+        minioRepository.deleteFileFromBucket(fileToDelete);
     }
 
     @Test
-    public void shouldCreateFileOnMinioBucketAndReturnItsUrl() throws Exception
+    public void shouldStoreFileWithUniqueName() throws Exception
     {
-        String fileUrl = minioRepository.storeFileInBucket(this.object, (long) this.object.available(), FILENAME, "text/plain");
+        this.fileUrl = minioStorageService.storeFile(mockMultipartFile);
 
         boolean isFileLengthHigherThanZero = fileUrl.length() > 0;
 
@@ -82,10 +92,11 @@ public class MinioRepositoryTests
     }
 
     @Test
-    public void shouldRemoveFileFromMinioBucket() throws Exception
+    public void shouldDeleteFile() throws Exception
     {
-        String fileUrl = minioRepository.storeFileInBucket(this.object, (long) this.object.available(), FILENAME, "text/plain");
-        minioRepository.deleteFileFromBucket(FILENAME);
+        this.fileUrl = minioStorageService.storeFile(mockMultipartFile);
+
+        boolean isFileLengthHigherThanZero = fileUrl.length() > 0;
 
         URL url = new URL(fileUrl);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -94,6 +105,24 @@ public class MinioRepositoryTests
         int responseCode = httpURLConnection.getResponseCode();
         httpURLConnection.disconnect();
 
+        //Verify successful creation of the file
+        assertTrue(isFileLengthHigherThanZero);
+        assertEquals(200, responseCode);
+
+        //Begin file deletion
+        String fileToDelete = this.fileUrl.replace(minioProperties.getUrl(), "");
+        fileToDelete = fileToDelete.replace(minioProperties.getBucket(), "");
+        fileToDelete = fileToDelete.replace("/", "");
+
+        minioStorageService.deleteFile(fileToDelete);
+
+        httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.connect();
+        responseCode = httpURLConnection.getResponseCode();
+        httpURLConnection.disconnect();
+        //Verify successful deletion of the file
         assertEquals(404, responseCode);
+
     }
 }
