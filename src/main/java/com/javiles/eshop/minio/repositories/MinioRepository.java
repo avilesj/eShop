@@ -1,17 +1,17 @@
-package com.javiles.eshop.storage;
+package com.javiles.eshop.minio.repositories;
 
 import com.javiles.eshop.minio.MinioProperties;
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
-public class MinioStorageService implements ProductImageStorageService
+import java.io.InputStream;
+
+public class MinioRepository
 {
     @Autowired
-    MinioProperties minioProperties;
+    private MinioProperties minioProperties;
 
-    @Override
-    public String storeFile(MultipartFile file, String filename)
+    public String storeFileInBucket(InputStream file, long fileSize, String filename, String contentType)
     {
         String productImageUrl = "";
 
@@ -31,10 +31,9 @@ public class MinioStorageService implements ProductImageStorageService
                 minioClient.makeBucket("eshop");
             }
 
-            // Upload the zip file to the bucket with putObject
-            //minioClient.putObject("asiatrip","asiaphotos.zip", "/home/user/Photos/asiaphotos.zip");
-            minioClient.putObject("eshop", "demonios", file.getInputStream(), file.getSize(), "image/jpg");
-            productImageUrl = minioProperties.getUrl() + "/eshop/demonios";
+
+            minioClient.putObject(minioProperties.getBucket(), filename, file, fileSize, contentType);
+            productImageUrl = minioProperties.getUrl() + "/" + minioProperties.getBucket() + "/" + filename;
 
             System.out.println("Successful upload to Minio");
         } catch (Exception e)

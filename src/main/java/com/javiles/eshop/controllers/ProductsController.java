@@ -71,7 +71,7 @@ public class ProductsController
     {
         try
         {
-            product.setImageUrl(productImageStorageService.storeFile(file, file.getName()));
+            product.setImageUrl(productImageStorageService.storeFile(file));
         } catch (Exception e)
         {
             e.printStackTrace();

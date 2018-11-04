@@ -5,6 +5,17 @@ public class MinioProperties
     private String accessKey;
     private String secretKey;
     private String url;
+    private String bucket;
+
+    public String getBucket()
+    {
+        return bucket;
+    }
+
+    public void setBucket(String bucket)
+    {
+        this.bucket = bucket;
+    }
 
     public String getAccessKey()
     {
