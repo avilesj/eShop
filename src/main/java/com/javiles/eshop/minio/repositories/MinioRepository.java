@@ -11,9 +11,8 @@ public class MinioRepository
     @Autowired
     private MinioProperties minioProperties;
 
-    public String storeFileInBucket(InputStream file, long fileSize, String filename, String contentType)
+    public void storeFileInBucket(InputStream file, long fileSize, String filename, String contentType)
     {
-        String productImageUrl = "";
 
         try
         {
@@ -21,19 +20,18 @@ public class MinioRepository
             MinioClient minioClient = new MinioClient(minioProperties.getUrl(), minioProperties.getAccessKey(), minioProperties.getSecretKey());
 
             // Check if the bucket already exists.
-            boolean isExist = minioClient.bucketExists("eshop");
+            boolean isExist = minioClient.bucketExists(minioProperties.getBucket());
             if (isExist)
             {
                 System.out.println("Bucket already exists.");
             } else
             {
-                // Make a new bucket called asiatrip to hold a zip file of photos.
-                minioClient.makeBucket("eshop");
+                // Make a new bucket
+                minioClient.makeBucket(minioProperties.getBucket());
             }
 
 
             minioClient.putObject(minioProperties.getBucket(), filename, file, fileSize, contentType);
-            productImageUrl = minioProperties.getUrl() + "/" + minioProperties.getBucket() + "/" + filename;
 
             System.out.println("Successful upload to Minio");
         } catch (Exception e)
@@ -41,7 +39,6 @@ public class MinioRepository
             System.out.println("Error occurred: " + e);
         }
 
-        return productImageUrl;
     }
 
     public void deleteFileFromBucket(String filename)
@@ -56,6 +53,13 @@ public class MinioRepository
         {
             System.out.println("Error occurred: " + e);
         }
+    }
+
+    public String getFileUrlFromBucket(String filename)
+    {
+        String rootUrl = minioProperties.getUrl();
+        String bucket = minioProperties.getBucket();
+        return rootUrl + "/" + bucket + "/" + filename;
     }
 
 }

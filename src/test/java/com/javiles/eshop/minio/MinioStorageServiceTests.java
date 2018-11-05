@@ -34,7 +34,9 @@ public class MinioStorageServiceTests
 
     private MockMultipartFile mockMultipartFile;
 
-    private String fileUrl;
+    private final String TEST_FILE_NAME = "green-tshirt";
+    private String serviceFileName;
+    private String BUCKET_URL;
 
     @Before
     public void init() throws Exception
@@ -62,25 +64,24 @@ public class MinioStorageServiceTests
         ByteArrayInputStream inputStream = new ByteArrayInputStream(builder.toString().getBytes(StandardCharsets.UTF_8));
         this.mockMultipartFile = new MockMultipartFile("filename.png", "originalfile.png", "image/png", inputStream);
 
+        this.BUCKET_URL = minioProperties.getUrl() + "/" + minioProperties.getBucket() + "/";
     }
 
     @After
     public void terminate()
     {
-        String fileToDelete = this.fileUrl.replace(minioProperties.getUrl(), "");
-        fileToDelete = fileToDelete.replace(minioProperties.getBucket(), "");
-        fileToDelete = fileToDelete.replace("/", "");
-        minioRepository.deleteFileFromBucket(fileToDelete);
+        minioRepository.deleteFileFromBucket(serviceFileName);
     }
 
     @Test
     public void shouldStoreFileWithUniqueName() throws Exception
     {
-        this.fileUrl = minioStorageService.storeFile(mockMultipartFile);
+        this.serviceFileName = minioStorageService.storeFile(mockMultipartFile, TEST_FILE_NAME);
 
-        boolean isFileLengthHigherThanZero = fileUrl.length() > 0;
+        boolean isFileLengthHigherThanZero = serviceFileName.length() > 0;
+        boolean containsTestFileName = this.serviceFileName.contains(TEST_FILE_NAME);
 
-        URL url = new URL(fileUrl);
+        URL url = new URL(BUCKET_URL + serviceFileName);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.connect();
@@ -88,17 +89,19 @@ public class MinioStorageServiceTests
         httpURLConnection.disconnect();
 
         assertTrue(isFileLengthHigherThanZero);
+        assertTrue(containsTestFileName);
         assertEquals(200, responseCode);
     }
 
     @Test
     public void shouldDeleteFile() throws Exception
     {
-        this.fileUrl = minioStorageService.storeFile(mockMultipartFile);
+        this.serviceFileName = minioStorageService.storeFile(mockMultipartFile, TEST_FILE_NAME);
 
-        boolean isFileLengthHigherThanZero = fileUrl.length() > 0;
+        boolean isFileLengthHigherThanZero = serviceFileName.length() > 0;
+        boolean containsTestFileName = this.serviceFileName.contains(TEST_FILE_NAME);
 
-        URL url = new URL(fileUrl);
+        URL url = new URL(BUCKET_URL + serviceFileName);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.connect();
@@ -107,10 +110,11 @@ public class MinioStorageServiceTests
 
         //Verify successful creation of the file
         assertTrue(isFileLengthHigherThanZero);
+        assertTrue(containsTestFileName);
         assertEquals(200, responseCode);
 
         //Begin file deletion
-        String fileToDelete = this.fileUrl.replace(minioProperties.getUrl(), "");
+        String fileToDelete = this.serviceFileName.replace(minioProperties.getUrl(), "");
         fileToDelete = fileToDelete.replace(minioProperties.getBucket(), "");
         fileToDelete = fileToDelete.replace("/", "");
 

@@ -17,7 +17,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,10 +25,13 @@ public class MinioRepositoryTests
 {
     @Autowired
     private MinioRepository minioRepository;
+    @Autowired
+    private MinioProperties minioProperties;
 
     private ByteArrayInputStream object;
 
     private final String FILENAME = "testfile.txt";
+    private String BUCKET_URL;
 
     @Before
     public void init()
@@ -55,6 +57,7 @@ public class MinioRepositoryTests
 
         // Create a InputStream for object upload.
         this.object = new ByteArrayInputStream(builder.toString().getBytes(StandardCharsets.UTF_8));
+        this.BUCKET_URL = minioProperties.getUrl() + "/" + minioProperties.getBucket() + "/";
     }
 
     @After
@@ -66,28 +69,25 @@ public class MinioRepositoryTests
     @Test
     public void shouldCreateFileOnMinioBucketAndReturnItsUrl() throws Exception
     {
-        String fileUrl = minioRepository.storeFileInBucket(this.object, (long) this.object.available(), FILENAME, "text/plain");
+        minioRepository.storeFileInBucket(this.object, (long) this.object.available(), FILENAME, "text/plain");
 
-        boolean isFileLengthHigherThanZero = fileUrl.length() > 0;
-
-        URL url = new URL(fileUrl);
+        URL url = new URL(BUCKET_URL + FILENAME);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.connect();
         int responseCode = httpURLConnection.getResponseCode();
         httpURLConnection.disconnect();
 
-        assertTrue(isFileLengthHigherThanZero);
         assertEquals(200, responseCode);
     }
 
     @Test
     public void shouldRemoveFileFromMinioBucket() throws Exception
     {
-        String fileUrl = minioRepository.storeFileInBucket(this.object, (long) this.object.available(), FILENAME, "text/plain");
+        minioRepository.storeFileInBucket(this.object, (long) this.object.available(), FILENAME, "text/plain");
         minioRepository.deleteFileFromBucket(FILENAME);
 
-        URL url = new URL(fileUrl);
+        URL url = new URL(BUCKET_URL + FILENAME);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.connect();

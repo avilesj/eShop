@@ -11,19 +11,19 @@ public class MinioStorageService implements ProductImageStorageService
     private MinioRepository minioRepository;
 
     @Override
-    public String storeFile(MultipartFile file)
+    public String storeFile(MultipartFile file, String filename)
     {
-        String fileUrl = "";
-
+        String newFileName = this.generateFileName(file, filename);
         try
         {
-            fileUrl = minioRepository.storeFileInBucket(file.getInputStream(), file.getSize(), this.generateFileName(file), file.getContentType());
+            minioRepository.storeFileInBucket(file.getInputStream(), file.getSize(), newFileName, file.getContentType());
+            return newFileName;
         } catch (Exception e)
         {
             e.printStackTrace();
         }
 
-        return fileUrl;
+        return null;
 
     }
 
@@ -33,13 +33,20 @@ public class MinioStorageService implements ProductImageStorageService
         minioRepository.deleteFileFromBucket(filename);
     }
 
-    private String generateFileName(MultipartFile file)
+    @Override
+    public String getFileUrl(String filename)
     {
-        String filename = file.getName();
+        return minioRepository.getFileUrlFromBucket(filename);
+    }
+
+    private String generateFileName(MultipartFile file, String filename)
+    {
+        int lastIndex = file.getName().lastIndexOf(".");
+        String fileExtension = file.getName().substring(lastIndex);
         String size = String.valueOf(file.getSize());
         String time = String.valueOf(System.currentTimeMillis());
 
-        return size + "_" + time + "_" + filename;
+        return size + "_" + time + "_" + filename + fileExtension;
     }
 
 }
