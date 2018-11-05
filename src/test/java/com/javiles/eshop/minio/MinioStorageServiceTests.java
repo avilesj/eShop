@@ -129,4 +129,12 @@ public class MinioStorageServiceTests
         assertEquals(404, responseCode);
 
     }
+
+    @Test
+    public void shouldRetrieveFileFullUrl()
+    {
+        this.serviceFileName = minioStorageService.storeFile(mockMultipartFile, TEST_FILE_NAME);
+        String url = minioStorageService.getFileUrl(this.serviceFileName);
+        assertEquals(url, this.BUCKET_URL + this.serviceFileName);
+    }
 }

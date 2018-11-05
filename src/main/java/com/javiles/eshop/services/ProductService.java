@@ -3,6 +3,7 @@ package com.javiles.eshop.services;
 import com.javiles.eshop.models.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public interface ProductService
 {
 
     void saveProduct(Product product);
+
+    void saveProduct(Product product, MultipartFile picture);
 
     Product findProductByName(String name);
 

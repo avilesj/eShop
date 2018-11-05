@@ -4,6 +4,7 @@ import com.javiles.eshop.models.Product;
 import com.javiles.eshop.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,6 +20,12 @@ public class ProductServiceImpl implements ProductService
     {
         product.setName(product.getName().toLowerCase());
         productRepository.save(product);
+
+    }
+
+    @Override
+    public void saveProduct(Product product, MultipartFile picture)
+    {
 
     }
 
