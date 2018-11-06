@@ -21,6 +21,19 @@ public class Product
     private double price;
     private String imageFilename;
 
+    @Transient
+    private String imageFileUrl;
+
+    public String getImageFileUrl()
+    {
+        return imageFileUrl;
+    }
+
+    public void setImageFileUrl(String imageFileUrl)
+    {
+        this.imageFileUrl = imageFileUrl;
+    }
+
     public String getImageFilename()
     {
         return imageFilename;

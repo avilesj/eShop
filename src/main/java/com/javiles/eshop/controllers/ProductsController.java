@@ -69,15 +69,14 @@ public class ProductsController
     @RequestMapping(value = {"/save", "/edit/{id}"}, method = RequestMethod.POST)
     public String saveProduct(final Product product, Model model, @RequestParam(value = "file", required = false) MultipartFile file)
     {
-        try
+        if (file == null)
         {
-            product.setImageFilename(productImageStorageService.storeFile(file, "test"));
-        } catch (Exception e)
+            productService.saveProduct(product);
+        } else
         {
-            e.printStackTrace();
+            productService.saveProduct(product, file);
         }
 
-        productService.saveProduct(product);
         model.addAttribute("product", product);
         return "redirect:/products/" + product.getId();
     }
