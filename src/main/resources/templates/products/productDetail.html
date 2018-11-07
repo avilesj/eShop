@@ -13,7 +13,7 @@
                 <div th:text="${#numbers.formatDecimal(product.price,0,2)}"></div>
                 <div th:text="${product.description}"></div>
                 <div th:if="${product.imageFileUrl}">
-                    <img th:src="${product.imageFileUrl}">
+                    <img id="product-image" th:src="${product.imageFileUrl}">
                 </div>
                 <label>Amount</label>
                 <select th:field="${cartItem.quantity}">
