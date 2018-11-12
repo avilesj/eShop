@@ -20,6 +20,8 @@ public interface ProductService
 
     void updateProduct(Product product);
 
+    void updateProduct(Product product, MultipartFile picture);
+
     void deleteProduct(long id);
 
     Product findProductById(long id);

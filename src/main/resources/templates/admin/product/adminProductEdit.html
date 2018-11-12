@@ -21,6 +21,9 @@
                 <label>Price: </label> <input class="form-control" type="text" th:field="${productForm.price}"/>
                 <label>Description: </label> <input type="text"
                                                     th:field="${productForm.description}" class="form-control"/>
+                <div th:if="${productForm.imageFileUrl}">
+                    <img id="product-image" th:src="${productForm.imageFileUrl}">
+                </div>
                 <button type="submit" class="btn btn-success">Edit Product</button>
             </div>
         </form>

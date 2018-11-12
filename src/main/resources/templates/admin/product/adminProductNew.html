@@ -14,7 +14,7 @@
         </h1>
 
         <form role="form" th:action="@{/admin/product/save}" method="POST"
-              th:object="${productForm}">
+              th:object="${productForm}" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Name: </label> <input class="form-control" type="text" th:field="${productForm.name}"
                                              placeholder="Product name"/>
@@ -23,6 +23,7 @@
                 <label>Description: </label> <input type="text"
                                                     th:field="${productForm.description}" class="form-control"
                                                     placeholder="Product description"/>
+                <input type="file" name="file" accept="image/*"/>
                 <button type="submit" class="btn btn-success">Create Product</button>
             </div>
         </form>

@@ -70,6 +70,12 @@ public class ProductServiceImpl implements ProductService
     }
 
     @Override
+    public void updateProduct(Product product, MultipartFile picture)
+    {
+
+    }
+
+    @Override
     public void deleteProduct(long id)
     {
         productRepository.deleteById(id);
