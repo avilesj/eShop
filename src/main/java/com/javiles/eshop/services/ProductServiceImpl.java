@@ -107,6 +107,15 @@ public class ProductServiceImpl implements ProductService
     @Override
     public void deleteProduct(long id)
     {
+        Product dbProduct = productRepository.findById(id);
+        try
+        {
+            this.productImageStorageService.deleteFile(dbProduct.getImageFilename());
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         productRepository.deleteById(id);
     }
 
