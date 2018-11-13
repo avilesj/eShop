@@ -41,16 +41,20 @@ public class MinioStorageService implements ProductImageStorageService
 
     private String generateFileName(MultipartFile file, String filename)
     {
-        String fileExtension = "";
+        String fileExtension;
         String size = String.valueOf(file.getSize());
         String time = String.valueOf(System.currentTimeMillis());
+        int originalFilenameLength = file.getOriginalFilename().length();
         int lastIndex;
 
         lastIndex = file.getOriginalFilename().lastIndexOf('.');
 
-        if (lastIndex != -1)
+        if (lastIndex == -1)
         {
             fileExtension = ".tmp";
+        } else
+        {
+            fileExtension = file.getOriginalFilename().substring(lastIndex, originalFilenameLength);
         }
 
         return size + "_" + time + "_" + filename + fileExtension;
