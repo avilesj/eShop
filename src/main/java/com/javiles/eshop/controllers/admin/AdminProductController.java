@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -51,17 +52,31 @@ public class AdminProductController
 
 
     @RequestMapping(value = {"/product/save"}, method = RequestMethod.POST)
-    public String saveProduct(final Product product, Model model)
+    public String saveProduct(final Product product, Model model, @RequestParam(value = "file", required = false) MultipartFile file)
     {
-        productService.saveProduct(product);
-        model.addAttribute("productForm", product);
+        if (file.isEmpty())
+        {
+            productService.saveProduct(product);
+        } else
+        {
+            productService.saveProduct(product, file);
+        }
+
+        model.addAttribute("product", product);
         return "redirect:/admin/product/edit/" + product.getId();
     }
 
     @RequestMapping(value = {"/product/edit/{id}"}, method = RequestMethod.POST)
-    public String saveEditedProduct(final Product product, Model model)
+    public String saveEditedProduct(final Product product, Model model, @RequestParam(value = "file", required = false) MultipartFile file)
     {
-        productService.updateProduct(product);
+        if (file == null)
+        {
+            productService.updateProduct(product);
+        } else
+        {
+            productService.updateProduct(product, file);
+        }
+
         return "redirect:/admin/product/";
     }
 

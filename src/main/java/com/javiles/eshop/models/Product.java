@@ -19,6 +19,30 @@ public class Product
     @Column(nullable = false, precision = 10, scale = 2)
     @NumberFormat(pattern = "#00.00")
     private double price;
+    private String imageFilename;
+
+    @Transient
+    private String imageFileUrl;
+
+    public String getImageFileUrl()
+    {
+        return imageFileUrl;
+    }
+
+    public void setImageFileUrl(String imageFileUrl)
+    {
+        this.imageFileUrl = imageFileUrl;
+    }
+
+    public String getImageFilename()
+    {
+        return imageFilename;
+    }
+
+    public void setImageFilename(String imageFilename)
+    {
+        this.imageFilename = imageFilename;
+    }
 
     public long getId()
     {

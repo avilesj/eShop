@@ -42,8 +42,11 @@
                     <td>
                         <a type="button" class="btn btn-info"
                            th:href="@{~/admin/product/edit/{id}(id=${product.id})}">Edit</a>
-                        <button form="deleteProductForm" class="btn btn-danger" type="submit">Delete</button>
-                        <form id="deleteProductForm" th:action="@{~/admin/product/delete/{id}(id=${product.id})}"
+                        <button th:form="'deleteProductForm-' + ${product.id}" class="btn btn-danger" type="submit">
+                            Delete
+                        </button>
+                        <form th:id="'deleteProductForm-' + ${product.id}"
+                              th:action="@{~/admin/product/delete/{id}(id=${product.id})}"
                               method="POST">
                         </form>
                     </td>

@@ -13,14 +13,18 @@
             Edit Product
         </h1>
 
-        <form role="form" th:action="@{/admin/product/edit/{id}(id=productForm.id)}" method="POST"
-              th:object="${productForm}">
+        <form role="form" th:action="@{/admin/product/edit/{id}(id=${productForm.id})}" method="POST"
+              th:object="${productForm}" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Id: </label> <input class="form-control" type="hidden" th:field="${productForm.id}"/>
                 <label>Name: </label> <input class="form-control" type="text" th:field="${productForm.name}"/>
                 <label>Price: </label> <input class="form-control" type="text" th:field="${productForm.price}"/>
                 <label>Description: </label> <input type="text"
                                                     th:field="${productForm.description}" class="form-control"/>
+                <div th:if="${productForm.imageFileUrl}">
+                    <img id="product-image" th:src="${productForm.imageFileUrl}">
+                    <input type="file" name="file" accept="image/*"/>
+                </div>
                 <button type="submit" class="btn btn-success">Edit Product</button>
             </div>
         </form>

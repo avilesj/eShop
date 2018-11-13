@@ -3,6 +3,7 @@ package com.javiles.eshop.controllers;
 import com.javiles.eshop.models.CartItem;
 import com.javiles.eshop.models.Product;
 import com.javiles.eshop.services.ProductService;
+import com.javiles.eshop.storage.ProductImageStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,6 +22,9 @@ public class ProductsController
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ProductImageStorageService productImageStorageService;
 
     @RequestMapping("")
     public String getProducts(Model model)
@@ -62,9 +67,16 @@ public class ProductsController
     }
 
     @RequestMapping(value = {"/save", "/edit/{id}"}, method = RequestMethod.POST)
-    public String saveProduct(final Product product, Model model)
+    public String saveProduct(final Product product, Model model, @RequestParam(value = "file", required = false) MultipartFile file)
     {
-        productService.saveProduct(product);
+        if (file == null)
+        {
+            productService.saveProduct(product);
+        } else
+        {
+            productService.saveProduct(product, file);
+        }
+
         model.addAttribute("product", product);
         return "redirect:/products/" + product.getId();
     }
