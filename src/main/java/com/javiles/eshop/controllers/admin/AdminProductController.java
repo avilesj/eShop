@@ -54,7 +54,7 @@ public class AdminProductController
     @RequestMapping(value = {"/product/save"}, method = RequestMethod.POST)
     public String saveProduct(final Product product, Model model, @RequestParam(value = "file", required = false) MultipartFile file)
     {
-        if (file == null)
+        if (file.isEmpty())
         {
             productService.saveProduct(product);
         } else
