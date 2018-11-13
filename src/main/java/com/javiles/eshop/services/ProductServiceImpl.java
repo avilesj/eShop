@@ -59,20 +59,49 @@ public class ProductServiceImpl implements ProductService
     @Override
     public void updateProduct(Product product)
     {
-        product.setName(this.prepareProductName(product.getName()));
+        this.receivedProduct = product;
 
-        Product dbProduct = productRepository.findById(product.getId());
-        dbProduct.setName(product.getName());
-        dbProduct.setPrice(product.getPrice());
-        dbProduct.setDescription(product.getDescription());
+        Product dbProduct = productRepository.findById(this.receivedProduct.getId());
+        if (dbProduct != null)
+        {
+            this.prepareProductPersistence();
+            dbProduct.setName(this.receivedProduct.getName());
+            dbProduct.setPrice(this.receivedProduct.getPrice());
+            dbProduct.setDescription(this.receivedProduct.getDescription());
 
-        productRepository.save(product);
+            productRepository.save(dbProduct);
+        }
     }
 
     @Override
     public void updateProduct(Product product, MultipartFile picture)
     {
+        this.receivedProduct = product;
 
+        Product dbProduct = productRepository.findById(this.receivedProduct.getId());
+        if (dbProduct != null)
+        {
+            try
+            {
+                //Prepare the information of the received product to match database stored data.
+                this.prepareProductPersistence();
+                //Proceed to delete stored file
+                this.productImageStorageService.deleteFile(dbProduct.getImageFilename());
+                //Upload new file
+                String imageFilename = this.productImageStorageService.storeFile(picture, String.valueOf(this.receivedProduct.getId()));
+
+                //Proceed to update the product
+                dbProduct.setName(this.receivedProduct.getName());
+                dbProduct.setPrice(this.receivedProduct.getPrice());
+                dbProduct.setDescription(this.receivedProduct.getDescription());
+                dbProduct.setImageFilename(imageFilename);
+
+                productRepository.save(dbProduct);
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

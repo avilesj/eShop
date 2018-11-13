@@ -77,7 +77,6 @@ public class AdminProductController
             productService.updateProduct(product, file);
         }
 
-        model.addAttribute("product", product);
         return "redirect:/admin/product/";
     }
 
