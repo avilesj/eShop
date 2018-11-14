@@ -67,6 +67,12 @@ public class AppConfig
     }
 
     @Bean
+    public CountryService countryService()
+    {
+        return new CountryServiceImpl();
+    }
+
+    @Bean
     public MessageSource messageSource()
     {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();

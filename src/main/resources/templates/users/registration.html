@@ -24,7 +24,23 @@
                 <label>Password Confirm: </label> <input type="password"
                                                          th:field="${userForm.passwordConfirm}" class="form-control"
                                                          placeholder="Password Confirm"/>
-
+                <p>Personal Information</p>
+                <label>E-mail: </label> <input class="form-control" type="text" th:field="${userForm.email}"
+                                               placeholder="E-mail" name="email"/>
+                <label>Address: </label> <input class="form-control" type="text" th:field="${userForm.address}"
+                                                placeholder="Address" name="address"/>
+                <label>Phone Number: </label> <input class="form-control" type="text" th:field="${userForm.phoneNumber}"
+                                                     placeholder="Phone Number" name="phoneNumber"/>
+                <label>Country: </label>
+                <select th:field="${userForm.country.countryCode}">
+                    <option th:each="country: ${countries}" th:value="${country.countryCode}"
+                            th:text="${country.countryName}"></option>
+                </select>
+                <br>
+                <label>City: </label> <input class="form-control" type="text" th:field="${userForm.city}"
+                                             placeholder="City" name="city"/>
+                <label>Zip Code: </label> <input class="form-control" type="text" th:field="${userForm.zipCode}"
+                                                 placeholder="Zip Code" name="zipCode"/>
                 <button type="submit" class="btn btn-success">Register</button>
             </div>
         </form>

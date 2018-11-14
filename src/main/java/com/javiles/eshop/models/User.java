@@ -13,6 +13,13 @@ public class User
     private String password;
     private String passwordConfirm;
     private Set<Role> roles;
+    //Personal data
+    private String email;
+    private String address;
+    private String phoneNumber;
+    private Country country;
+    private String city;
+    private String zipCode;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -69,4 +76,65 @@ public class User
         this.roles = roles;
     }
 
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public String getAddress()
+    {
+        return address;
+    }
+
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+
+    public String getPhoneNumber()
+    {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber)
+    {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getCity()
+    {
+        return city;
+    }
+
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+
+    public String getZipCode()
+    {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode)
+    {
+        this.zipCode = zipCode;
+    }
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "country_code")
+    public Country getCountry()
+    {
+        return country;
+    }
+
+    public void setCountry(Country country)
+    {
+        this.country = country;
+    }
 }

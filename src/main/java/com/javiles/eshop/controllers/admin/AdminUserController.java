@@ -2,6 +2,7 @@ package com.javiles.eshop.controllers.admin;
 
 import com.javiles.eshop.models.Role;
 import com.javiles.eshop.models.User;
+import com.javiles.eshop.services.CountryService;
 import com.javiles.eshop.services.RoleService;
 import com.javiles.eshop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class AdminUserController
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private CountryService countryService;
+
     //User section methods
     @RequestMapping("/user")
     public String getUserDashboard()
@@ -44,6 +48,7 @@ public class AdminUserController
     {
         HashSet<Role> foundRoles = roleService.getAllRoles();
         model.addAttribute("userForm", new User());
+        model.addAttribute("countries", countryService.getAllCountries());
         model.addAttribute("userRoles", foundRoles);
         return "admin/user/adminUserNew";
     }

@@ -1,7 +1,9 @@
 package com.javiles.eshop.controllers.user;
 
+import com.javiles.eshop.models.Country;
 import com.javiles.eshop.models.Role;
 import com.javiles.eshop.models.User;
+import com.javiles.eshop.services.CountryService;
 import com.javiles.eshop.services.RoleService;
 import com.javiles.eshop.services.SecurityService;
 import com.javiles.eshop.services.UserService;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.HashSet;
+import java.util.List;
 
 @Controller
 public class UserController
@@ -40,25 +43,33 @@ public class UserController
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private CountryService countryService;
+
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model)
     {
+        List<Country> countries = countryService.getAllCountries();
         model.addAttribute("userForm", new User());
+        model.addAttribute("countries", countries);
         return "users/registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, SecurityContextHolderAwareRequestWrapper request)
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, SecurityContextHolderAwareRequestWrapper request, Model model)
     {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors())
         {
+            model.addAttribute("countries", countryService.getAllCountries());
             return "users/registration";
         }
 
         if (request.isUserInRole("ADMIN"))
         {
+            Country country = countryService.getCountryByCode(userForm.getCountry().getCountryCode());
+            userForm.setCountry(country);
             userService.save(userForm);
             return "redirect:/admin/user";
         }
@@ -67,6 +78,10 @@ public class UserController
         HashSet<Role> roles = new HashSet<>();
         roles.add(role);
         userForm.setRoles(roles);
+
+        Country country = countryService.getCountryByCode(userForm.getCountry().getCountryCode());
+        userForm.setCountry(country);
+
         userService.save(userForm);
         securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
         return "redirect:/";
@@ -92,6 +107,9 @@ public class UserController
         HashSet<Role> roles = new HashSet<>();
         roles.add(role);
         userForm.setRoles(roles);
+
+        Country country = countryService.getCountryByCode(userForm.getCountry().getCountryCode());
+        userForm.setCountry(country);
         userService.updateUser(userForm);
         return "redirect:/";
     }
