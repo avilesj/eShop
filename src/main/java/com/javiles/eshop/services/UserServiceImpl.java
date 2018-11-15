@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void updateUser(User user)
+    public void updateUserPasswordAndRoles(User user)
     {
         user.setUsername(user.getUsername().toLowerCase());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -89,6 +89,21 @@ public class UserServiceImpl implements UserService
 
         userRepository.save(dbUser);
 
+    }
+
+    @Override
+    public void updateUserPersonalInformation(User user)
+    {
+        User dbUser = findByUsername(user.getUsername());
+
+        dbUser.setCountry(user.getCountry());
+        dbUser.setAddress(user.getAddress());
+        dbUser.setEmail(user.getEmail());
+        dbUser.setCity(user.getCity());
+        dbUser.setZipCode(user.getZipCode());
+        dbUser.setPhoneNumber(user.getPhoneNumber());
+
+        userRepository.save(dbUser);
     }
 
 

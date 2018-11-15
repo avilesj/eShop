@@ -1,5 +1,6 @@
 package com.javiles.eshop.controllers.user;
 
+import com.javiles.eshop.models.Country;
 import com.javiles.eshop.models.User;
 import com.javiles.eshop.services.CountryService;
 import com.javiles.eshop.services.UserService;
@@ -8,6 +9,7 @@ import com.javiles.eshop.stripe.services.StripeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -65,9 +67,12 @@ public class UserSettingsController
     }
 
     @RequestMapping(value = "/personalinfo", method = RequestMethod.POST)
-    public String updateUserPersonalInfo(Principal principal, Model model)
+    public String updateUserPersonalInfo(@ModelAttribute("userForm") User userForm, Principal principal, Model model)
     {
-        //To do
-        return "users/personalInfo";
+        Country country = countryService.getCountryByCode(userForm.getCountry().getCountryCode());
+        userForm.setUsername(principal.getName());
+        userForm.setCountry(country);
+        userService.updateUserPersonalInformation(userForm);
+        return "redirect:/settings";
     }
 }

@@ -1,6 +1,8 @@
 package com.javiles.eshop.controllers;
 
+import com.javiles.eshop.models.Country;
 import com.javiles.eshop.models.User;
+import com.javiles.eshop.services.CountryService;
 import com.javiles.eshop.services.SecurityService;
 import com.javiles.eshop.services.UserService;
 import org.junit.Before;
@@ -41,6 +43,9 @@ public class UserControllerTests
     @Autowired
     private SecurityService securityService;
 
+    @Autowired
+    private CountryService countryService;
+
     private User databaseUser;
     private User testingUser;
 
@@ -48,15 +53,19 @@ public class UserControllerTests
     @Before
     public void initialization()
     {
+        Country country = countryService.getCountryByCode("NZ");
+
         databaseUser = new User();
         databaseUser.setUsername(DEFAULT_USERNAME);
         databaseUser.setPassword(DEFAULT_PASSWORD);
         databaseUser.setPasswordConfirm(DEFAULT_PASSWORD);
+        databaseUser.setCountry(country);
 
         testingUser = new User();
         testingUser.setUsername(DEFAULT_USERNAME);
         testingUser.setPassword(DEFAULT_PASSWORD);
         testingUser.setPasswordConfirm(DEFAULT_PASSWORD);
+        testingUser.setCountry(country);
     }
 
     @Test

@@ -99,7 +99,7 @@ public class UserController
 
         if (request.isUserInRole("ADMIN"))
         {
-            userService.updateUser(userForm);
+            userService.updateUserPasswordAndRoles(userForm);
             return "redirect:/admin/user";
         }
 
@@ -110,7 +110,7 @@ public class UserController
 
         Country country = countryService.getCountryByCode(userForm.getCountry().getCountryCode());
         userForm.setCountry(country);
-        userService.updateUser(userForm);
+        userService.updateUserPasswordAndRoles(userForm);
         return "redirect:/";
     }
 

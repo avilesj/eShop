@@ -20,5 +20,7 @@ public interface UserService
 
     List<User> searchUserByUsername(String name);
 
-    void updateUser(User user);
+    void updateUserPasswordAndRoles(User user);
+
+    void updateUserPersonalInformation(User user);
 }
