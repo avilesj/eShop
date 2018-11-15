@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: layoutHeader">
+</head>
+<div th:replace="layout :: mainLayout"></div>
+<main class="container" role="main">
+    <div>
+        <h1>Your personal information.</h1>
+
+        <form role="form" th:action="@{/settings/personalinfo}" method="POST"
+              th:object="${userForm}">
+
+            <div class="form-group">
+                <label>E-mail: </label> <input class="form-control" type="text" th:field="${userForm.email}"
+                                               placeholder="E-mail" name="email"/>
+                <label>Address: </label> <input class="form-control" type="text" th:field="${userForm.address}"
+                                                placeholder="Address" name="address"/>
+                <label>Phone Number: </label> <input class="form-control" type="text" th:field="${userForm.phoneNumber}"
+                                                     placeholder="Phone Number" name="phoneNumber"/>
+                <label>Country: </label>
+                <select th:field="${userForm.country.countryCode}">
+                    <option th:each="country: ${countries}" th:value="${country.countryCode}"
+                            th:text="${country.countryName}"></option>
+                </select>
+                <br>
+                <label>City: </label> <input class="form-control" type="text" th:field="${userForm.city}"
+                                             placeholder="City" name="city"/>
+                <label>Zip Code: </label> <input class="form-control" type="text" th:field="${userForm.zipCode}"
+                                                 placeholder="Zip Code" name="zipCode"/>
+                <button type="submit" class="btn btn-success">Update</button>
+            </div>
+        </form>
+        <div>
+            <a type="button" class="btn btn-outline-primary" th:href="@{/settings}">Cancel</a>
+        </div>
+    </div>
+</main>
