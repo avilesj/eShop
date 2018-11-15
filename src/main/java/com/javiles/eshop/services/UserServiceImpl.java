@@ -106,5 +106,14 @@ public class UserServiceImpl implements UserService
         userRepository.save(dbUser);
     }
 
+    @Override
+    public void updateUserPassword(User user)
+    {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        User dbUser = findByUsername(user.getUsername());
+        dbUser.setPassword(user.getPassword());
+        userRepository.save(dbUser);
+    }
+
 
 }

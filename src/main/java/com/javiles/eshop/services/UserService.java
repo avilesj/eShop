@@ -23,4 +23,6 @@ public interface UserService
     void updateUserPasswordAndRoles(User user);
 
     void updateUserPersonalInformation(User user);
+
+    void updateUserPassword(User user);
 }
