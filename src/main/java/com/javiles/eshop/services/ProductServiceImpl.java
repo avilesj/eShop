@@ -78,25 +78,25 @@ public class ProductServiceImpl implements ProductService
     {
         this.receivedProduct = product;
 
-        Product dbProduct = productRepository.findById(this.receivedProduct.getId());
-        if (dbProduct != null)
+        Product foundProduct = productRepository.findById(this.receivedProduct.getId());
+        if (foundProduct != null)
         {
             try
             {
                 //Prepare the information of the received product to match database stored data.
                 this.prepareProductPersistence();
                 //Proceed to delete stored file
-                this.productImageStorageService.deleteFile(dbProduct.getImageFilename());
+                this.productImageStorageService.deleteFile(foundProduct.getImageFilename());
                 //Upload new file
                 String imageFilename = this.productImageStorageService.storeFile(picture, String.valueOf(this.receivedProduct.getId()));
 
                 //Proceed to update the product
-                dbProduct.setName(this.receivedProduct.getName());
-                dbProduct.setPrice(this.receivedProduct.getPrice());
-                dbProduct.setDescription(this.receivedProduct.getDescription());
-                dbProduct.setImageFilename(imageFilename);
+                foundProduct.setName(this.receivedProduct.getName());
+                foundProduct.setPrice(this.receivedProduct.getPrice());
+                foundProduct.setDescription(this.receivedProduct.getDescription());
+                foundProduct.setImageFilename(imageFilename);
 
-                productRepository.save(dbProduct);
+                productRepository.save(foundProduct);
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -107,10 +107,10 @@ public class ProductServiceImpl implements ProductService
     @Override
     public void deleteProduct(long id)
     {
-        Product dbProduct = productRepository.findById(id);
+        Product foundProduct = productRepository.findById(id);
         try
         {
-            this.productImageStorageService.deleteFile(dbProduct.getImageFilename());
+            this.productImageStorageService.deleteFile(foundProduct.getImageFilename());
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -131,6 +131,7 @@ public class ProductServiceImpl implements ProductService
     public List<Product> showAllProducts()
     {
         this.receivedProductList = productRepository.findAll();
+        //Refactor this.
         for (Product p : this.receivedProductList)
         {
             this.receivedProduct = p;

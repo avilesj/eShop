@@ -26,12 +26,13 @@ public class OrderServiceImpl implements OrderService
     public void createOrder(Cart cart)
     {
         double orderTotal = 0;
-        List<OrderItem> orderItemList = new ArrayList<>();
+        List<OrderItem> orderItems = new ArrayList<>();
 
         Order order = new Order();
         order.setStatus(PENDING);
         order.setUser(cart.getUser());
 
+        //Extract cart products and add them to the order items
         for (CartItem cartItem : cart.getCartItem())
         {
             OrderItem orderItem = new OrderItem();
@@ -41,12 +42,12 @@ public class OrderServiceImpl implements OrderService
             orderItem.setTotal(cartItem.getTotal());
             orderTotal += orderItem.getTotal();
             orderItem.setOrder(order);
-            orderItemList.add(orderItem);
+            orderItems.add(orderItem);
         }
 
-        order.setOrderItems(orderItemList);
+        order.setOrderItems(orderItems);
         order.setTotal(orderTotal);
-        order.setSize(orderItemList.size());
+        order.setSize(orderItems.size());
 
         orderRepository.save(order);
 
