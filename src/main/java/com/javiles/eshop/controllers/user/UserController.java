@@ -97,19 +97,14 @@ public class UserController
             return "users/registration";
         }
 
-        if (request.isUserInRole("ADMIN"))
-        {
-            userService.updateUserPasswordAndRoles(userForm);
-            return "redirect:/admin/user";
-        }
+        Country country = countryService.getCountryByCode(userForm.getCountry().getCountryCode());
+        userForm.setCountry(country);
 
         Role role = roleService.findRoleByName("ROLE_USER");
         HashSet<Role> roles = new HashSet<>();
         roles.add(role);
         userForm.setRoles(roles);
 
-        Country country = countryService.getCountryByCode(userForm.getCountry().getCountryCode());
-        userForm.setCountry(country);
         userService.updateUserPasswordAndRoles(userForm);
         return "redirect:/";
     }

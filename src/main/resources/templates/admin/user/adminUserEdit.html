@@ -14,7 +14,7 @@
             Edit User
         </h1>
 
-        <form role="form" th:action="@{/edit}" method="POST"
+        <form role="form" th:action="@{/admin/user/edit/{id}(id=${userForm.id})}" method="POST"
               th:object="${userForm}">
             <div th:if="${#fields.hasErrors('*')}">
                 <div class="alert alert-danger" role="alert">
@@ -34,6 +34,25 @@
                 <label>Password Confirm: </label> <input type="password"
                                                          th:field="${userForm.passwordConfirm}" class="form-control"
                                                          placeholder="Password Confirm"/>
+                <h3>User personal information</h3>
+                <label>E-mail: </label> <input class="form-control" type="text" th:field="${userForm.email}"
+                                               placeholder="E-mail" name="email"/>
+                <label>Address: </label> <input class="form-control" type="text" th:field="${userForm.address}"
+                                                placeholder="Address" name="address"/>
+                <label>Phone Number: </label> <input class="form-control" type="text" th:field="${userForm.phoneNumber}"
+                                                     placeholder="Phone Number" name="phoneNumber"/>
+                <label>Country: </label>
+                <select th:field="${userForm.country.countryCode}">
+                    <option th:each="country: ${countries}" th:value="${country.countryCode}"
+                            th:text="${country.countryName}"></option>
+                </select>
+                <br>
+                <label>City: </label> <input class="form-control" type="text" th:field="${userForm.city}"
+                                             placeholder="City" name="city"/>
+                <label>Zip Code: </label> <input class="form-control" type="text" th:field="${userForm.zipCode}"
+                                                 placeholder="Zip Code" name="zipCode"/>
+
+                <h3>User roles</h3>
 
                 <select class="form-control" th:field="*{roles}" multiple="multiple">
                     <option th:each="role : ${userRoles}"

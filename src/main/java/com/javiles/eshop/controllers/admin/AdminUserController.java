@@ -1,16 +1,17 @@
 package com.javiles.eshop.controllers.admin;
 
+import com.javiles.eshop.models.Country;
 import com.javiles.eshop.models.Role;
 import com.javiles.eshop.models.User;
 import com.javiles.eshop.services.CountryService;
 import com.javiles.eshop.services.RoleService;
 import com.javiles.eshop.services.UserService;
+import com.javiles.eshop.spring.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +28,9 @@ public class AdminUserController
 
     @Autowired
     private CountryService countryService;
+
+    @Autowired
+    private UserValidator userValidator;
 
     //User section methods
     @RequestMapping("/user")
@@ -59,7 +63,28 @@ public class AdminUserController
         User user = userService.findByUserId(id);
         HashSet<Role> foundRoles = roleService.getAllRoles();
         model.addAttribute("userForm", user);
+        model.addAttribute("countries", countryService.getAllCountries());
         model.addAttribute("userRoles", foundRoles);
         return "admin/user/adminUserEdit";
+    }
+
+    @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
+    public String updateUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model)
+    {
+        userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors())
+        {
+            model.addAttribute("countries", countryService.getAllCountries());
+            model.addAttribute("userRoles", roleService.getAllRoles());
+            return "admin/user/adminUserEdit";
+        }
+
+        Country country = countryService.getCountryByCode(userForm.getCountry().getCountryCode());
+        userForm.setCountry(country);
+
+        userService.updateUserPasswordAndRoles(userForm);
+        userService.updateUserPersonalInformation(userForm);
+        return "redirect:/admin/user";
     }
 }

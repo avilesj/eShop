@@ -23,8 +23,8 @@
                                                     th:field="${productForm.description}" class="form-control"/>
                 <div th:if="${productForm.imageFileUrl}">
                     <img id="product-image" th:src="${productForm.imageFileUrl}">
-                    <input type="file" name="file" accept="image/*"/>
                 </div>
+                <input type="file" name="file" accept="image/*"/>
                 <button type="submit" class="btn btn-success">Edit Product</button>
             </div>
         </form>
