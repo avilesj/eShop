@@ -1,3 +1,7 @@
+# Notice
+
+Hi, this is José. I began working on this in 2017 as a way to get into the Java/Spring stack. As you can see, the project has been abandoned and it's just a display of the past.
+
 # Installation
 
 ## Global variables configuration
